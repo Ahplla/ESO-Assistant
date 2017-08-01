@@ -16,6 +16,89 @@
     ShowMaxRestoreButton="False"
     Unloaded="MetroWindow_Unloaded"
     WindowStartupLocation="CenterScreen">
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Click="Button_Click" Content="Import">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="(Effect).BlurRadius"
+                                    To="15"
+                                    Duration="0:0:0.6">
+                                    <DoubleAnimation.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="(Effect).BlurRadius"
+                                    To="3"
+                                    Duration="0:0:0.7">
+                                    <DoubleAnimation.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+                <Button.Effect>
+                    <DropShadowEffect
+                        BlurRadius="3"
+                        Direction="0"
+                        ShadowDepth="0"
+                        Color="White" />
+                </Button.Effect>
+            </Button>
+            <Button Click="Button_Click_1" Content="Export">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="(Effect).BlurRadius"
+                                    To="15"
+                                    Duration="0:0:0.6">
+                                    <DoubleAnimation.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Button.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="(Effect).BlurRadius"
+                                    To="3"
+                                    Duration="0:0:0.7">
+                                    <DoubleAnimation.EasingFunction>
+                                        <PowerEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+                <Button.Effect>
+                    <DropShadowEffect
+                        BlurRadius="3"
+                        Direction="0"
+                        ShadowDepth="0"
+                        Color="White" />
+                </Button.Effect>
+            </Button>
+
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Controls:MetroWindow.Resources>
         <Style x:Key="ImageStyle" TargetType="Image">
 
@@ -132,8 +215,39 @@
                         Width="75"
                         Click="button1_Click"
                         Content="IP and ESO" />
-
                 </Border>
+                <Popup
+                    x:Name="pbutton1"
+                    Placement="Right"
+                    PlacementTarget="{Binding ElementName=button1}"
+                    PopupAnimation="Fade">
+                    <Border
+                        Padding="10"
+                        Background="White"
+                        BorderBrush="#FFCCCCCC"
+                        BorderThickness="1">
+                        <Grid>
+                            <DataGrid
+                                x:Name="dataGridView1"
+                                AutoGenerateColumns="False"
+                                GridLinesVisibility="All"
+                                IsSynchronizedWithCurrentItem="True"
+                                MouseDoubleClick="dataGridView1_MouseDoubleClick"
+                                SelectionMode="Single">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
+                                        Binding="{Binding IP}"
+                                        ClipboardContentBinding="{x:Null}"
+                                        Header="IP" />
+                                    <DataGridTextColumn
+                                        Binding="{Binding ESO}"
+                                        ClipboardContentBinding="{x:Null}"
+                                        Header="ESO" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </Border>
+                </Popup>
                 <Image
                     x:Name="image1"
                     Grid.Row="0"

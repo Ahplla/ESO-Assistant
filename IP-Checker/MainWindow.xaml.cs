@@ -42,6 +42,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Windows.Media;
+using ESO_Assistant.Classes;
+using Microsoft.Win32;
 
 namespace IP_Checker
 {
@@ -51,9 +53,142 @@ namespace IP_Checker
     /// </summary>
     public partial class MainWindow : MetroWindow, INotifyPropertyChanged
     {
+        public ObservableCollection<Row> MyGrid = new ObservableCollection<Row>();
+        public class Row : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            public void NotifyPropertyChanged(string propName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
+            }
+            private string ip = "";
+            private string eso = "";
+            public string IP
+            {
+                get { return ip; }
+                set
+                {
+                    if (ip != value)
+                    {
+                        ip = value;
+                        NotifyPropertyChanged("IP");
+                    }
+                }
+            }
+            public string ESO
+            {
+                get { return eso; }
+                set
+                {
+                    if (eso != value)
+                    {
+                        eso = value;
+                        NotifyPropertyChanged("ESO");
+                    }
+                }
+            }
+        }
+
+        private void Save(string path)
+        {
+            StreamWriter file = new StreamWriter(path, false, Encoding.UTF8);
+            try
+            {
+                for (int r = 0; r <= MyGrid.Count - 1; r++)
+                {
+                    if (MyGrid[r].IP != "" && MyGrid[r].ESO != "")
+                        file.WriteLine(MyGrid[r].IP + "=" + MyGrid[r].ESO);
+                }
+
+                file.Close();
+            }
+            catch
+            {
+                file.Close();
+            }
+        }
+
+        private void Open(string path)
+        {
+            if (File.Exists(path))
+            {
+                StreamReader file = new StreamReader(path, Encoding.UTF8);
+                try
+                {
+                    MyGrid.Clear();
+                    string newline;
+                    while ((newline = file.ReadLine()) != null)
+                    {
+                        string[] values = newline.Split('=');
+                        var R = new Row()
+                        {
+                            IP = values[0],
+                            ESO = values[1]
+                        };
+                        if (R.IP != "" && R.ESO != "")
+                            if (MyGrid.Any(p => p.ESO == R.ESO && p.IP == R.IP) == false)
+                                MyGrid.Add(R);
+                    }
+                    file.Close();
+                }
+                catch
+                {
+                    file.Close();
+                }
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog()
+            {
+                Filter = "Text files (*.txt)|*.txt"
+            };
+            if (openFileDialog1.ShowDialog() == true)
+            {
+                Open(openFileDialog1.FileName);
+
+            }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog()
+            {
+                Filter = "Text files (*.txt)|*.txt"
+            };
+            if (saveFileDialog1.ShowDialog() == true)
+            {
+                Save(saveFileDialog1.FileName);
+            }
+        }
 
 
-        private string FCountryText { get; set; }
+        private void MetroWindow_Closing(object sender, CancelEventArgs e)
+        {
+            Save(Path.Combine(Paths.GetAppDirectoryPath(), "IP.txt"));
+            Environment.Exit(0);
+        }
+
+        private void dataGridView1_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (dataGridView1.SelectedItem != null && button2.IsEnabled)
+                try
+                {
+                    if ((dataGridView1.SelectedItem as Row).IP != "")
+                    {
+                        textBox1.Text = (dataGridView1.SelectedItem as Row).IP;
+                        button2.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    }
+                }
+                catch { }
+        }
+    
+
+
+    private string FCountryText { get; set; }
         public string CountryText
         {
             get { return FCountryText; }
@@ -127,12 +262,12 @@ namespace IP_Checker
             InitializeComponent();
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(Int32.MaxValue));
             ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(0));
-            form2 = new Window1();
 
             GeneralTimer.Tick += GeneralTimer_Tick;
             GeneralTimer.Start();
-
-            listView1.ItemsSource = MyView;
+        dataGridView1.ItemsSource = MyGrid;
+        Open(Path.Combine(Paths.GetAppDirectoryPath(), "IP.txt"));
+        listView1.ItemsSource = MyView;
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -361,14 +496,12 @@ namespace IP_Checker
             public string queryFormat { get; set; }
             public string contact { get; set; }
         }
-        Window1 form2;
         public SharpPcap.LibPcap.LibPcapLiveDevice captureDevice = null;
         public SharpPcap.WinPcap.WinPcapDevice statDevice = null;
         private string adresseLocale = null;
         public bool isHost = false;
 
         public string AdresseLocale { get => adresseLocale; set => adresseLocale = value; }
-        public Window1 Form2 { get => form2; set => form2 = value; }
 
         private string CompareIP(string ip1, string ip2)
         {
@@ -513,9 +646,9 @@ namespace IP_Checker
         private string GetPair(string ip)
         {
             StringBuilder Names = new StringBuilder();
-            for (int i = 0; i < Form2.MyGrid.Count; i++)
-                if (CompareIP(Form2.MyGrid[i].IP, ip) != "")
-                    Names.AppendLine(Form2.MyGrid[i].ESO + " : " + CompareIP(Form2.MyGrid[i].IP, ip));
+            for (int i = 0; i < MyGrid.Count; i++)
+                if (CompareIP(MyGrid[i].IP, ip) != "")
+                    Names.AppendLine(MyGrid[i].ESO + " : " + CompareIP(MyGrid[i].IP, ip));
             if (Names.Length == 0)
                 return "Unknown person. Add to IP and ESO names...";
             else
@@ -595,7 +728,7 @@ namespace IP_Checker
                         //ShowCustomBalloon("User " + msg + " is connected!", LI.Avatar);
                         if (LI.ESO != "")
                         {
-                            var R = new Window1.Row()
+                            var R = new Row()
                             {
                                 IP = LI.IP,
                                 ESO = LI.ESO
@@ -604,8 +737,8 @@ namespace IP_Checker
                             {
                                 Dispatcher.Invoke((Action)(() =>
                                 {
-                                    if (Form2.MyGrid.Any(p => p.ESO == R.ESO && p.IP == R.IP) == false)
-                                        Form2.MyGrid.Add(R);
+                                    if (MyGrid.Any(p => p.ESO == R.ESO && p.IP == R.IP) == false)
+                                        MyGrid.Add(R);
                                 }));
                             }
                             catch { }
@@ -686,7 +819,7 @@ namespace IP_Checker
                             LI.LastUpdate = Date;
                         if (LI.ESO != "")
                         {
-                            var R = new Window1.Row()
+                            var R = new Row()
                             {
                                 IP = LI.IP,
                                 ESO = LI.ESO
@@ -695,8 +828,8 @@ namespace IP_Checker
                             {
                                 Dispatcher.Invoke((Action)(() =>
                                 {
-                                    if (Form2.MyGrid.Any(p => p.ESO == R.ESO && p.IP == R.IP) == false)
-                                        Form2.MyGrid.Add(R);
+                                    if (MyGrid.Any(p => p.ESO == R.ESO && p.IP == R.IP) == false)
+                                        MyGrid.Add(R);
                                 }));
                             }
                             catch { }
@@ -1017,7 +1150,10 @@ namespace IP_Checker
 
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            Form2.ShowDialog();
+            if (pbutton1.IsOpen)
+                pbutton1.IsOpen = false;
+            else
+                pbutton1.IsOpen = true;
         }
 
         private void listView1_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1035,14 +1171,14 @@ namespace IP_Checker
             if (listView1.SelectedItem != null)
             {
                 var LI = listView1.SelectedItem as ListItem;
-                var R = new Window1.Row()
+                var R = new Row()
                 {
                     IP = LI.IP,
                     ESO = LI.ESO
                 };
-                if (Form2.MyGrid.Any(p => p.ESO == R.ESO && p.IP == R.IP) == false)
-                    Form2.MyGrid.Add(R);
-                Form2.ShowDialog();
+                if (MyGrid.Any(p => p.ESO == R.ESO && p.IP == R.IP) == false)
+                    MyGrid.Add(R);
+                ShowDialog();
             }
         }
 
@@ -1055,10 +1191,5 @@ namespace IP_Checker
             catch { }
         }
 
-
-        private void MetroWindow_Closing(object sender, CancelEventArgs e)
-        {
-            Environment.Exit(0);
-        }
     }
 }
