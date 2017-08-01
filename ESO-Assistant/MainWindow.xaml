@@ -341,11 +341,31 @@
                                         IsEnabled="{Binding KeyEnabled}" />
                                 </Grid>
                             </MenuItem>
-                            <MenuItem Header="User.cfg &amp; User.con">
-                                <MenuItem Header="Timer With Millisecs" />
-                                <MenuItem Header="Skip Intro" />
-                                <MenuItem Header="Show FPS" />
-                                <MenuItem Header="Buildings Rotator" />
+                            <MenuItem Header="User.cfg &amp; User.con" SubmenuOpened="MenuItem_SubmenuOpened_2">
+                                <MenuItem
+                                    x:Name="miMsecs"
+                                    Checked="miMsecs_Checked"
+                                    Header="Timer With Millisecs"
+                                    IsCheckable="True"
+                                    Unchecked="miMsecs_Unchecked" />
+                                <MenuItem
+                                    x:Name="miIntro"
+                                    Checked="miIntro_Checked"
+                                    Header="Skip Intro"
+                                    IsCheckable="True"
+                                    Unchecked="miIntro_Unchecked" />
+                                <MenuItem
+                                    x:Name="miFPS"
+                                    Checked="miFPS_Checked"
+                                    Header="Show FPS"
+                                    IsCheckable="True"
+                                    Unchecked="miFPS_Unchecked" />
+                                <MenuItem
+                                    x:Name="miRotator"
+                                    Checked="miRotator_Checked"
+                                    Header="Buildings Rotator"
+                                    IsCheckable="True"
+                                    Unchecked="miRotator_Unchecked" />
                                 <MenuItem Header="Zoom">
                                     <Grid>
                                         <Grid.RowDefinitions>
@@ -362,23 +382,36 @@
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Content="Max: " />
-                                        <Controls:NumericUpDown Grid.Row="0" Grid.Column="1" />
+                                        <Controls:NumericUpDown
+                                            x:Name="udMax"
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            ValueChanged="udMax_ValueChanged" />
 
                                         <Label
                                             Grid.Row="1"
                                             Grid.Column="0"
                                             Content="Normal: " />
-                                        <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" />
+                                        <Controls:NumericUpDown
+                                            x:Name="udNorm"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            ValueChanged="udNorm_ValueChanged" />
 
                                         <Label
                                             Grid.Row="2"
                                             Grid.Column="0"
                                             Content="Min: " />
-                                        <Controls:NumericUpDown Grid.Row="2" Grid.Column="1" />
+                                        <Controls:NumericUpDown
+                                            x:Name="udMin"
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            ValueChanged="udMin_ValueChanged" />
                                         <Button
                                             Grid.Row="3"
                                             Grid.Column="0"
                                             Grid.ColumnSpan="2"
+                                            Click="Button_Click_6"
                                             Content="Default" />
                                     </Grid>
                                 </MenuItem>

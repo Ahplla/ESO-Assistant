@@ -3496,5 +3496,243 @@ if (S.StoredMaxPR < 0)
                 }
             }
         }
+
+        private void MenuItem_SubmenuOpened_2(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        miFPS.IsChecked = S.IndexOf("showFPS") != -1;
+                        miIntro.IsChecked = S.IndexOf("noIntroCinematics") != -1;
+                        miMsecs.IsChecked = S.IndexOf("showMilliseconds") != -1;
+                        int z1 = S.FindIndex(x => x.StartsWith("maxZoom"));
+                        if (z1 >= 0)
+                            udMax.Value = Double.Parse(S[z1].Split('=')[1]);
+                        else
+                            udMax.Value = 60;
+                        int z2 = S.FindIndex(x => x.StartsWith("normalZoom"));
+                        if (z2 >= 0)
+                            udNorm.Value = Double.Parse(S[z2].Split('=')[1]);
+                        else
+                            udNorm.Value = 50;
+                        int z3 = S.FindIndex(x => x.StartsWith("minZoom"));
+                        if (z3 >= 0)
+                            udMin.Value = Double.Parse(S[z3].Split('=')[1]);
+                        else
+                            udMin.Value = 29;
+                    }
+                    else
+                    {
+                        udMax.Value = 60;
+                        udNorm.Value = 50;
+                        udMin.Value = 29;
+                    }
+                if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.con")))
+                {
+                    string M = File.ReadAllText(Path.Combine(P.ToString(), "Startup", "user.con"));
+                    miRotator.IsChecked = M.Contains("uiWheelRotatePlacedUnit");
+                }
+            }
+        }
+
+        private void miMsecs_Checked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    using (StreamWriter w = new StreamWriter(Path.Combine(P.ToString(), "Startup", "user.cfg"),true))
+                    {
+                        w.WriteLine("showMilliseconds");
+                    }                    
+            }
+        }
+
+        private void miMsecs_Unchecked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        S.Remove("showMilliseconds");
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
+                    }
+            }
+        }
+
+        private void miIntro_Checked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    using (StreamWriter w = new StreamWriter(Path.Combine(P.ToString(), "Startup", "user.cfg"), true))
+                    {
+                        w.WriteLine("noIntroCinematics");
+                    }
+            }
+        }
+
+        private void miIntro_Unchecked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        S.Remove("noIntroCinematics");
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
+                    }
+            }
+        }
+
+        private void miFPS_Checked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    using (StreamWriter w = new StreamWriter(Path.Combine(P.ToString(), "Startup", "user.cfg"), true))
+                    {
+                        w.WriteLine("showFPS");
+                    }
+            }
+        }
+
+        private void miFPS_Unchecked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        S.Remove("showFPS");
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
+                    }
+            }
+        }
+
+        private void miRotator_Checked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    using (StreamWriter w = new StreamWriter(Path.Combine(P.ToString(), "Startup", "user.con"), true))
+                    {
+                        w.WriteLine("map(\"mousez\", \"building\", \"uiWheelRotatePlacedUnit\")");                    
+                    }
+            }
+        }
+
+        private void miRotator_Unchecked(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.con")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.con")).ToList();
+                        S.RemoveAt(S.FindIndex(x => x.EndsWith("uiWheelRotatePlacedUnit\")")));
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.con"), S.ToArray());
+                    }
+            }
+        }
+
+        private void udMax_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        int z1 = S.FindIndex(x => x.StartsWith("maxZoom="));
+                        if (z1 >= 0)
+                            S.RemoveAt(z1);
+                        S.Add("maxZoom=" + udMax.Value.Value.ToString());
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
+                    }
+            
+            }
+        }
+
+        private void udNorm_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        int z2 = S.FindIndex(x => x.StartsWith("normalZoom="));
+                        if (z2 >= 0)
+                            S.RemoveAt(z2);
+                        S.Add("normalZoom=" + udNorm.Value.Value.ToString());
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
+                    }
+
+            }
+        }
+
+        private void udMin_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double?> e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        int z3 = S.FindIndex(x => x.StartsWith("minZoom="));
+                        if (z3>=0)
+                        S.RemoveAt(z3);
+                        S.Add("minZoom=" + udMin.Value.Value.ToString());
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
+                    }
+
+            }
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            using (RegistryKey AS = Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\microsoft games\\age of empires 3\\1.0"))
+            {
+                object P = AS.GetValue("setuppath");
+                if (P != null)
+                    if (File.Exists(Path.Combine(P.ToString(), "Startup", "user.cfg")))
+                    {
+                        udMax.Value = 60;
+                        udNorm.Value = 50;
+                        udMin.Value = 29;
+                        List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
+                        int z1 = S.FindIndex(x => x.StartsWith("maxZoom="));
+                        if (z1 >= 0)
+                            S.RemoveAt(z1);
+                        int z2 = S.FindIndex(x => x.StartsWith("normalZoom="));
+                        if (z2 >= 0)
+                            S.RemoveAt(z2);
+                        int z3 = S.FindIndex(x => x.StartsWith("minZoom="));
+                        if (z3 >= 0)
+                            S.RemoveAt(z3);
+                        File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
+                    }
+
+            }
+        }
     }
 }
