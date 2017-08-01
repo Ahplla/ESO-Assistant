@@ -315,7 +315,7 @@
                                 Header="Twitch Streams"
                                 IsCheckable="True"
                                 Unchecked="CheckBox_Unchecked" />
-                            <MenuItem Header="Error 101 fix" SubmenuOpened="MenuItem_SubmenuOpened">
+                            <MenuItem Header="Error 101 Fix" SubmenuOpened="MenuItem_SubmenuOpened">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -340,6 +340,48 @@
                                         Content="Fix"
                                         IsEnabled="{Binding KeyEnabled}" />
                                 </Grid>
+                            </MenuItem>
+                            <MenuItem Header="User.cfg &amp; User.con">
+                                <MenuItem Header="Timer With Millisecs" />
+                                <MenuItem Header="Skip Intro" />
+                                <MenuItem Header="Show FPS" />
+                                <MenuItem Header="Buildings Rotator" />
+                                <MenuItem Header="Zoom">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Content="Max: " />
+                                        <Controls:NumericUpDown Grid.Row="0" Grid.Column="1" />
+
+                                        <Label
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Content="Normal: " />
+                                        <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" />
+
+                                        <Label
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Content="Min: " />
+                                        <Controls:NumericUpDown Grid.Row="2" Grid.Column="1" />
+                                        <Button
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Content="Default" />
+                                    </Grid>
+                                </MenuItem>
                             </MenuItem>
                         </MenuItem>
                     </Menu>
@@ -2345,14 +2387,14 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Image
-                                    Grid.Column="0"
-                                    Height="20"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Source="{Binding Icon}"
-                                    Style="{StaticResource ImageStyle}" />
-
+                                <Border Grid.Column="0" Padding="2">
+                                    <Image
+                                        Height="22"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Source="{Binding Icon}"
+                                        Style="{StaticResource ImageStyle}" />
+                                </Border>
                                 <Label Grid.Column="1" Content="{Binding Name}" />
                                 <StackPanel
                                     Grid.Column="2"
@@ -2408,20 +2450,23 @@
                 Grid.Column="2"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
+                Background="Transparent"
                 Content="Twitch Streams"
                 FontSize="18">
+                <Label.Foreground>
+                    <LinearGradientBrush MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStop Offset="0.52" Color="#FF7A5800" />
+                        <GradientStop Offset="0.183" Color="#FF8D1214" />
+                        <GradientStop Offset="0.813" Color="#FF8D1214" />
+                    </LinearGradientBrush>
+                </Label.Foreground>
+
                 <Label.Effect>
                     <DropShadowEffect
                         BlurRadius="3"
                         Direction="0"
                         ShadowDepth="0" />
                 </Label.Effect>
-                <Label.Foreground>
-                    <RadialGradientBrush>
-                        <GradientStop Offset="0.43" Color="Indigo" />
-                        <GradientStop Offset="1" Color="#FF131313" />
-                    </RadialGradientBrush>
-                </Label.Foreground>
             </Label>
         </Grid>
     </Border>

@@ -410,6 +410,9 @@
     <EmbeddedResource Include="HTML\jquery-latest.js" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Twitch\ii.png" />
+    <Resource Include="Twitch\iii.png" />
+    <Resource Include="Twitch\o.png" />
     <Resource Include="Social\Discord.png" />
     <Resource Include="Social\Email.png" />
     <Resource Include="Social\Github.png" />
@@ -433,8 +436,6 @@
     <Resource Include="Launcher\gymxp.png" />
     <Resource Include="Launcher\rss.png" />
     <Resource Include="Icons\live.png" />
-    <Resource Include="Launcher\aoeo.png" />
-    <Resource Include="Launcher\aoe2.png" />
     <Content Include="..\packages\Chromium.ChromeDriver.2.30\content\chromedriver.exe" />
   </ItemGroup>
   <ItemGroup>

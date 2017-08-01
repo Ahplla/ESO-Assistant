@@ -1361,11 +1361,11 @@ namespace ESO_Assistant
             Internet = Brushes.Yellow;
             ESOC = Brushes.Yellow;
             ESO = Brushes.Yellow;
-            GamesStream.Add(new Game() { Name = "AoE III: TAD", Icon = "pack://application:,,,/Launcher/age3y.png" });
-            GamesStream.Add(new Game() { Name = "AoE III", Icon = "pack://application:,,,/Launcher/age3.png" });
-            GamesStream.Add(new Game() { Name = "AoE Online", Icon = "pack://application:,,,/Launcher/aoeo.png" });
-            GamesStream.Add(new Game() { Name = "AoE II: HD Edition", Icon = "pack://application:,,,/Launcher/aoe2.png" });
-            GamesStream.Add(new Game() { Name = "AoE II: The Conqs", Icon = "pack://application:,,,/Launcher/aoe2.png" });
+            GamesStream.Add(new Game() { Name = "AoE III: TAD", Icon = "pack://application:,,,/Twitch/iii.png" });
+            GamesStream.Add(new Game() { Name = "AoE III", Icon = "pack://application:,,,/Twitch/iii.png" });
+            GamesStream.Add(new Game() { Name = "AoE Online", Icon = "pack://application:,,,/Twitch/o.png" });
+            GamesStream.Add(new Game() { Name = "AoE II: HD Edition", Icon = "pack://application:,,,/Twitch/ii.png" });
+            GamesStream.Add(new Game() { Name = "AoE II: The Conqs", Icon = "pack://application:,,,/Twitch/ii.png" });
 
             if (!Directory.Exists(FriendPath))
 
