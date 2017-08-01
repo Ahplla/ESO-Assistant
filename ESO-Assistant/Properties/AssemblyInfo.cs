@@ -35,7 +35,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XaKO")]
 [assembly: AssemblyProduct("ESO-Assistant")]
-[assembly: AssemblyCopyright("XaKO ©  2017")]
+[assembly: AssemblyCopyright("Copyright © XaKO 2017")]
 [assembly: AssemblyTrademark("XaKO")]
 [assembly: AssemblyCulture("")]
 
