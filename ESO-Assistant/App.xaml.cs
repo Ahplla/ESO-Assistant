@@ -35,7 +35,7 @@ namespace ESO_Assistant
     
     public partial class App : Application, ISingleInstanceApp
     {
-        private const string Unique = "d5788805-a4eb-4657-8346-fb94c91b6316";
+        private const string Unique = "34f8e065-5d36-42e5-8536-abd52dd9c05f";
 
         [STAThread]
         public static void Main()

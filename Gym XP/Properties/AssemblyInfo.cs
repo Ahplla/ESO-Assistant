@@ -10,10 +10,10 @@ using System.Windows;
 [assembly: AssemblyTitle("Gym XP")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("XaKO")]
 [assembly: AssemblyProduct("Gym XP")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © XaKO 2017")]
+[assembly: AssemblyTrademark("XaKO")]
 [assembly: AssemblyCulture("")]
 
 // Установка значения False для параметра ComVisible делает типы в этой сборке невидимыми
