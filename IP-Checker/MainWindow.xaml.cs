@@ -54,42 +54,7 @@ namespace IP_Checker
     public partial class MainWindow : MetroWindow, INotifyPropertyChanged
     {
         public ObservableCollection<Row> MyGrid = new ObservableCollection<Row>();
-        public class Row : INotifyPropertyChanged
-        {
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            public void NotifyPropertyChanged(string propName)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-
-            }
-            private string ip = "";
-            private string eso = "";
-            public string IP
-            {
-                get { return ip; }
-                set
-                {
-                    if (ip != value)
-                    {
-                        ip = value;
-                        NotifyPropertyChanged("IP");
-                    }
-                }
-            }
-            public string ESO
-            {
-                get { return eso; }
-                set
-                {
-                    if (eso != value)
-                    {
-                        eso = value;
-                        NotifyPropertyChanged("ESO");
-                    }
-                }
-            }
-        }
+      
 
         private void Save(string path)
         {
@@ -410,92 +375,7 @@ namespace IP_Checker
                 get { return string.Format("{0}" + (char)10 + "{1}", FirstUpdate, LastUpdate); }
             }
         }
-        public class City
-        {
-            public string id { get; set; }
-            public string lat { get; set; }
-            public string lon { get; set; }
-            public string name_ru { get; set; }
-            public string name_en { get; set; }
-            public string name_de { get; set; }
-            public string name_fr { get; set; }
-            public string name_it { get; set; }
-            public string name_es { get; set; }
-            public string name_pt { get; set; }
-            public string okato { get; set; }
-            public string vk { get; set; }
-            public string population { get; set; }
-        }
-
-        public class Region
-        {
-            public string id { get; set; }
-            public string lat { get; set; }
-            public string lon { get; set; }
-            public string name_ru { get; set; }
-            public string name_en { get; set; }
-            public string name_de { get; set; }
-            public string name_fr { get; set; }
-            public string name_it { get; set; }
-            public string name_es { get; set; }
-            public string name_pt { get; set; }
-            public string iso { get; set; }
-            public string timezone { get; set; }
-            public string okato { get; set; }
-            public string auto { get; set; }
-            public string vk { get; set; }
-            public string utc { get; set; }
-        }
-
-        public class Country
-        {
-            public string id { get; set; }
-            public string iso { get; set; }
-            public string continent { get; set; }
-            public string lat { get; set; }
-            public string lon { get; set; }
-            public string name_ru { get; set; }
-            public string name_en { get; set; }
-            public string name_de { get; set; }
-            public string name_fr { get; set; }
-            public string name_it { get; set; }
-            public string name_es { get; set; }
-            public string name_pt { get; set; }
-            public string timezone { get; set; }
-            public string area { get; set; }
-            public string population { get; set; }
-            public string capital_id { get; set; }
-            public string capital_ru { get; set; }
-            public string capital_en { get; set; }
-            public string cur_code { get; set; }
-            public string phone { get; set; }
-            public string neighbours { get; set; }
-            public string vk { get; set; }
-            public string utc { get; set; }
-        }
-
-        public class IPInfo
-        {
-            public string ip { get; set; }
-            public City city { get; set; }
-            public Region region { get; set; }
-            public Country country { get; set; }
-            public string error { get; set; }
-            public string request { get; set; }
-            public string created { get; set; }
-            public string timestamp { get; set; }
-        }
-
-        public class VPNInfo
-        {
-            public string status { get; set; }
-            public string result { get; set; }
-            public string queryIP { get; set; }
-            public string queryFlags { get; set; }
-            public object queryOFlags { get; set; }
-            public string queryFormat { get; set; }
-            public string contact { get; set; }
-        }
+    
         public SharpPcap.LibPcap.LibPcapLiveDevice captureDevice = null;
         public SharpPcap.WinPcap.WinPcapDevice statDevice = null;
         private string adresseLocale = null;

@@ -584,6 +584,7 @@ namespace ESO_Assistant
             }
         }
 
+
         private string FCheatMsgTR { get; set; }
         public string CheatMsgTR
         {
@@ -1182,6 +1183,42 @@ namespace ESO_Assistant
             get { return addCommand ?? (addCommand = new RelayCommand(param => this.AddItem(), null)); }
         }
 
+        private ICommand openNilla;
+        public ICommand OpenNilla
+        {
+            get { return openNilla ?? (openNilla = new RelayCommand(param => Paths.OpenNilla("age3.exe"), null)); }
+        }
+
+        private ICommand openTAD;
+        public ICommand OpenTAD
+        {
+            get { return openTAD ?? (openTAD = new RelayCommand(param => Paths.OpenTAD("age3y.exe"), null)); }
+        }
+
+        private ICommand openEP;
+        public ICommand OpenEP
+        {
+            get { return openEP ?? (openEP = new RelayCommand(param => Paths.OpenTAD("age3p.exe"), null)); }
+        }
+
+        private ICommand openTP;
+        public ICommand OpenTP
+        {
+            get { return openTP ?? (openTP = new RelayCommand(param => Paths.OpenTAD("age3t.exe"), null)); }
+        }
+
+        private ICommand openSettings;
+        public ICommand OpenSettings
+        {
+            get { return openSettings ?? (openSettings = new RelayCommand(param => pSettings.IsOpen=!pSettings.IsOpen, null)); }
+        }
+
+        private ICommand openTools;
+        public ICommand OpenTools
+        {
+            get { return openTools ?? (openTools = new RelayCommand(param => pTools.IsOpen=!pTools.IsOpen, null)); }
+        }
+
         UserStatus US = new UserStatus("");
         Stat SP = new Stat();
         Stat TR = new Stat();
@@ -1347,8 +1384,7 @@ namespace ESO_Assistant
             FriendPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ESO-Assistant");
             AType = WPF.Common.VisibilityAnimation.AnimationType.None;
             InitializeComponent();
-            // AllVisible = Visibility.Hidden;
-
+            AllVisible = Visibility.Hidden;
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(Int32.MaxValue));
             ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(0));
             NickForAdding = "";
@@ -2783,26 +2819,7 @@ if (S.StoredMaxPR < 0)
                 pWin.IsOpen = false;
         }
 
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Paths.OpenTAD("age3t.exe");
-        }
-
-        private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
-        {
-            Paths.OpenNilla("age3.exe");
-        }
-
-        private void Image_MouseDown_2(object sender, MouseButtonEventArgs e)
-        {
-            Paths.OpenTAD("age3y.exe");
-        }
-
-        private void Image_MouseDown_3(object sender, MouseButtonEventArgs e)
-        {
-            Paths.OpenTAD("age3p.exe");
-        }
-
+    
 
         private void TwitchTADTimer_Tick(object sender, EventArgs e)
         {
@@ -3733,6 +3750,18 @@ if (S.StoredMaxPR < 0)
                     }
 
             }
+        }
+
+
+
+        private void hMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+   
+        }
+
+        private void Image_MouseLeftButtonDown_10(object sender, MouseButtonEventArgs e)
+        {
+            tbHam.IsChecked = !tbHam.IsChecked;
         }
     }
 }

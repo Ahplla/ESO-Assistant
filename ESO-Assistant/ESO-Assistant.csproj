@@ -410,6 +410,9 @@
     <EmbeddedResource Include="HTML\jquery-latest.js" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Launcher\menu.png" />
+    <Resource Include="Launcher\settings.png" />
+    <Resource Include="Launcher\tools.png" />
     <Resource Include="Twitch\ii.png" />
     <Resource Include="Twitch\iii.png" />
     <Resource Include="Twitch\o.png" />

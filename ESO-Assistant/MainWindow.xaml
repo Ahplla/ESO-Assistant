@@ -10,10 +10,10 @@
     Title="ESO-A − version 5.0"
     Width="Auto"
     Height="Auto"
-    MinWidth="472"
-    MinHeight="0"
+    MinWidth="525"
     VerticalAlignment="Top"
     VerticalContentAlignment="Top"
+    AllowsTransparency="True"
     BorderBrush="{DynamicResource AccentColorBrush}"
     BorderThickness="2"
     Closed="mainWindow_Closed"
@@ -26,6 +26,7 @@
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterScreen">
     <Controls:MetroWindow.Resources>
+
         <Style x:Key="ImageStyle" TargetType="Image">
 
             <Setter Property="Effect">
@@ -230,7 +231,7 @@
             <TextBlock Text="{Binding NillaPop}" />
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-    <Border BorderThickness="8,0,8,5">
+    <Border BorderThickness="0,0,5,0">
         <Grid VerticalAlignment="Top">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -238,303 +239,432 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="{Binding TwitchVisibility, TargetNullValue='0'}" />
             </Grid.ColumnDefinitions>
-            <Border>
 
-                <Grid
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Height="Auto"
-                    VerticalAlignment="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+            <Popup
+                x:Name="pSettings"
+                Placement="MousePoint"
+                PlacementTarget="{Binding ElementName=hiSettings}"
+                PopupAnimation="Fade">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-
-                    <Menu Grid.Row="0" Grid.Column="0">
-                        <MenuItem Header="Settings">
-                            <MenuItem Click="MenuItem_Click" Header="Clear Stored Data" />
-                            <MenuItem Header="Friends" SubmenuOpened="MenuItem_SubmenuOpened_1">
-                                <MenuItem
-                                    Checked="MenuItem_Checked"
-                                    Header="Show Last login"
-                                    IsCheckable="True"
-                                    IsChecked="{Binding LastLoginEnabled}"
-                                    Unchecked="MenuItem_Unchecked" />
-                                <MenuItem
-                                    Checked="MenuItem_Checked_1"
-                                    Header="Show Clan"
-                                    IsCheckable="True"
-                                    IsChecked="{Binding ClanEnabled}"
-                                    Unchecked="MenuItem_Unchecked_1" />
-                                <MenuItem
-                                    Checked="MenuItem_Checked_2"
-                                    Header="Show PR Supremacy"
-                                    IsCheckable="True"
-                                    IsChecked="{Binding SPEnabled}"
-                                    Unchecked="MenuItem_Unchecked_2" />
-                                <MenuItem
-                                    Checked="MenuItem_Checked_3"
-                                    Header="Show PR Treaty"
-                                    IsCheckable="True"
-                                    IsChecked="{Binding TREnabled}"
-                                    Unchecked="MenuItem_Unchecked_3" />
-                                <MenuItem
-                                    Checked="MenuItem_Checked_4"
-                                    Header="Show PR Deathmatch"
-                                    IsCheckable="True"
-                                    IsChecked="{Binding DMEnabled}"
-                                    Unchecked="MenuItem_Unchecked_4" />
-                                <MenuItem
-                                    Checked="MenuItem_Checked_5"
-                                    Header="Show PR Supremacy nilla"
-                                    IsCheckable="True"
-                                    IsChecked="{Binding SPnEnabled}"
-                                    Unchecked="MenuItem_Unchecked_5" />
-                                <MenuItem
-                                    Checked="MenuItem_Checked_6"
-                                    Header="Show PR Deathmatch nilla"
-                                    IsCheckable="True"
-                                    IsChecked="{Binding DMnEnabed}"
-                                    Unchecked="MenuItem_Unchecked_6" />
-                            </MenuItem>
-                            <MenuItem Click="MenuItem_Click_1" Header="Open BackUps" />
-                        </MenuItem>
-                        <MenuItem Header="Tools">
-                            <MenuItem
-                                Checked="CheckBox_Checked"
-                                Header="Twitch Streams"
-                                IsCheckable="True"
-                                Unchecked="CheckBox_Unchecked" />
-                            <MenuItem Header="Error 101 Fix" SubmenuOpened="MenuItem_SubmenuOpened">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Label
-                                        Grid.Row="0"
-                                        Background="{Binding KeyColor}"
-                                        Content="{Binding Key}" />
-                                    <TextBox
-                                        Grid.Row="1"
-                                        Width="150"
-                                        AcceptsReturn="True"
-                                        IsReadOnly="True"
-                                        Text="Click &quot;Fix&quot; to modify the affected registry values.&#10;Restart Age of Empires III without any expansions and enter your CD key when prompted.&#10;Proceed to create your ESO account."
-                                        TextWrapping="Wrap"
-                                        VerticalScrollBarVisibility="Auto" />
-                                    <Button
-                                        Grid.Row="2"
-                                        Click="Button_Click_5"
-                                        Content="Fix"
-                                        IsEnabled="{Binding KeyEnabled}" />
-                                </Grid>
-                            </MenuItem>
-                            <MenuItem Header="User.cfg &amp; User.con" SubmenuOpened="MenuItem_SubmenuOpened_2">
-                                <MenuItem
-                                    x:Name="miMsecs"
-                                    Checked="miMsecs_Checked"
-                                    Header="Timer With Millisecs"
-                                    IsCheckable="True"
-                                    Unchecked="miMsecs_Unchecked" />
-                                <MenuItem
-                                    x:Name="miIntro"
-                                    Checked="miIntro_Checked"
-                                    Header="Skip Intro"
-                                    IsCheckable="True"
-                                    Unchecked="miIntro_Unchecked" />
-                                <MenuItem
-                                    x:Name="miFPS"
-                                    Checked="miFPS_Checked"
-                                    Header="Show FPS"
-                                    IsCheckable="True"
-                                    Unchecked="miFPS_Unchecked" />
-                                <MenuItem
-                                    x:Name="miRotator"
-                                    Checked="miRotator_Checked"
-                                    Header="Buildings Rotator"
-                                    IsCheckable="True"
-                                    Unchecked="miRotator_Unchecked" />
-                                <MenuItem Header="Zoom">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label
-                                            Grid.Row="0"
-                                            Grid.Column="0"
-                                            Content="Max: " />
-                                        <Controls:NumericUpDown
-                                            x:Name="udMax"
-                                            Grid.Row="0"
-                                            Grid.Column="1"
-                                            ValueChanged="udMax_ValueChanged" />
-
-                                        <Label
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Content="Normal: " />
-                                        <Controls:NumericUpDown
-                                            x:Name="udNorm"
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            ValueChanged="udNorm_ValueChanged" />
-
-                                        <Label
-                                            Grid.Row="2"
-                                            Grid.Column="0"
-                                            Content="Min: " />
-                                        <Controls:NumericUpDown
-                                            x:Name="udMin"
-                                            Grid.Row="2"
-                                            Grid.Column="1"
-                                            ValueChanged="udMin_ValueChanged" />
-                                        <Button
-                                            Grid.Row="3"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            Click="Button_Click_6"
-                                            Content="Default" />
-                                    </Grid>
-                                </MenuItem>
-                            </MenuItem>
-                        </MenuItem>
-                    </Menu>
-                    <Menu
+                    <MenuItem
                         Grid.Row="0"
-                        Grid.Column="1"
-                        VerticalContentAlignment="Stretch">
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="3"
-                            Width="20"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            Cursor="Hand"
-                            Source="Launcher/checker.png"
-                            Style="{StaticResource ImageStyle}"
-                            ToolTip="IP Checker" />
-
-
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="3"
-                            Width="20"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            Cursor="Hand"
-                            Source="Launcher/calc.png"
-                            Style="{StaticResource ImageStyle}"
-                            ToolTip="Economic Calculator" />
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="3"
-                            Width="20"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            Cursor="Hand"
-                            Source="Launcher/rss.png"
-                            Style="{StaticResource ImageStyle}"
-                            ToolTip="ESOC Feeds" />
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="3"
-                            Width="20"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            Cursor="Hand"
-                            Source="Launcher/friends.png"
-                            Style="{StaticResource ImageStyle}"
-                            ToolTip="Friends Widget" />
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="3"
-                            Width="20"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            Cursor="Hand"
-                            Source="Launcher/gymxp.png"
-                            Style="{StaticResource ImageStyle}"
-                            ToolTip="Gym XP" />
-
-                    </Menu>
+                        Click="MenuItem_Click"
+                        Header="Clear Stored Data" />
+                    <MenuItem
+                        Grid.Row="1"
+                        Header="Friends"
+                        SubmenuOpened="MenuItem_SubmenuOpened_1">
+                        <MenuItem
+                            Checked="MenuItem_Checked"
+                            Header="Show Last login"
+                            IsCheckable="True"
+                            IsChecked="{Binding LastLoginEnabled}"
+                            Unchecked="MenuItem_Unchecked" />
+                        <MenuItem
+                            Checked="MenuItem_Checked_1"
+                            Header="Show Clan"
+                            IsCheckable="True"
+                            IsChecked="{Binding ClanEnabled}"
+                            Unchecked="MenuItem_Unchecked_1" />
+                        <MenuItem
+                            Checked="MenuItem_Checked_2"
+                            Header="Show PR Supremacy"
+                            IsCheckable="True"
+                            IsChecked="{Binding SPEnabled}"
+                            Unchecked="MenuItem_Unchecked_2" />
+                        <MenuItem
+                            Checked="MenuItem_Checked_3"
+                            Header="Show PR Treaty"
+                            IsCheckable="True"
+                            IsChecked="{Binding TREnabled}"
+                            Unchecked="MenuItem_Unchecked_3" />
+                        <MenuItem
+                            Checked="MenuItem_Checked_4"
+                            Header="Show PR Deathmatch"
+                            IsCheckable="True"
+                            IsChecked="{Binding DMEnabled}"
+                            Unchecked="MenuItem_Unchecked_4" />
+                        <MenuItem
+                            Checked="MenuItem_Checked_5"
+                            Header="Show PR Supremacy nilla"
+                            IsCheckable="True"
+                            IsChecked="{Binding SPnEnabled}"
+                            Unchecked="MenuItem_Unchecked_5" />
+                        <MenuItem
+                            Checked="MenuItem_Checked_6"
+                            Header="Show PR Deathmatch nilla"
+                            IsCheckable="True"
+                            IsChecked="{Binding DMnEnabed}"
+                            Unchecked="MenuItem_Unchecked_6" />
+                    </MenuItem>
+                    <MenuItem
+                        Grid.Row="2"
+                        Click="MenuItem_Click_1"
+                        Header="Open BackUps" />
                 </Grid>
-            </Border>
-            <Grid Grid.Row="0" Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Menu
-                    Grid.Column="0"
-                    HorizontalAlignment="Right"
-                    VerticalContentAlignment="Stretch">
-                    <Image
-                        Grid.Row="0"
-                        Grid.Column="3"
-                        Width="20"
-                        Height="20"
-                        HorizontalAlignment="Right"
-                        Cursor="Hand"
-                        MouseDown="Image_MouseDown_1"
-                        Source="Launcher/age3.png"
-                        Style="{StaticResource ImageStyle}"
-                        ToolTip="Age of Empires III" />
-                    <Image
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Width="20"
-                        Height="20"
-                        HorizontalAlignment="Right"
-                        Cursor="Hand"
-                        MouseDown="Image_MouseDown_2"
-                        Source="Launcher/age3y.png"
-                        Style="{StaticResource ImageStyle}"
-                        ToolTip="Age of Empires III: The Asian Dynasties" />
-                    <Image
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Width="20"
-                        Height="20"
-                        HorizontalAlignment="Right"
-                        Cursor="Hand"
-                        MouseDown="Image_MouseDown_3"
-                        Source="Launcher/age3p.png"
-                        Style="{StaticResource ImageStyle}"
-                        ToolTip="Age of Empires III: ESOC Patch" />
-                    <Image
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Width="20"
-                        Height="20"
-                        HorizontalAlignment="Right"
-                        Cursor="Hand"
-                        MouseDown="Image_MouseDown"
-                        Source="Launcher/age3t.png"
-                        Style="{StaticResource ImageStyle}"
-                        ToolTip="Age of Empires III: Treaty Patch" />
-                </Menu>
-            </Grid>
-            <Grid
-                Grid.Row="1"
+            </Popup>
+            <Popup
+                x:Name="pTools"
+                Placement="MousePoint"
+                PlacementTarget="{Binding ElementName=hiTools}"
+                PopupAnimation="Fade">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <MenuItem
+                        Checked="CheckBox_Checked"
+                        Header="Twitch Streams"
+                        IsCheckable="True"
+                        Unchecked="CheckBox_Unchecked" />
+                    <MenuItem Header="Error 101 Fix" SubmenuOpened="MenuItem_SubmenuOpened">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Background="{Binding KeyColor}"
+                                Content="{Binding Key}" />
+                            <TextBox
+                                Grid.Row="1"
+                                Width="150"
+                                AcceptsReturn="True"
+                                IsReadOnly="True"
+                                Text="Click &quot;Fix&quot; to modify the affected registry values.&#10;Restart Age of Empires III without any expansions and enter your CD key when prompted.&#10;Proceed to create your ESO account."
+                                TextWrapping="Wrap"
+                                VerticalScrollBarVisibility="Auto" />
+                            <Button
+                                Grid.Row="2"
+                                Click="Button_Click_5"
+                                Content="Fix"
+                                IsEnabled="{Binding KeyEnabled}" />
+                        </Grid>
+                    </MenuItem>
+                    <MenuItem Header="User.cfg &amp; User.con" SubmenuOpened="MenuItem_SubmenuOpened_2">
+                        <MenuItem
+                            x:Name="miMsecs"
+                            Checked="miMsecs_Checked"
+                            Header="Timer With Millisecs"
+                            IsCheckable="True"
+                            Unchecked="miMsecs_Unchecked" />
+                        <MenuItem
+                            x:Name="miIntro"
+                            Checked="miIntro_Checked"
+                            Header="Skip Intro"
+                            IsCheckable="True"
+                            Unchecked="miIntro_Unchecked" />
+                        <MenuItem
+                            x:Name="miFPS"
+                            Checked="miFPS_Checked"
+                            Header="Show FPS"
+                            IsCheckable="True"
+                            Unchecked="miFPS_Unchecked" />
+                        <MenuItem
+                            x:Name="miRotator"
+                            Checked="miRotator_Checked"
+                            Header="Buildings Rotator"
+                            IsCheckable="True"
+                            Unchecked="miRotator_Unchecked" />
+                        <MenuItem Header="Zoom">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Content="Max: " />
+                                <Controls:NumericUpDown
+                                    x:Name="udMax"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    ValueChanged="udMax_ValueChanged" />
+
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Content="Normal: " />
+                                <Controls:NumericUpDown
+                                    x:Name="udNorm"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    ValueChanged="udNorm_ValueChanged" />
+
+                                <Label
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Content="Min: " />
+                                <Controls:NumericUpDown
+                                    x:Name="udMin"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    ValueChanged="udMin_ValueChanged" />
+                                <Button
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Click="Button_Click_6"
+                                    Content="Default" />
+                            </Grid>
+                        </MenuItem>
+                    </MenuItem>
+                </Grid>
+            </Popup>
+            <Border
+                Grid.Row="0"
+                Grid.RowSpan="5"
                 Grid.Column="0"
+                Padding="0,0,4,0">
+                <Menu
+                    x:Name="hMenu"
+                    Width="200"
+                    Background="#FF83919F"
+                    BorderBrush="{DynamicResource AccentColorBrush}"
+                    BorderThickness="0,0,2,0"
+                    MouseDown="hMenu_MouseDown">
+                    <MenuItem
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="48"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        IsCheckable="False">
+
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Height="32"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    MouseLeftButtonDown="Image_MouseLeftButtonDown_10"
+                                    Source="Launcher/menu.png" />
+                                <Image
+                                    Grid.Column="1"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/age3.png" />
+                                <Image
+                                    Grid.Column="2"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/age3y.png" />
+                                <Image
+                                    Grid.Column="3"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/age3p.png" />
+                                <Image
+                                    Grid.Column="4"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/age3t.png" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="32"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent">
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/settings.png" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Padding="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="Settings" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="32"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent">
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/tools.png" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Padding="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="Tools" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="32"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent">
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/checker.png" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Padding="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="IP Checker" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="32"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent">
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/calc.png" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Padding="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="Economic Calculator" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="32"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent">
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/gymxp.png" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Padding="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="Gym XP" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="32"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent">
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Height="24"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Source="Launcher/rss.png" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Padding="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="ESOC Feeds" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+
+                </Menu>
+            </Border>
+            <Grid
+                Grid.Row="0"
+                Grid.Column="1"
                 Height="Auto"
                 VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
@@ -549,7 +679,7 @@
                 <Border
                     Grid.Row="0"
                     Grid.Column="0"
-                    BorderThickness="0,0,3,3">
+                    BorderThickness="0,3,3,3">
                     <TextBox
                         x:Name="tbESO"
                         Width="Auto"
@@ -584,7 +714,7 @@
                 <Border
                     Grid.Row="0"
                     Grid.Column="1"
-                    BorderThickness="0,0,0,3">
+                    BorderThickness="0,3,0,3">
                     <Button
                         x:Name="bGet"
                         Width="53"
@@ -595,7 +725,7 @@
                 <Border
                     Grid.Row="0"
                     Grid.Column="2"
-                    BorderThickness="3,0,3,3">
+                    BorderThickness="3,3,3,3">
                     <Button
                         x:Name="bDetail"
                         Width="53"
@@ -622,8 +752,8 @@
 
             </Grid>
             <Grid
-                Grid.Row="2"
-                Grid.Column="0"
+                Grid.Row="1"
+                Grid.Column="1"
                 VerticalAlignment="Top"
                 common:VisibilityAnimation.AnimationType="{Binding AType}"
                 Visibility="{Binding AllVisible}">
@@ -995,164 +1125,158 @@
                 </StackPanel>
             </Grid>
             <Grid
-                Grid.Row="1"
+                Grid.Row="0"
                 Grid.RowSpan="4"
-                Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                Grid.Column="2">
+                <Border Padding="0,3,0,0">
+                    <ListView
+                        x:Name="listView1"
+                        Width="150"
+                        Height="265"
+                        Padding="0"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FFCCCCCC"
+                        BorderThickness="1"
+                        IsSynchronizedWithCurrentItem="False"
+                        MouseDoubleClick="listView1_MouseDoubleClick"
+                        MouseLeftButtonDown="listView1_MouseLeftButtonDown"
+                        MouseRightButtonDown="listView1_MouseRightButtonDown"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        SelectedItem="{Binding SelectedItem}">
 
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <ListView
-                    x:Name="listView1"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Width="150"
-                    Height="250"
-                    VerticalAlignment="Top"
-                    BorderBrush="#FFCCCCCC"
-                    BorderThickness="1"
-                    IsSynchronizedWithCurrentItem="False"
-                    MouseDoubleClick="listView1_MouseDoubleClick"
-                    MouseLeftButtonDown="listView1_MouseLeftButtonDown"
-                    MouseRightButtonDown="listView1_MouseRightButtonDown"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    SelectedItem="{Binding SelectedItem}">
-
-                    <ListView.ItemContainerStyle>
+                        <ListView.ItemContainerStyle>
 
 
-                        <Style TargetType="ListViewItem">
+                            <Style TargetType="ListViewItem">
 
-                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform />
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="LayoutTransform">
-                                <Setter.Value>
-                                    <ScaleTransform x:Name="transform" />
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="ToolTip" Value="{Binding Hint}" />
-                            <Style.Triggers>
-                                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                <Setter Property="RenderTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="LayoutTransform">
+                                    <Setter.Value>
+                                        <ScaleTransform x:Name="transform" />
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="ToolTip" Value="{Binding Hint}" />
+                                <Style.Triggers>
+                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
 
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="Opacity"
-                                                From="0"
-                                                To="1"
-                                                Duration="0:0:1" />
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="LayoutTransform.ScaleY"
-                                                From="0"
-                                                Duration="0:0:.2" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    From="0"
+                                                    To="1"
+                                                    Duration="0:0:1" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="LayoutTransform.ScaleY"
+                                                    From="0"
+                                                    Duration="0:0:.2" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="UIElement.MouseEnter">
 
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                To="1.05"
-                                                Duration="0:0:.1" />
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                                To="1.05"
-                                                Duration="0:0:.1" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                    To="1.05"
+                                                    Duration="0:0:.1" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                                    To="1.05"
+                                                    Duration="0:0:.1" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
 
-                                </EventTrigger>
-                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="UIElement.MouseLeave">
 
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="RenderTransform.ScaleX"
-                                                To="1"
-                                                Duration="0:0:.1" />
-                                            <DoubleAnimation
-                                                Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                                To="1"
-                                                Duration="0:0:.1" />
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                                    To="1"
+                                                    Duration="0:0:.1" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                                    To="1"
+                                                    Duration="0:0:.1" />
 
-                                        </Storyboard>
-                                    </BeginStoryboard>
+                                            </Storyboard>
+                                        </BeginStoryboard>
 
-                                </EventTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.InputBindings>
-                        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
-                    </ListView.InputBindings>
-                    <ListView.View>
-                        <GridView AllowsColumnReorder="False">
-                            <GridView.ColumnHeaderContainerStyle>
+                                    </EventTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.InputBindings>
+                            <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+                        </ListView.InputBindings>
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="False">
+                                <GridView.ColumnHeaderContainerStyle>
 
-                                <Style>
+                                    <Style>
 
-                                    <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                        <Setter Property="UIElement.Visibility" Value="Collapsed" />
 
-                                </Style>
+                                    </Style>
 
-                            </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Image
-                                                Width="13"
-                                                Height="13"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Source="{Binding Icon}">
-                                                <Image.Triggers>
-                                                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                                                        <BeginStoryboard>
-                                                            <Storyboard>
-                                                                <DoubleAnimation
-                                                                    AutoReverse="True"
-                                                                    RepeatBehavior="Forever"
-                                                                    Storyboard.TargetProperty="(Effect).BlurRadius"
-                                                                    From="3"
-                                                                    To="6"
-                                                                    Duration="0:0:0.8">
-                                                                    <DoubleAnimation.EasingFunction>
-                                                                        <PowerEase EasingMode="EaseOut" />
-                                                                    </DoubleAnimation.EasingFunction>
-                                                                </DoubleAnimation>
-                                                            </Storyboard>
-                                                        </BeginStoryboard>
-                                                    </EventTrigger>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridViewColumn>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Image
+                                                    Width="13"
+                                                    Height="13"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Source="{Binding Icon}">
+                                                    <Image.Triggers>
+                                                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation
+                                                                        AutoReverse="True"
+                                                                        RepeatBehavior="Forever"
+                                                                        Storyboard.TargetProperty="(Effect).BlurRadius"
+                                                                        From="3"
+                                                                        To="6"
+                                                                        Duration="0:0:0.8">
+                                                                        <DoubleAnimation.EasingFunction>
+                                                                            <PowerEase EasingMode="EaseOut" />
+                                                                        </DoubleAnimation.EasingFunction>
+                                                                    </DoubleAnimation>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </EventTrigger>
 
-                                                </Image.Triggers>
-                                                <Image.Effect>
-                                                    <DropShadowEffect
-                                                        BlurRadius="3"
-                                                        Direction="0"
-                                                        RenderingBias="Quality"
-                                                        ShadowDepth="0" />
-                                                </Image.Effect>
+                                                    </Image.Triggers>
+                                                    <Image.Effect>
+                                                        <DropShadowEffect
+                                                            BlurRadius="3"
+                                                            Direction="0"
+                                                            RenderingBias="Quality"
+                                                            ShadowDepth="0" />
+                                                    </Image.Effect>
 
-                                            </Image>
-                                        </Grid>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Width="144" DisplayMemberBinding="{Binding Name}" />
-                        </GridView>
-                    </ListView.View>
+                                                </Image>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="144" DisplayMemberBinding="{Binding Name}" />
+                            </GridView>
+                        </ListView.View>
 
-                </ListView>
+                    </ListView>
+                </Border>
                 <Popup
                     x:Name="pFriends"
                     Placement="MousePoint"
@@ -1190,8 +1314,8 @@
                 </Popup>
             </Grid>
             <Grid
-                Grid.Row="3"
-                Grid.Column="0"
+                Grid.Row="2"
+                Grid.Column="1"
                 common:VisibilityAnimation.AnimationType="{Binding AType}"
                 Visibility="{Binding AllVisible}">
                 <Grid.RowDefinitions>
@@ -1735,8 +1859,8 @@
 
             </Grid>
             <Grid
-                Grid.Row="4"
-                Grid.Column="0"
+                Grid.Row="3"
+                Grid.Column="1"
                 common:VisibilityAnimation.AnimationType="{Binding AType}"
                 Visibility="{Binding AllVisible}">
                 <Grid.ColumnDefinitions>
@@ -2222,8 +2346,8 @@
                 </StackPanel>
             </Grid>
             <Grid
-                Grid.Row="5"
-                Grid.Column="0"
+                Grid.Row="4"
+                Grid.Column="1"
                 common:VisibilityAnimation.AnimationType="{Binding AType}"
                 Visibility="{Binding AllVisible}">
                 <Label
@@ -2236,7 +2360,7 @@
                     Content="{Binding Rank}"
                     FontSize="20" />
             </Grid>
-            <Grid Grid.Row="5" Grid.Column="1">
+            <Grid Grid.Row="4" Grid.Column="2">
                 <Label
                     Name="lAbout"
                     Padding="0"
@@ -2364,9 +2488,9 @@
             </Grid>
             <Grid
                 x:Name="iProgress"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.RowSpan="3"
-                Grid.Column="0"
+                Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 common:VisibilityAnimation.AnimationType="{Binding AType}"
@@ -2401,106 +2525,112 @@
                 </Label>
             </Grid>
             <Grid
-                Grid.Row="1"
+                Grid.Row="0"
                 Grid.RowSpan="4"
-                Grid.Column="2">
-                <TreeView
-                    x:Name="treeView1"
-                    Width="210"
-                    Height="250"
-                    Padding="0"
-                    VerticalAlignment="Top"
-                    BorderBrush="#FFCCCCCC"
-                    BorderThickness="1">
-                    <TreeView.Resources>
-                        <HierarchicalDataTemplate DataType="{x:Type self:Game}" ItemsSource="{Binding Streams}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" Padding="2">
+                Grid.Column="3">
+                <Border Padding="0,3,0,0">
+                    <TreeView
+                        x:Name="treeView1"
+                        Width="210"
+                        Height="265"
+                        VerticalAlignment="Top"
+                        BorderBrush="#FFCCCCCC"
+                        BorderThickness="1">
+                        <TreeView.Resources>
+                            <HierarchicalDataTemplate DataType="{x:Type self:Game}" ItemsSource="{Binding Streams}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="0" Padding="2">
+                                        <Image
+                                            Height="22"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Source="{Binding Icon}"
+                                            Style="{StaticResource ImageStyle}" />
+                                    </Border>
+                                    <Label Grid.Column="1" Content="{Binding Name}" />
+                                    <StackPanel
+                                        Grid.Column="2"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+
+
+                                        <Label Content=" [" Foreground="Maroon" />
+                                        <Label
+                                            Padding="0"
+                                            HorizontalAlignment="Right"
+                                            HorizontalContentAlignment="Right"
+                                            VerticalContentAlignment="Center"
+                                            Content="{Binding Streams.Count}"
+                                            Foreground="Maroon" />
+                                        <Label Content="]" Foreground="Maroon" />
+                                    </StackPanel>
+                                </Grid>
+
+                            </HierarchicalDataTemplate>
+                            <DataTemplate DataType="{x:Type self:TreeItem}">
+
+                                <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" ToolTip="{Binding Hint}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
                                     <Image
-                                        Height="22"
+                                        Grid.Column="0"
+                                        Height="20"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Source="{Binding Icon}"
-                                        Style="{StaticResource ImageStyle}" />
-                                </Border>
-                                <Label Grid.Column="1" Content="{Binding Name}" />
-                                <StackPanel
-                                    Grid.Column="2"
-                                    HorizontalAlignment="Right"
-                                    Orientation="Horizontal">
-
-
-                                    <Label Content=" [" Foreground="Maroon" />
+                                        Source="Icons/live.png" />
                                     <Label
-                                        Padding="0"
+                                        Grid.Column="1"
+                                        HorizontalContentAlignment="Left"
+                                        VerticalContentAlignment="Center"
+                                        Content="{Binding Name}" />
+                                    <Label
+                                        Grid.Column="2"
                                         HorizontalAlignment="Right"
                                         HorizontalContentAlignment="Right"
                                         VerticalContentAlignment="Center"
-                                        Content="{Binding Streams.Count}"
-                                        Foreground="Maroon" />
-                                    <Label Content="]" Foreground="Maroon" />
-                                </StackPanel>
-                            </Grid>
-
-                        </HierarchicalDataTemplate>
-                        <DataTemplate DataType="{x:Type self:TreeItem}">
-
-                            <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" ToolTip="{Binding Hint}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Image
-                                    Grid.Column="0"
-                                    Height="20"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Source="Icons/live.png" />
-                                <Label
-                                    Grid.Column="1"
-                                    HorizontalContentAlignment="Left"
-                                    VerticalContentAlignment="Center"
-                                    Content="{Binding Name}" />
-                                <Label
-                                    Grid.Column="2"
-                                    HorizontalAlignment="Right"
-                                    HorizontalContentAlignment="Right"
-                                    VerticalContentAlignment="Center"
-                                    Content="{Binding Viewers}" />
-                            </Grid>
-                        </DataTemplate>
-                    </TreeView.Resources>
-                </TreeView>
+                                        Content="{Binding Viewers}" />
+                                </Grid>
+                            </DataTemplate>
+                        </TreeView.Resources>
+                    </TreeView>
+                </Border>
             </Grid>
-            <Label
-                Grid.Row="0"
-                Grid.Column="2"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                Background="Transparent"
-                Content="Twitch Streams"
-                FontSize="18">
-                <Label.Foreground>
-                    <LinearGradientBrush MappingMode="RelativeToBoundingBox" StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Offset="0.52" Color="#FF7A5800" />
-                        <GradientStop Offset="0.183" Color="#FF8D1214" />
-                        <GradientStop Offset="0.813" Color="#FF8D1214" />
-                    </LinearGradientBrush>
-                </Label.Foreground>
-
-                <Label.Effect>
-                    <DropShadowEffect
-                        BlurRadius="3"
-                        Direction="0"
-                        ShadowDepth="0" />
-                </Label.Effect>
-            </Label>
+            <ToggleButton x:Name="tbHam" Visibility="Hidden">
+                <ToggleButton.Triggers>
+                    <EventTrigger RoutedEvent="ToggleButton.Checked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="hMenu"
+                                    Storyboard.TargetProperty="Width"
+                                    From="48"
+                                    To="200"
+                                    Duration="0:0:.7" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetName="hMenu"
+                                    Storyboard.TargetProperty="Width"
+                                    From="200"
+                                    To="48"
+                                    Duration="0:0:.7" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ToggleButton.Triggers>
+            </ToggleButton>
         </Grid>
     </Border>
 </Controls:MetroWindow>

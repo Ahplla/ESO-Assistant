@@ -33,6 +33,55 @@ using Microsoft.Win32;
 namespace ESO_Assistant.Classes
 {
 
+    public class Row : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
+        }
+        private string ip = "";
+        private string eso = "";
+        public string IP
+        {
+            get { return ip; }
+            set
+            {
+                if (ip != value)
+                {
+                    ip = value;
+                    NotifyPropertyChanged("IP");
+                }
+            }
+        }
+        public string ESO
+        {
+            get { return eso; }
+            set
+            {
+                if (eso != value)
+                {
+                    eso = value;
+                    NotifyPropertyChanged("ESO");
+                }
+            }
+        }
+    }
+
+
+    public class VPNInfo
+    {
+        public string status { get; set; }
+        public string result { get; set; }
+        public string queryIP { get; set; }
+        public string queryFlags { get; set; }
+        public object queryOFlags { get; set; }
+        public string queryFormat { get; set; }
+        public string contact { get; set; }
+    }
+
     public class AnalyticsHelper
     {
 
