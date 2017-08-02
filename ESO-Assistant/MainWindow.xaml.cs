@@ -60,6 +60,7 @@ namespace ESO_Assistant
             return InternetGetConnectedState(out int Desc, 0);
         }
 
+
         private int FThreadCount;
         private string _ESOPop { get; set; }
         public string ESOPop
@@ -1181,42 +1182,6 @@ namespace ESO_Assistant
         public ICommand AddCommand
         {
             get { return addCommand ?? (addCommand = new RelayCommand(param => this.AddItem(), null)); }
-        }
-
-        private ICommand openNilla;
-        public ICommand OpenNilla
-        {
-            get { return openNilla ?? (openNilla = new RelayCommand(param => Paths.OpenNilla("age3.exe"), null)); }
-        }
-
-        private ICommand openTAD;
-        public ICommand OpenTAD
-        {
-            get { return openTAD ?? (openTAD = new RelayCommand(param => Paths.OpenTAD("age3y.exe"), null)); }
-        }
-
-        private ICommand openEP;
-        public ICommand OpenEP
-        {
-            get { return openEP ?? (openEP = new RelayCommand(param => Paths.OpenTAD("age3p.exe"), null)); }
-        }
-
-        private ICommand openTP;
-        public ICommand OpenTP
-        {
-            get { return openTP ?? (openTP = new RelayCommand(param => Paths.OpenTAD("age3t.exe"), null)); }
-        }
-
-        private ICommand openSettings;
-        public ICommand OpenSettings
-        {
-            get { return openSettings ?? (openSettings = new RelayCommand(param => pSettings.IsOpen=!pSettings.IsOpen, null)); }
-        }
-
-        private ICommand openTools;
-        public ICommand OpenTools
-        {
-            get { return openTools ?? (openTools = new RelayCommand(param => pTools.IsOpen=!pTools.IsOpen, null)); }
         }
 
         UserStatus US = new UserStatus("");
@@ -3752,16 +3717,41 @@ if (S.StoredMaxPR < 0)
             }
         }
 
-
-
-        private void hMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-   
+            Paths.OpenTAD("age3t.exe");
         }
+
+        private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            Paths.OpenNilla("age3.exe");
+        }
+
+        private void Image_MouseDown_2(object sender, MouseButtonEventArgs e)
+        {
+            Paths.OpenTAD("age3y.exe");
+        }
+
+        private void Image_MouseDown_3(object sender, MouseButtonEventArgs e)
+        {
+            Paths.OpenTAD("age3p.exe");
+        }
+
 
         private void Image_MouseLeftButtonDown_10(object sender, MouseButtonEventArgs e)
         {
             tbHam.IsChecked = !tbHam.IsChecked;
+        }
+
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            Paths.OpenIPChecker();
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            Paths.OpenGymXP();
         }
     }
 }

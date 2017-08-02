@@ -33,6 +33,8 @@ using Microsoft.Win32;
 namespace ESO_Assistant.Classes
 {
 
+
+
     public class Row : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

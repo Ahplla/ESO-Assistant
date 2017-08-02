@@ -35,6 +35,46 @@ namespace ESO_Assistant.Classes
     public class Paths
     {
 
+        public static void OpenIPChecker()
+        {
+
+            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "IP-Checker.exe")))
+            {
+                Process process = new Process()
+                {
+                    StartInfo = new ProcessStartInfo(Path.Combine(Directory.GetCurrentDirectory(), "IP-Checker.exe"))
+                    {
+                        WorkingDirectory = Directory.GetCurrentDirectory()
+
+                    }
+                };
+
+                process.Start();
+            }
+            else
+                MessageBox.Show("IP-Checker not found!");
+        }
+
+        public static void OpenGymXP()
+        {
+
+            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Gym XP.exe")))
+            {
+                Process process = new Process()
+                {
+                    StartInfo = new ProcessStartInfo(Path.Combine(Directory.GetCurrentDirectory(), "Gym XP.exe"))
+                    {
+                        WorkingDirectory = Directory.GetCurrentDirectory()
+
+                    }
+                };
+
+                process.Start();
+            }
+            else
+                MessageBox.Show("Gym XP not found!");
+        }
+
         public static void OpenTAD(string Name)
         {
             if (Process.GetProcessesByName(Name.Split('.')[0]).Length != 0)
