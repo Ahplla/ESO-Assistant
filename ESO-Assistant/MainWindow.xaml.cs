@@ -358,10 +358,20 @@ namespace ESO_Assistant
             get { return ESOColor; }
             set
             {
+                if (value != ESOColor)
+                {
+                    Notifications.Insert(0, new Notification { Owner = "ESO", Title = ESOHint, Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/eso.png" });
+                    NotifyPropertyChanged("NotificationCount");
+                }
                 ESOColor = value;
                 NotifyPropertyChanged("ESO");
             }
         }
+
+        public int NotificationCount
+            {
+            get { return Notifications.Count; }
+            }
 
         private Brush ESOCColor { get; set; }
         public Brush ESOC
@@ -1353,6 +1363,7 @@ namespace ESO_Assistant
 
         private string AppVer = "Release: 5.0";
         public ObservableCollection<Feed> ESOCFeed= new ObservableCollection<Feed>();
+        public ObservableCollection<Notification> Notifications = new ObservableCollection<Notification>();
 
         public MainWindow()
         {
@@ -1393,6 +1404,7 @@ namespace ESO_Assistant
             //ClanList = new ObservableCollection<ClanMember>();
             //   ClanList.Add(new ClanMember { Name = "sdsdsd", ID = 2 });
             listView1.ItemsSource = Friends;
+            lvNotifications.ItemsSource = Notifications;
             dgInitial1.ItemsSource = Initial1;
             dgChange11.ItemsSource = Initial1;
             dgChange21.ItemsSource = Initial1;
@@ -2859,6 +2871,17 @@ if (S.StoredMaxPR < 0)
             {
                  Feeds F = new Feeds();
         F.Get(Data);
+                if (ESOCFeed.Count != 0)
+                {
+                    var excludedIDs = new HashSet<string>(ESOCFeed.Select(p => p.Tip));
+                    var result = F.ESOCFeed.Where(p => !excludedIDs.Contains(p.Tip));
+                    foreach (Feed f in result)
+                    {
+                        Notifications.Insert(0, new Notification { Owner = "ESOC Feeds", Title = f.Tip, Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/rss.png" });
+                        NotifyPropertyChanged("NotificationCount");
+                    }
+
+                }
                 ESOCFeed.Clear();
                 for (int i = 0; i < F.ESOCFeed.Count; i++)
                 {
@@ -2882,6 +2905,20 @@ if (S.StoredMaxPR < 0)
                 {
                     S.Add(new TreeItem() { Name = root.streams[i].channel.display_name, Followers = root.streams[i].channel.followers, Viewers = root.streams[i].viewers, Status = root.streams[i].channel.status, Length = DateTime.Now - DateTime.Parse(root.streams[i].created_at).ToLocalTime(), URL = root.streams[i].channel.url });
                 }
+
+
+                if (GamesStream[0].Streams.Count != 0)
+                {
+                    var excludedIDs = new HashSet<string>(GamesStream[0].Streams.Select(p => p.Name));
+                    var result =S.Where(p => !excludedIDs.Contains(p.Name));
+                    foreach (TreeItem f in result)
+                    {
+                        Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires III: The Asian Dynasties", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
+                        NotifyPropertyChanged("NotificationCount");
+                    }
+
+                }
+
                 GamesStream[0].Streams = S;
             }
             catch { }
@@ -2901,6 +2938,18 @@ if (S.StoredMaxPR < 0)
                 {
                     S.Add(new TreeItem() { Name = root.streams[i].channel.display_name, Followers = root.streams[i].channel.followers, Viewers = root.streams[i].viewers, Status = root.streams[i].channel.status, Length = DateTime.Now - DateTime.Parse(root.streams[i].created_at).ToLocalTime(), URL = root.streams[i].channel.url });
                 }
+                if (GamesStream[1].Streams.Count != 0)
+                {
+                    var excludedIDs = new HashSet<string>(GamesStream[1].Streams.Select(p => p.Name));
+                    var result = S.Where(p => !excludedIDs.Contains(p.Name));
+                    foreach (TreeItem f in result)
+                    {
+                        Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires III", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
+                        NotifyPropertyChanged("NotificationCount");
+                    }
+
+                }
+
                 GamesStream[1].Streams = S;
             }
             catch { }
@@ -2920,6 +2969,19 @@ if (S.StoredMaxPR < 0)
                 {
                     S.Add(new TreeItem() { Name = root.streams[i].channel.display_name, Followers = root.streams[i].channel.followers, Viewers = root.streams[i].viewers, Status = root.streams[i].channel.status, Length = DateTime.Now - DateTime.Parse(root.streams[i].created_at).ToLocalTime(), URL = root.streams[i].channel.url });
                 }
+
+                if (GamesStream[2].Streams.Count != 0)
+                {
+                    var excludedIDs = new HashSet<string>(GamesStream[2].Streams.Select(p => p.Name));
+                    var result = S.Where(p => !excludedIDs.Contains(p.Name));
+                    foreach (TreeItem f in result)
+                    {
+                        Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires Online", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
+                        NotifyPropertyChanged("NotificationCount");
+                    }
+
+                }
+
                 GamesStream[2].Streams = S;
             }
             catch { }
@@ -2939,6 +3001,20 @@ if (S.StoredMaxPR < 0)
                 {
                     S.Add(new TreeItem() { Name = root.streams[i].channel.display_name, Followers = root.streams[i].channel.followers, Viewers = root.streams[i].viewers, Status = root.streams[i].channel.status, Length = DateTime.Now - DateTime.Parse(root.streams[i].created_at).ToLocalTime(), URL = root.streams[i].channel.url });
                 }
+
+
+                if (GamesStream[3].Streams.Count != 0)
+                {
+                    var excludedIDs = new HashSet<string>(GamesStream[3].Streams.Select(p => p.Name));
+                    var result = S.Where(p => !excludedIDs.Contains(p.Name));
+                    foreach (TreeItem f in result)
+                    {
+                        Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires II: HD Edition", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
+                        NotifyPropertyChanged("NotificationCount");
+                    }
+
+                }
+
                 GamesStream[3].Streams = S;
             }
             catch { }
@@ -2958,6 +3034,19 @@ if (S.StoredMaxPR < 0)
                 {
                     S.Add(new TreeItem() { Name = root.streams[i].channel.display_name, Followers = root.streams[i].channel.followers, Viewers = root.streams[i].viewers, Status = root.streams[i].channel.status, Length = DateTime.Now - DateTime.Parse(root.streams[i].created_at).ToLocalTime(), URL = root.streams[i].channel.url });
                 }
+
+                if (GamesStream[4].Streams.Count != 0)
+                {
+                    var excludedIDs = new HashSet<string>(GamesStream[4].Streams.Select(p => p.Name));
+                    var result = S.Where(p => !excludedIDs.Contains(p.Name));
+                    foreach (TreeItem f in result)
+                    {
+                        Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires II: The Conquerors", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
+                        NotifyPropertyChanged("NotificationCount");
+                    }
+
+                }
+
                 GamesStream[4].Streams = S;
             }
             catch { }
@@ -3806,6 +3895,17 @@ if (S.StoredMaxPR < 0)
         {
 
                 Process.Start((sender as Border).Tag.ToString());
+        }
+
+        private void miNotifications_Click(object sender, RoutedEventArgs e)
+        {
+            pNotifications.IsOpen = !pNotifications.IsOpen;
+        }
+
+        private void pNotifications_Closed(object sender, EventArgs e)
+        {
+            Notifications.Clear();
+            NotifyPropertyChanged("NotificationCount");
         }
     }
 }

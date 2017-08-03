@@ -238,6 +238,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
             <Border Grid.Column="0" Padding="0,0,4,0">
                 <Menu
                     x:Name="hMenu"
@@ -305,6 +306,49 @@
                                     Source="Launcher/age3t.png"
                                     Style="{StaticResource ImageStyle}"
                                     ToolTip="Age of Empires III: Treaty Patch" />
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                    <MenuItem
+                        x:Name="miNotifications"
+                        Width="{Binding Width, ElementName=hMenu}"
+                        Height="32"
+                        Padding="0,3"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="miNotifications_Click">
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Controls:Badged
+                                    Grid.Column="0"
+                                    Margin="0,8,0,0"
+                                    Padding="0,-6,0,0"
+                                    HorizontalAlignment="Center"
+                                    Badge="{Binding NotificationCount}"
+                                    BadgeForeground="#FFEEEEEE">
+                                    <Controls:Badged.BadgeBackground>
+                                        <RadialGradientBrush>
+                                            <GradientStop Offset="0" Color="#FF930707" />
+                                            <GradientStop Offset="1" Color="#FFEA0E0E" />
+                                        </RadialGradientBrush>
+                                    </Controls:Badged.BadgeBackground>
+                                    <Image
+                                        Height="24"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Source="Launcher/message.png"
+                                        ToolTip="Notifications" />
+                                </Controls:Badged>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Padding="5,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Text="Notifications" />
                             </Grid>
                         </MenuItem.Header>
                     </MenuItem>
@@ -639,6 +683,92 @@
 
                 </Menu>
             </Border>
+
+            <Popup
+                x:Name="pNotifications"
+                Width="Auto"
+                Closed="pNotifications_Closed"
+                Placement="Right"
+                PlacementTarget="{Binding ElementName=miNotifications}"
+                PopupAnimation="Fade">
+
+                <ListView
+                    x:Name="lvNotifications"
+                    Width="Auto"
+                    Height="280"
+                    Padding="0"
+                    HorizontalContentAlignment="Stretch"
+                    BorderBrush="#FFCCCCCC"
+                    BorderThickness="1"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    SelectionMode="Single">
+
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style>
+                                    <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border Width="Auto" Padding="3">
+                                            <Border
+                                                Width="Auto"
+                                                Padding="3"
+                                                BorderBrush="#FFCCCCCC"
+                                                BorderThickness="1"
+                                                CornerRadius="5">
+                                                <Grid Width="Auto">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border
+                                                        Grid.Row="0"
+                                                        Grid.RowSpan="3"
+                                                        Grid.Column="0"
+                                                        Padding="3,3,8,3">
+                                                        <Image
+                                                            Height="32"
+                                                            Source="{Binding Icon}"
+                                                            Style="{StaticResource ImageStyle}" />
+                                                    </Border>
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        FontSize="14"
+                                                        Text="{Binding Owner}" />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding Title}" />
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.Column="1"
+                                                        HorizontalAlignment="Right"
+                                                        Text="{Binding Date}" />
+
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+            </Popup>
+
             <Popup
                 x:Name="pFeeds"
                 Placement="Right"
@@ -683,7 +813,7 @@
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock
                                                         Grid.Row="0"

@@ -107,7 +107,75 @@ namespace ESO_Assistant.Classes
     }
 
 
-        public class Row : INotifyPropertyChanged
+
+    public class Notification : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
+        }
+        private string FOwner = "";
+        public string Owner
+        {
+            get { return FOwner; }
+            set
+            {
+                if (FOwner != value)
+                {
+                    FOwner = value;
+                    NotifyPropertyChanged("Owner");
+                }
+            }
+        }
+
+        private string FDate;
+        public string Date
+        {
+            get { return FDate; }
+            set
+            {
+                if (FDate != value)
+                {
+                    FDate = value;
+                    NotifyPropertyChanged("Date");
+                }
+            }
+        }
+
+        private string FTitle = "";
+        public string Title
+        {
+            get { return FTitle; }
+            set
+            {
+                if (FTitle != value)
+                {
+                    FTitle = value;
+                    NotifyPropertyChanged("Title");
+                }
+            }
+        }
+
+        private string FIcon = "";
+        public string Icon
+        {
+            get { return FIcon; }
+            set
+            {
+                if (FIcon != value)
+                {
+                    FIcon = value;
+                    NotifyPropertyChanged("Icon");
+                }
+            }
+        }
+    }
+
+
+    public class Row : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -717,6 +785,11 @@ namespace ESO_Assistant.Classes
             {
                 if (status != value)
                 {
+                    if (value == 1)
+                    {
+                        ((MainWindow)System.Windows.Application.Current.MainWindow).Notifications.Insert(0, new Notification { Owner = "Friends", Title = Name + " is online!", Date = DateTime.Now.ToString(),Icon= "pack://application:,,,/Launcher/friends.png" });
+                        ((MainWindow)System.Windows.Application.Current.MainWindow).NotifyPropertyChanged("NotificationCount");
+                    }
                     status = value;
                     NotifyPropertyChanged("Status");
                 }
