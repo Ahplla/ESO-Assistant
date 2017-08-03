@@ -32,10 +32,82 @@ using Microsoft.Win32;
 
 namespace ESO_Assistant.Classes
 {
+    public class Feed : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void NotifyPropertyChanged(string propName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+
+        }
+        private string FAuthor = "";
+        public string Author
+        {
+            get { return FAuthor; }
+            set
+            {
+                if (FAuthor != value)
+                {
+                    FAuthor = value;
+                    NotifyPropertyChanged("Author");
+                    NotifyPropertyChanged("Tip");
+                }
+            }
+        }
+
+        public string Tip
+        {
+            get { return Title + Environment.NewLine + "by " + Author + " at " + Date; }
+        }
+
+        private string FDate;
+        public string Date
+        {
+            get { return FDate; }
+            set
+            {
+                if (FDate != value)
+                {
+                    FDate = value;
+                    NotifyPropertyChanged("Date");
+                    NotifyPropertyChanged("Tip");
+                }
+            }
+        }
+
+        private string FTitle = "";
+        public string Title
+        {
+            get { return FTitle; }
+            set
+            {
+                if (FTitle != value)
+                {
+                    FTitle = value;
+                    NotifyPropertyChanged("Title");
+                    NotifyPropertyChanged("Tip");
+                }
+            }
+        }
+
+        private string FLink = "";
+        public string Link
+        {
+            get { return FLink; }
+            set
+            {
+                if (FLink != value)
+                {
+                    FLink = value;
+                    NotifyPropertyChanged("Link");
+                }
+            }
+        }
+    }
 
 
-
-    public class Row : INotifyPropertyChanged
+        public class Row : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

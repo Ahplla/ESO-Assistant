@@ -602,11 +602,13 @@
                         </MenuItem.Header>
                     </MenuItem>
                     <MenuItem
+                        x:Name="miFeeds"
                         Width="{Binding Width, ElementName=hMenu}"
                         Height="32"
                         Padding="0,3"
                         Background="Transparent"
-                        BorderBrush="Transparent">
+                        BorderBrush="Transparent"
+                        Click="miFeeds_Click">
                         <MenuItem.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -632,6 +634,85 @@
 
                 </Menu>
             </Border>
+            <Popup
+                x:Name="pFeeds"
+                Placement="Right"
+                PlacementTarget="{Binding ElementName=miFeeds}"
+                PopupAnimation="Fade">
+
+                <ListView
+                    x:Name="lvFeeds"
+                    Height="280"
+                    Padding="0"
+                    BorderBrush="#FFCCCCCC"
+                    BorderThickness="1"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    SelectionMode="Single">
+
+                    <ListView.View>
+                        <GridView AllowsColumnReorder="False">
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style>
+                                    <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Padding="3"
+                                            Cursor="Hand"
+                                            MouseLeftButtonDown="lvFeeds_MouseLeftButtonDown"
+                                            Tag="{Binding Link}">
+                                            <Border
+                                                Padding="3"
+                                                BorderBrush="#FFCCCCCC"
+                                                BorderThickness="1"
+                                                CornerRadius="5">
+                                                <Grid ToolTip="{Binding Tip}">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Grid.Row="0"
+                                                        Grid.ColumnSpan="4"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding Title}" />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="0"
+                                                        Text="by " />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        FontWeight="Bold"
+                                                        Text="{Binding Author}" />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="2"
+                                                        Text=" at " />
+                                                    <TextBlock
+                                                        Grid.Row="1"
+                                                        Grid.Column="3"
+                                                        Text="{Binding Date}" />
+                                                </Grid>
+                                            </Border>
+                                        </Border>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+            </Popup>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -2521,7 +2602,8 @@
                             Height="265"
                             VerticalAlignment="Top"
                             BorderBrush="#FFCCCCCC"
-                            BorderThickness="1">
+                            BorderThickness="1"
+                            TreeViewItem.Selected="TreeViewItem_OnItemSelected">
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type self:Game}" ItemsSource="{Binding Streams}">
                                     <Grid>
@@ -2560,7 +2642,7 @@
                                 </HierarchicalDataTemplate>
                                 <DataTemplate DataType="{x:Type self:TreeItem}">
 
-                                    <Grid MouseLeftButtonDown="Grid_MouseLeftButtonDown" ToolTip="{Binding Hint}">
+                                    <Grid ToolTip="{Binding Hint}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />

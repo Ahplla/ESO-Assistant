@@ -137,6 +137,7 @@
     <Compile Include="Classes\ClanInfo.cs" />
     <Compile Include="Classes\Classes.cs" />
     <Compile Include="Classes\Constant.cs" />
+    <Compile Include="Classes\Feeds.cs" />
     <Compile Include="Classes\Paths.cs" />
     <Compile Include="Classes\ServerStatus.cs" />
     <Compile Include="Classes\SingleInstance.cs" />

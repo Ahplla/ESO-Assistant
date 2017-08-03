@@ -1228,6 +1228,22 @@ namespace ESO_Assistant
                 }
             }
         }
+
+
+        private Feed FSelectedFeed;
+        public Feed SelectedFeed
+        {
+            get { return FSelectedFeed; }
+            set
+            {
+                if (FSelectedFeed != value)
+                {
+                    FSelectedFeed = value;
+                    NotifyPropertyChanged("SelectedFeed");
+                }
+            }
+        }
+
         public void DeleteItem()
         {
             if (SelectedItem != null)
@@ -1312,6 +1328,10 @@ namespace ESO_Assistant
         {
             Interval = TimeSpan.FromMilliseconds(1000)
         };
+        private DispatcherTimer FeedsTimer = new DispatcherTimer()
+        {
+            Interval = TimeSpan.FromMilliseconds(1000)
+        };
         private DispatcherTimer TwitchAOEIIConqTimer = new DispatcherTimer()
         {
             Interval = TimeSpan.FromMilliseconds(1000)
@@ -1342,6 +1362,7 @@ namespace ESO_Assistant
         };
 
         private string AppVer = "Release: 5.0";
+        public ObservableCollection<Feed> ESOCFeed= new ObservableCollection<Feed>();
 
         public MainWindow()
         {
@@ -1387,6 +1408,7 @@ namespace ESO_Assistant
             dgInitial2.ItemsSource = Initial2;
             dgChange12.ItemsSource = Initial2;
             dgChange22.ItemsSource = Initial2;
+            lvFeeds.ItemsSource = ESOCFeed;
             lwClan.ItemsSource = ClanList;
             treeView1.ItemsSource = GamesStream;
             DataContext = this;
@@ -1411,6 +1433,9 @@ namespace ESO_Assistant
             TwitchAOEIIHDTimer.Start();
             TwitchAOEIIConqTimer.Tick += TwitchAOEIIConqTimer_Tick;
             TwitchAOEIIConqTimer.Start();
+
+            FeedsTimer.Tick += FeedsTimer_Tick;
+            FeedsTimer.Start();
             AutoUpdater.OpenDownloadPage = true;
             UpdaterTimer.Tick += delegate (object sender, EventArgs args)
             {
@@ -1661,7 +1686,7 @@ namespace ESO_Assistant
         private void ESOCTimer_Tick(object sender, EventArgs e)
         {
             ESOCTimer.Stop();
-            ESOCTimer.Interval = TimeSpan.FromMilliseconds(10000);
+            ESOCTimer.Interval = TimeSpan.FromMilliseconds(30000);
             GetESOCInfo("http://eso-community.net/viewonline.php");
         }
 
@@ -2826,6 +2851,33 @@ if (S.StoredMaxPR < 0)
 
         }
 
+        private void FeedsTimer_Tick(object sender, EventArgs e)
+        {
+            FeedsTimer.Stop();
+            FeedsTimer.Interval = TimeSpan.FromMilliseconds(30000);
+            GetFeeds();
+
+        }
+
+
+        async void GetFeeds()
+        {
+            
+            string Data = await HttpGetAsync("http://eso-community.net/feed.php");
+            try
+            {
+                 Feeds F = new Feeds();
+        F.Get(Data);
+                ESOCFeed.Clear();
+                for (int i = 0; i < F.ESOCFeed.Count; i++)
+                {
+                    ESOCFeed.Add( F.ESOCFeed[i]);
+                }
+            }
+            catch { }
+            FeedsTimer.Start();
+        }
+
         async void GetTwitchStreamsTAD()
         {
 
@@ -2921,7 +2973,7 @@ if (S.StoredMaxPR < 0)
             TwitchAOEIIConqTimer.Start();
         }
 
-        private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void TreeViewItem_OnItemSelected(object sender, RoutedEventArgs e)
         {
             if (treeView1.SelectedItem != null)
                 if (treeView1.SelectedItem is TreeItem)
@@ -3752,6 +3804,17 @@ if (S.StoredMaxPR < 0)
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
             Paths.OpenGymXP();
+        }
+
+        private void miFeeds_Click(object sender, RoutedEventArgs e)
+        {
+            pFeeds.IsOpen = !pFeeds.IsOpen;
+        }
+
+        private void lvFeeds_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+                Process.Start((sender as Border).Tag.ToString());
         }
     }
 }
