@@ -701,6 +701,8 @@ namespace ESO_Assistant
             }
         }
 
+      
+
 
 
         public string LastUpdate
@@ -1230,19 +1232,7 @@ namespace ESO_Assistant
         }
 
 
-        private Feed FSelectedFeed;
-        public Feed SelectedFeed
-        {
-            get { return FSelectedFeed; }
-            set
-            {
-                if (FSelectedFeed != value)
-                {
-                    FSelectedFeed = value;
-                    NotifyPropertyChanged("SelectedFeed");
-                }
-            }
-        }
+
 
         public void DeleteItem()
         {
@@ -1371,6 +1361,7 @@ namespace ESO_Assistant
             AType = WPF.Common.VisibilityAnimation.AnimationType.None;
             InitializeComponent();
             AllVisible = Visibility.Hidden;
+            TwitchVisibility = "0";
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(Int32.MaxValue));
             ToolTipService.InitialShowDelayProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(0));
             NickForAdding = "";
