@@ -411,6 +411,7 @@
     <EmbeddedResource Include="HTML\jquery-latest.js" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Launcher\symbols.png" />
     <Resource Include="Launcher\eso.png" />
     <Resource Include="Launcher\twitch.png" />
     <Resource Include="Launcher\message.png" />

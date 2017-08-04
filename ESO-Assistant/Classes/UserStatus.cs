@@ -34,6 +34,7 @@ namespace ESO_Assistant
         private string FLastLogin;
         private string FLastUpdate;
         private string FClan;
+        private string FClanA;
         private string FClanDescription;
         private string FPRS;
         private string FPRD;
@@ -626,6 +627,10 @@ namespace ESO_Assistant
         {
             get { return FClan; }
         }
+        public string ClanA
+        {
+            get { return FClanA; }
+        }
         public string ClanDescription
         {
             get { return FClanDescription; }
@@ -714,6 +719,7 @@ namespace ESO_Assistant
                         FOnline = Colors.Transparent;
                     FAvatar = GetAvatarFromID(Pars("<avatarId>", "</avatarId>", Data));
                     FClan = Pars("<clanAbbr>", "</clanAbbr>", Data).Replace("_", "__");
+                    FClanA = Pars("<clanAbbr>", "</clanAbbr>", Data);
                     FClanDescription = Pars("<clanName>", "</clanName>", Data).Replace("_", "__");
                     FPRS = Pars("<s>", "</s>", Data);
                     FPRS = Pars("<skillLevel>", "</skillLevel>", FPRS);

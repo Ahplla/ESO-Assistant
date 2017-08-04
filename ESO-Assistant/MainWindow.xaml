@@ -15,11 +15,9 @@
     AllowsTransparency="True"
     BorderBrush="{DynamicResource AccentColorBrush}"
     BorderThickness="2"
-    Closed="mainWindow_Closed"
     Closing="MetroWindow_Closing"
     ContentRendered="MetroWindow_ContentRendered"
     IsMaxRestoreButtonEnabled="False"
-    Loaded="MetroWindow_Loaded"
     ResizeMode="CanMinimize"
     ShowIconOnTitleBar="False"
     SizeToContent="WidthAndHeight"
@@ -686,94 +684,108 @@
 
             <Popup
                 x:Name="pNotifications"
-                Width="Auto"
                 Closed="pNotifications_Closed"
                 Placement="Right"
                 PlacementTarget="{Binding ElementName=miNotifications}"
-                PopupAnimation="Fade">
-
-                <ListView
-                    x:Name="lvNotifications"
-                    Width="Auto"
-                    Height="280"
-                    Padding="0"
-                    HorizontalContentAlignment="Stretch"
+                PopupAnimation="Fade"
+                StaysOpen="False">
+                <Border
+                    Padding="3"
+                    Background="White"
                     BorderBrush="#FFCCCCCC"
-                    BorderThickness="1"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    SelectionMode="Single">
+                    BorderThickness="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            HorizontalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="Unread Notifications"
+                            FontSize="16" />
+                        <ListView
+                            x:Name="lvNotifications"
+                            Grid.Row="1"
+                            Height="280"
+                            Padding="0"
+                            BorderBrush="#FFCCCCCC"
+                            BorderThickness="1"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                    <ListView.View>
-                        <GridView AllowsColumnReorder="False">
-                            <GridView.ColumnHeaderContainerStyle>
-                                <Style>
-                                    <Setter Property="UIElement.Visibility" Value="Collapsed" />
-                                </Style>
-                            </GridView.ColumnHeaderContainerStyle>
-                            <GridViewColumn>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Border Width="Auto" Padding="3">
-                                            <Border
-                                                Width="Auto"
-                                                Padding="3"
-                                                BorderBrush="#FFCCCCCC"
-                                                BorderThickness="1"
-                                                CornerRadius="5">
-                                                <Grid Width="Auto">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                        <RowDefinition Height="Auto" />
-                                                    </Grid.RowDefinitions>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
+                            <ListView.View>
+                                <GridView x:Name="dgNotification" AllowsColumnReorder="False">
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style>
+                                            <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                        </Style>
+                                    </GridView.ColumnHeaderContainerStyle>
+                                    <GridViewColumn>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border Padding="3">
                                                     <Border
-                                                        Grid.Row="0"
-                                                        Grid.RowSpan="3"
-                                                        Grid.Column="0"
-                                                        Padding="3,3,8,3">
-                                                        <Image
-                                                            Height="32"
-                                                            Source="{Binding Icon}"
-                                                            Style="{StaticResource ImageStyle}" />
+                                                        Padding="3"
+                                                        BorderBrush="#FFCCCCCC"
+                                                        BorderThickness="1"
+                                                        CornerRadius="5">
+                                                        <Grid Width="Auto">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Border
+                                                                Grid.Row="0"
+                                                                Grid.RowSpan="3"
+                                                                Grid.Column="0"
+                                                                Padding="3,3,8,3">
+                                                                <Image
+                                                                    Height="32"
+                                                                    Source="{Binding Icon}"
+                                                                    Style="{StaticResource ImageStyle}" />
+                                                            </Border>
+                                                            <TextBlock
+                                                                Grid.Row="0"
+                                                                Grid.Column="1"
+                                                                FontSize="14"
+                                                                Text="{Binding Owner}" />
+                                                            <TextBlock
+                                                                Grid.Row="1"
+                                                                Grid.Column="1"
+                                                                FontWeight="Bold"
+                                                                Text="{Binding Title}" />
+                                                            <TextBlock
+                                                                Grid.Row="2"
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Right"
+                                                                Text="{Binding Date}" />
+
+                                                        </Grid>
                                                     </Border>
-                                                    <TextBlock
-                                                        Grid.Row="0"
-                                                        Grid.Column="1"
-                                                        FontSize="14"
-                                                        Text="{Binding Owner}" />
-                                                    <TextBlock
-                                                        Grid.Row="1"
-                                                        Grid.Column="1"
-                                                        FontWeight="Bold"
-                                                        Text="{Binding Title}" />
-                                                    <TextBlock
-                                                        Grid.Row="2"
-                                                        Grid.Column="1"
-                                                        HorizontalAlignment="Right"
-                                                        Text="{Binding Date}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
 
-                                                </Grid>
-                                            </Border>
-                                        </Border>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView>
-                    </ListView.View>
-
-                </ListView>
+                        </ListView>
+                    </Grid>
+                </Border>
             </Popup>
 
             <Popup
                 x:Name="pFeeds"
                 Placement="Right"
                 PlacementTarget="{Binding ElementName=miFeeds}"
-                PopupAnimation="Fade">
+                PopupAnimation="Fade"
+                StaysOpen="False">
 
                 <ListView
                     x:Name="lvFeeds"
@@ -781,11 +793,10 @@
                     Padding="0"
                     BorderBrush="#FFCCCCCC"
                     BorderThickness="1"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    SelectionMode="Single">
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                     <ListView.View>
-                        <GridView AllowsColumnReorder="False">
+                        <GridView x:Name="dgFeeds" AllowsColumnReorder="False">
                             <GridView.ColumnHeaderContainerStyle>
                                 <Style>
                                     <Setter Property="UIElement.Visibility" Value="Collapsed" />
@@ -813,7 +824,7 @@
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
                                                     <TextBlock
                                                         Grid.Row="0"
@@ -884,10 +895,23 @@
                             x:Name="tbESO"
                             Width="Auto"
                             Height="23"
-                            KeyDown="tbESO_KeyDown"
+                            Style="{DynamicResource MetroButtonTextBox}"
                             Text=""
                             TextChanged="tbESO_TextChanged"
                             TextWrapping="Wrap">
+                            <Controls:TextBoxHelper.ButtonTemplate>
+                                <ControlTemplate>
+                                    <Image
+                                        Width="15"
+                                        Cursor="Hand"
+                                        MouseLeftButtonDown="Image_MouseLeftButtonDown_11"
+                                        Source="Launcher/symbols.png"
+                                        Style="{StaticResource ImageStyle}"
+                                        ToolTip="Open Windows Character Map" />
+                                </ControlTemplate>
+                            </Controls:TextBoxHelper.ButtonTemplate>
+
+
                             <TextBox.ToolTip>
                                 <ToolTip Content="{Binding Cheater}" />
                             </TextBox.ToolTip>
@@ -920,6 +944,7 @@
                             Width="53"
                             Click="Button_Click"
                             Content="Get"
+                            IsDefault="{Binding IsFocused, ElementName=tbESO}"
                             IsEnabled="False" />
                     </Border>
                     <Border
@@ -1090,7 +1115,8 @@
                         x:Name="pCheatCheck"
                         Placement="Right"
                         PlacementTarget="{Binding ElementName=iCheatCheck}"
-                        PopupAnimation="Fade">
+                        PopupAnimation="Fade"
+                        StaysOpen="False">
                         <Border
                             Padding="10"
                             Background="White"
@@ -1275,7 +1301,8 @@
                             x:Name="pClan"
                             Placement="Right"
                             PlacementTarget="{Binding ElementName=iClan}"
-                            PopupAnimation="Fade">
+                            PopupAnimation="Fade"
+                            StaysOpen="False">
                             <Border
                                 Padding="10"
                                 Background="White"
@@ -1339,8 +1366,7 @@
                             BorderThickness="1"
                             IsSynchronizedWithCurrentItem="False"
                             MouseDoubleClick="listView1_MouseDoubleClick"
-                            MouseLeftButtonDown="listView1_MouseLeftButtonDown"
-                            MouseRightButtonDown="listView1_MouseRightButtonDown"
+                            PreviewMouseRightButtonUp="listView1_MouseRightButtonDown"
                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                             SelectedItem="{Binding SelectedItem}">
 
@@ -1481,7 +1507,8 @@
                         x:Name="pFriends"
                         Placement="MousePoint"
                         PlacementTarget="{Binding ElementName=listView1}"
-                        PopupAnimation="Fade">
+                        PopupAnimation="Fade"
+                        StaysOpen="False">
                         <Border
                             Padding="10"
                             Background="White"
@@ -1497,6 +1524,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBox
+                                    x:Name="tbFriend"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     MinWidth="100"
@@ -1653,7 +1681,7 @@
                             Width="55"
                             Height="55"
                             Cursor="Hand"
-                            MouseLeftButtonDown="Image_MouseLeftButtonDown_9"
+                            MouseLeftButtonUp="Image_MouseLeftButtonDown_9"
                             Source="Icons/Games.png"
                             Style="{StaticResource ImageStyle}"
                             ToolTip="Show Civ Stat" />
@@ -1661,7 +1689,8 @@
                             x:Name="pGames"
                             Placement="Right"
                             PlacementTarget="{Binding ElementName=iGames}"
-                            PopupAnimation="Fade">
+                            PopupAnimation="Fade"
+                            StaysOpen="False">
                             <Border
                                 Padding="10"
                                 Background="White"
@@ -2136,7 +2165,7 @@
                             Height="55"
                             VerticalAlignment="Top"
                             Cursor="Hand"
-                            MouseLeftButtonDown="Image_MouseLeftButtonDown_7"
+                            MouseLeftButtonUp="Image_MouseLeftButtonDown_7"
                             Source="Icons/Wins.png"
                             Style="{StaticResource ImageStyle}"
                             ToolTip="Open Win % Calc" />
@@ -2144,7 +2173,8 @@
                             x:Name="pWin"
                             Placement="Right"
                             PlacementTarget="{Binding ElementName=iWin}"
-                            PopupAnimation="Fade">
+                            PopupAnimation="Fade"
+                            StaysOpen="False">
                             <Border
                                 Padding="10"
                                 Background="White"
@@ -2322,7 +2352,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
                             Cursor="Hand"
-                            MouseLeftButtonDown="Image_MouseLeftButtonDown"
+                            MouseLeftButtonUp="Image_MouseLeftButtonDown"
                             Source="Icons/ELO.png"
                             Style="{StaticResource ImageStyle}"
                             ToolTip="Go to jpcommunity ELO / Open ELO Calc " />
@@ -2330,7 +2360,8 @@
                             x:Name="pELO"
                             Placement="Right"
                             PlacementTarget="{Binding ElementName=iELO}"
-                            PopupAnimation="Fade">
+                            PopupAnimation="Fade"
+                            StaysOpen="False">
                             <Border
                                 Padding="10"
                                 Background="White"
@@ -2596,7 +2627,8 @@
                         x:Name="pAbout"
                         Placement="Bottom"
                         PlacementTarget="{Binding ElementName=lAbout}"
-                        PopupAnimation="Fade">
+                        PopupAnimation="Fade"
+                        StaysOpen="False">
                         <Border
                             Padding="10"
                             Background="White"

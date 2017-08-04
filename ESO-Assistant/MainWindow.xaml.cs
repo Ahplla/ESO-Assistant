@@ -362,6 +362,11 @@ namespace ESO_Assistant
                 {
                     Notifications.Insert(0, new Notification { Owner = "ESO", Title = ESOHint, Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/eso.png" });
                     NotifyPropertyChanged("NotificationCount");
+                    foreach (GridViewColumn c in dgNotification.Columns)
+                    {
+                        c.Width = 0; //set it to no width
+                        c.Width = double.NaN; //resize it automatically
+                    }
                 }
                 ESOColor = value;
                 NotifyPropertyChanged("ESO");
@@ -369,9 +374,9 @@ namespace ESO_Assistant
         }
 
         public int NotificationCount
-            {
+        {
             get { return Notifications.Count; }
-            }
+        }
 
         private Brush ESOCColor { get; set; }
         public Brush ESOC
@@ -711,7 +716,7 @@ namespace ESO_Assistant
             }
         }
 
-      
+
 
 
 
@@ -1157,7 +1162,9 @@ namespace ESO_Assistant
 
         public int ELO1
         {
-            get { int e1 = 0;
+            get
+            {
+                int e1 = 0;
                 foreach (ELOItem e in Initial1)
                     e1 += e.ELOValue;
                 return e1;
@@ -1174,9 +1181,9 @@ namespace ESO_Assistant
                 return e2;
             }
         }
-        public int CalcELO(int W,int L,int N)
+        public int CalcELO(int W, int L, int N)
         {
-        return  Math.Max(Math.Min((int)Math.Round(16 + (L - W) * 2 / (double)N * 16 / 400), 31), 1);
+            return Math.Max(Math.Min((int)Math.Round(16 + (L - W) * 2 / (double)N * 16 / 400), 31), 1);
         }
 
 
@@ -1184,17 +1191,6 @@ namespace ESO_Assistant
 
         private Stopwatch stopWatch = new Stopwatch();
 
-        private ICommand deleteCommand;
-        public ICommand DeleteCommand
-        {
-            get { return deleteCommand ?? (deleteCommand = new RelayCommand(param => this.DeleteItem(), null)); }
-        }
-
-        private ICommand addCommand;
-        public ICommand AddCommand
-        {
-            get { return addCommand ?? (addCommand = new RelayCommand(param => this.AddItem(), null)); }
-        }
 
         UserStatus US = new UserStatus("");
         Stat SP = new Stat();
@@ -1362,7 +1358,7 @@ namespace ESO_Assistant
         };
 
         private string AppVer = "Release: 5.0";
-        public ObservableCollection<Feed> ESOCFeed= new ObservableCollection<Feed>();
+        public ObservableCollection<Feed> ESOCFeed = new ObservableCollection<Feed>();
         public ObservableCollection<Notification> Notifications = new ObservableCollection<Notification>();
 
         public MainWindow()
@@ -1704,7 +1700,7 @@ namespace ESO_Assistant
         private async void ESOTimer_Tick(object sender, EventArgs e)
         {
             ESOTimer.Stop();
-            ESOTimer.Interval = TimeSpan.FromMilliseconds(10000);
+            ESOTimer.Interval = TimeSpan.FromMilliseconds(20000);
             try
             {
 
@@ -2300,13 +2296,16 @@ if (S.StoredMaxPR < 0)
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            stopWatch.Reset();
             stopWatch.Start();
             tbESO.IsEnabled = false;
             bGet.IsEnabled = false;
             bDetail.IsEnabled = false;
+            (cbMode.Items[0] as ComboBoxItem).IsSelected = true;
+            (cbType.Items[2] as ComboBoxItem).IsSelected = true;
             cbMode.IsEnabled = false;
             cbType.IsEnabled = false;
+
             Cheater = CheckCheatGroup(tbESO.Text);
             if (Cheater == "")
             {
@@ -2561,30 +2560,9 @@ if (S.StoredMaxPR < 0)
             AddItem();
         }
 
-        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void mainWindow_Closed(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-            if (!pELO.IsOpen)
-
-                pELO.IsOpen = true;
-            else
-                pELO.IsOpen = false;
-
+            pELO.IsOpen = !pELO.IsOpen;
         }
 
         private void Image_MouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
@@ -2806,18 +2784,15 @@ if (S.StoredMaxPR < 0)
 
         private void Image_MouseLeftButtonDown_7(object sender, MouseButtonEventArgs e)
         {
-            if (!pWin.IsOpen)
-                pWin.IsOpen = true;
-            else
-                pWin.IsOpen = false;
+            pWin.IsOpen = !pWin.IsOpen;
         }
 
-    
+
 
         private void TwitchTADTimer_Tick(object sender, EventArgs e)
         {
             TwitchTADTimer.Stop();
-            TwitchTADTimer.Interval = TimeSpan.FromMilliseconds(10000);
+            TwitchTADTimer.Interval = TimeSpan.FromMilliseconds(30000);
             GetTwitchStreamsTAD();
 
         }
@@ -2825,7 +2800,7 @@ if (S.StoredMaxPR < 0)
         private void TwitchNillaTimer_Tick(object sender, EventArgs e)
         {
             TwitchNillaTimer.Stop();
-            TwitchNillaTimer.Interval = TimeSpan.FromMilliseconds(10000);
+            TwitchNillaTimer.Interval = TimeSpan.FromMilliseconds(30000);
             GetTwitchStreamsNilla();
 
         }
@@ -2833,7 +2808,7 @@ if (S.StoredMaxPR < 0)
         private void TwitchAOEOTimer_Tick(object sender, EventArgs e)
         {
             TwitchAOEOTimer.Stop();
-            TwitchAOEOTimer.Interval = TimeSpan.FromMilliseconds(10000);
+            TwitchAOEOTimer.Interval = TimeSpan.FromMilliseconds(30000);
             GetTwitchStreamsAOEO();
 
         }
@@ -2841,7 +2816,7 @@ if (S.StoredMaxPR < 0)
         private void TwitchAOEIIHDTimer_Tick(object sender, EventArgs e)
         {
             TwitchAOEIIHDTimer.Stop();
-            TwitchAOEIIHDTimer.Interval = TimeSpan.FromMilliseconds(10000);
+            TwitchAOEIIHDTimer.Interval = TimeSpan.FromMilliseconds(30000);
             GetTwitchStreamsAOEIIHD();
 
         }
@@ -2849,7 +2824,7 @@ if (S.StoredMaxPR < 0)
         private void TwitchAOEIIConqTimer_Tick(object sender, EventArgs e)
         {
             TwitchAOEIIConqTimer.Stop();
-            TwitchAOEIIConqTimer.Interval = TimeSpan.FromMilliseconds(10000);
+            TwitchAOEIIConqTimer.Interval = TimeSpan.FromMilliseconds(30000);
             GetTwitchStreamsAOEIIConq();
 
         }
@@ -2865,12 +2840,12 @@ if (S.StoredMaxPR < 0)
 
         async void GetFeeds()
         {
-            
+
             string Data = await HttpGetAsync("http://eso-community.net/feed.php");
             try
             {
-                 Feeds F = new Feeds();
-        F.Get(Data);
+                Feeds F = new Feeds();
+                F.Get(Data);
                 if (ESOCFeed.Count != 0)
                 {
                     var excludedIDs = new HashSet<string>(ESOCFeed.Select(p => p.Tip));
@@ -2880,12 +2855,22 @@ if (S.StoredMaxPR < 0)
                         Notifications.Insert(0, new Notification { Owner = "ESOC Feeds", Title = f.Tip, Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/rss.png" });
                         NotifyPropertyChanged("NotificationCount");
                     }
+                    foreach (GridViewColumn c in dgNotification.Columns)
+                    {
+                        c.Width = 0; //set it to no width
+                        c.Width = double.NaN; //resize it automatically
+                    }
 
                 }
                 ESOCFeed.Clear();
                 for (int i = 0; i < F.ESOCFeed.Count; i++)
                 {
-                    ESOCFeed.Add( F.ESOCFeed[i]);
+                    ESOCFeed.Add(F.ESOCFeed[i]);
+                }
+                foreach (GridViewColumn c in dgFeeds.Columns)
+                {
+                    c.Width = 0; //set it to no width
+                    c.Width = double.NaN; //resize it automatically
                 }
             }
             catch { }
@@ -2910,11 +2895,16 @@ if (S.StoredMaxPR < 0)
                 if (GamesStream[0].Streams.Count != 0)
                 {
                     var excludedIDs = new HashSet<string>(GamesStream[0].Streams.Select(p => p.Name));
-                    var result =S.Where(p => !excludedIDs.Contains(p.Name));
+                    var result = S.Where(p => !excludedIDs.Contains(p.Name));
                     foreach (TreeItem f in result)
                     {
                         Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires III: The Asian Dynasties", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
                         NotifyPropertyChanged("NotificationCount");
+                    }
+                    foreach (GridViewColumn c in dgNotification.Columns)
+                    {
+                        c.Width = 0; //set it to no width
+                        c.Width = double.NaN; //resize it automatically
                     }
 
                 }
@@ -2947,6 +2937,11 @@ if (S.StoredMaxPR < 0)
                         Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires III", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
                         NotifyPropertyChanged("NotificationCount");
                     }
+                    foreach (GridViewColumn c in dgNotification.Columns)
+                    {
+                        c.Width = 0; //set it to no width
+                        c.Width = double.NaN; //resize it automatically
+                    }
 
                 }
 
@@ -2978,6 +2973,11 @@ if (S.StoredMaxPR < 0)
                     {
                         Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires Online", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
                         NotifyPropertyChanged("NotificationCount");
+                    }
+                    foreach (GridViewColumn c in dgNotification.Columns)
+                    {
+                        c.Width = 0; //set it to no width
+                        c.Width = double.NaN; //resize it automatically
                     }
 
                 }
@@ -3012,6 +3012,11 @@ if (S.StoredMaxPR < 0)
                         Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires II: HD Edition", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
                         NotifyPropertyChanged("NotificationCount");
                     }
+                    foreach (GridViewColumn c in dgNotification.Columns)
+                    {
+                        c.Width = 0; //set it to no width
+                        c.Width = double.NaN; //resize it automatically
+                    }
 
                 }
 
@@ -3043,6 +3048,11 @@ if (S.StoredMaxPR < 0)
                     {
                         Notifications.Insert(0, new Notification { Owner = "Twitch Streams - Age of Empires II: The Conquerors", Title = f.Name + " is online!", Date = DateTime.Now.ToString(), Icon = "pack://application:,,,/Launcher/twitch.png" });
                         NotifyPropertyChanged("NotificationCount");
+                    }
+                    foreach (GridViewColumn c in dgNotification.Columns)
+                    {
+                        c.Width = 0; //set it to no width
+                        c.Width = double.NaN; //resize it automatically
                     }
 
                 }
@@ -3311,14 +3321,6 @@ if (S.StoredMaxPR < 0)
 
         }
 
-        private void tbESO_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (tbESO.Text != "" && e.Key == System.Windows.Input.Key.Enter)
-            {
-                bGet.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
-            }
-        }
-
         private void MetroWindow_ContentRendered(object sender, EventArgs e)
         {
             AType = WPF.Common.VisibilityAnimation.AnimationType.Fade;
@@ -3348,7 +3350,7 @@ if (S.StoredMaxPR < 0)
         async void GetClanInfo()
         {
 
-            string Data = await HttpGetAsync("http://www.agecommunity.com/query/query.aspx?name=" + WebUtility.UrlEncode(US.Clan) + "&md=clan");
+            string Data = await HttpGetAsync("http://www.agecommunity.com/query/query.aspx?name=" + WebUtility.UrlEncode(US.ClanA) + "&md=clan");
             ClanInfo CI = new ClanInfo();
             CI.GetInfo(Data);
             ClanName = CI.Name;
@@ -3515,10 +3517,7 @@ if (S.StoredMaxPR < 0)
 
         private void lAbout_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (pAbout.IsOpen)
-                pAbout.IsOpen = false;
-            else
-                pAbout.IsOpen = true;
+            pAbout.IsOpen = !pAbout.IsOpen;
         }
 
         private void listView1_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -3527,18 +3526,13 @@ if (S.StoredMaxPR < 0)
             pFriends.IsOpen = true;
         }
 
-        private void listView1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (pFriends.IsOpen)
-                pFriends.IsOpen = false;
-            else
-                pFriends.IsOpen = true;
-        }
 
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((sender as TextBox).Text != "" && e.Key == System.Windows.Input.Key.Enter)
+
+            if (tbFriend.Text != "" && e.Key == System.Windows.Input.Key.Enter)
             {
+                bAdd.Focus();
                 bAdd.RaiseEvent(new RoutedEventArgs(System.Windows.Controls.Primitives.ButtonBase.ClickEvent));
             }
         }
@@ -3551,7 +3545,7 @@ if (S.StoredMaxPR < 0)
             {
                 if (CalcELO(ELO1, ELO2, Initial1.Count * 2) != 0)
                 {
-                    e1.ELOChangeUp= (e1.ELOValue + CalcELO(ELO1, ELO2, Initial1.Count * 2)).ToString() + " (+" + CalcELO(ELO1, ELO2, Initial1.Count * 2).ToString() + ")";
+                    e1.ELOChangeUp = (e1.ELOValue + CalcELO(ELO1, ELO2, Initial1.Count * 2)).ToString() + " (+" + CalcELO(ELO1, ELO2, Initial1.Count * 2).ToString() + ")";
                     e1.ELOChangeDown = (e1.ELOValue - CalcELO(ELO2, ELO1, Initial1.Count * 2)).ToString() + " (-" + CalcELO(ELO2, ELO1, Initial1.Count * 2).ToString() + ")";
 
                 }
@@ -3659,10 +3653,10 @@ if (S.StoredMaxPR < 0)
             {
                 object P = AS.GetValue("setuppath");
                 if (P != null)
-                    using (StreamWriter w = new StreamWriter(Path.Combine(P.ToString(), "Startup", "user.cfg"),true))
+                    using (StreamWriter w = new StreamWriter(Path.Combine(P.ToString(), "Startup", "user.cfg"), true))
                     {
                         w.WriteLine("showMilliseconds");
-                    }                    
+                    }
             }
         }
 
@@ -3745,7 +3739,7 @@ if (S.StoredMaxPR < 0)
                 if (P != null)
                     using (StreamWriter w = new StreamWriter(Path.Combine(P.ToString(), "Startup", "user.con"), true))
                     {
-                        w.WriteLine("map(\"mousez\", \"building\", \"uiWheelRotatePlacedUnit\")");                    
+                        w.WriteLine("map(\"mousez\", \"building\", \"uiWheelRotatePlacedUnit\")");
                     }
             }
         }
@@ -3780,7 +3774,7 @@ if (S.StoredMaxPR < 0)
                         S.Add("maxZoom=" + udMax.Value.Value.ToString());
                         File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
                     }
-            
+
             }
         }
 
@@ -3813,8 +3807,8 @@ if (S.StoredMaxPR < 0)
                     {
                         List<string> S = File.ReadAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg")).ToList();
                         int z3 = S.FindIndex(x => x.StartsWith("minZoom="));
-                        if (z3>=0)
-                        S.RemoveAt(z3);
+                        if (z3 >= 0)
+                            S.RemoveAt(z3);
                         S.Add("minZoom=" + udMin.Value.Value.ToString());
                         File.WriteAllLines(Path.Combine(P.ToString(), "Startup", "user.cfg"), S.ToArray());
                     }
@@ -3851,22 +3845,22 @@ if (S.StoredMaxPR < 0)
 
         private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Paths.OpenTAD("age3t.exe");
+            Paths.OpenTAD("age3.exe");
         }
 
         private void Image_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-            Paths.OpenNilla("age3.exe");
+            Paths.OpenNilla("age3y.exe");
         }
 
         private void Image_MouseDown_2(object sender, MouseButtonEventArgs e)
         {
-            Paths.OpenTAD("age3y.exe");
+            Paths.OpenTAD("age3p.exe");
         }
 
         private void Image_MouseDown_3(object sender, MouseButtonEventArgs e)
         {
-            Paths.OpenTAD("age3p.exe");
+            Paths.OpenTAD("age3t.exe");
         }
 
 
@@ -3889,23 +3883,38 @@ if (S.StoredMaxPR < 0)
         private void miFeeds_Click(object sender, RoutedEventArgs e)
         {
             pFeeds.IsOpen = !pFeeds.IsOpen;
+            foreach (GridViewColumn c in dgFeeds.Columns)
+            {
+                c.Width = 0; //set it to no width
+                c.Width = double.NaN; //resize it automatically
+            }
         }
 
         private void lvFeeds_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
-                Process.Start((sender as Border).Tag.ToString());
+            Process.Start((sender as Border).Tag.ToString());
         }
 
         private void miNotifications_Click(object sender, RoutedEventArgs e)
         {
             pNotifications.IsOpen = !pNotifications.IsOpen;
+            foreach (GridViewColumn c in dgNotification.Columns)
+            {
+                c.Width = 0; //set it to no width
+                c.Width = double.NaN; //resize it automatically
+            }
         }
 
         private void pNotifications_Closed(object sender, EventArgs e)
         {
             Notifications.Clear();
             NotifyPropertyChanged("NotificationCount");
+        }
+
+        private void Image_MouseLeftButtonDown_11(object sender, MouseButtonEventArgs e)
+        {
+            Process.Start("charmap.exe");
         }
     }
 }

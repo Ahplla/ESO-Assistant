@@ -72,20 +72,24 @@ namespace ESO_Assistant.Classes
         }
         public void GetInfo(string Data)
         {
-            FTag = Pars("<abbr>", "</abbr>", Data);
-            FName = Pars("<name>", "</name>", Data);
-            FOwner = Pars("<owner>", "</owner>", Data);
-            FDateCreated = DateTime.Parse(Pars("<created>", "</created>", Data)).ToLocalTime().ToString();
-            string Buf = Pars("<users>", "</users>", Data);
-            List<string> S = new List<string>();
-            int i = 0;
-            while (Buf.Contains("<u>"))
+            try
             {
-                i++;
-                //   System.Diagnostics.Debug.WriteLine(Pars("<n>", "</n>", Buf));
-                FUsers.Add(new ClanMember { Name = Pars("<n>", "</n>", Buf), ID = i });
-                Buf = Buf.Remove(Buf.IndexOf("<u>"), Buf.IndexOf("</u>") - Buf.IndexOf("<u>") + 3);
+                FTag = Pars("<abbr>", "</abbr>", Data).Replace("_", "__"); ;
+                FName = Pars("<name>", "</name>", Data).Replace("_", "__"); ;
+                FOwner = Pars("<owner>", "</owner>", Data).Replace("_", "__"); ;
+                FDateCreated = DateTime.Parse(Pars("<created>", "</created>", Data)).ToLocalTime().ToString();
+                string Buf = Pars("<users>", "</users>", Data);
+                List<string> S = new List<string>();
+                int i = 0;
+                while (Buf.Contains("<u>"))
+                {
+                    i++;
+                    //   System.Diagnostics.Debug.WriteLine(Pars("<n>", "</n>", Buf));
+                    FUsers.Add(new ClanMember { Name = Pars("<n>", "</n>", Buf), ID = i });
+                    Buf = Buf.Remove(Buf.IndexOf("<u>"), Buf.IndexOf("</u>") - Buf.IndexOf("<u>") + 3);
+                }
             }
+            catch { }
         }
     }
 }

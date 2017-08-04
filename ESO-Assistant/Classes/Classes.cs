@@ -25,6 +25,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Gappalytics.Core;
@@ -789,6 +790,11 @@ namespace ESO_Assistant.Classes
                     {
                         ((MainWindow)System.Windows.Application.Current.MainWindow).Notifications.Insert(0, new Notification { Owner = "Friends", Title = Name + " is online!", Date = DateTime.Now.ToString(),Icon= "pack://application:,,,/Launcher/friends.png" });
                         ((MainWindow)System.Windows.Application.Current.MainWindow).NotifyPropertyChanged("NotificationCount");
+                        foreach (GridViewColumn c in ((MainWindow)System.Windows.Application.Current.MainWindow).dgNotification.Columns)
+                        {
+                            c.Width = 0; //set it to no width
+                            c.Width = double.NaN; //resize it automatically
+                        }
                     }
                     status = value;
                     NotifyPropertyChanged("Status");
