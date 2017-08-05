@@ -5,37 +5,43 @@
 All the information is gathered in one place.
 The program will be useful for both beginners and top players!*** 
 
-Functions:
+REQUIREMENTS
 =====================
-* Player statistics in a convinient form.
+* Windows XP and below is not supported!
+* .NET Framework 4.5.2
+* WinPcap
+
+FUNCTIONS:
+=====================
+Stats
+-----------------------------------
 * Avatars.
-* Detailed game statistics with filters (Rated with online/ offline mode).
-* Player's online status on ESO without opening the game.
-* Player Comparison.
-* Win % calculator.
-* ELO and VPN checker.
-* Economic calculator.
+* PR & ELO.
+* Games & Wins.
+* Online Status.
+* Detailed game statistics with filters.
+* Last Login.
+* Clan Info.
+* Civ Stats.
+
+***And many more features!***
+Tools
+-----------------------------------
+* Win % Calculator.
+* ELO Calculator.
+* Economic Calculator.
+* IP and VPN Checker.
 * Status of ESO servers.
 * ESOC user indicator (online and location).
-* Civ stats.
-* Useful resources.
-* Friends.
+* Friends Online.
 * Backups.
-* Blacklist.
-* News tickers.
-* TOP 10 ELO/PR ladders.
-* ESO population graph.
-* ESO dynamic population.
-* Clan info.
-* Twitchers.
-* Chat Room.
+* Integated Blacklist.
+* Twitch Streams.
 * Gym XP.
-* Error 101 fix.
-* System requirements for ESO.
-* Scenarios installer.
-* Cheat detector.
-* Check for point traders/ noobashers.
-* Feeds of eso-community.
-* Overlay.
-* Widgets.
+* Error 101 Fix.
+* Cheat Detector.
+* Check for Point Traders/ Noob Bashers.
+* ESOC Feeds.
+* User.cfg and User.con Configurator.
+* Launcher for nilla, TAD, ESOC and Treaty patches.
 
