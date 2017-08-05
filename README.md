@@ -1,4 +1,5 @@
 # ESO-Assistant
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/XaKOps/ESO-Assistant/master/LICENSE)
 <p align="center"><img src="https://image.ibb.co/eQOeXv/ICON.png"></p>
 
 >***This application is more convenient than searching for information on different sites.
