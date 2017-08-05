@@ -23,6 +23,7 @@ Stats
 * Last Login.
 * Clan Info.
 * Civ Stats.
+
 Tools
 -----------------------------------
 * Win % Calculator.
@@ -43,3 +44,6 @@ Tools
 * User.cfg and User.con Configurator.
 * Launcher for nilla, TAD, ESOC and Treaty patches.
 
+<details> 
+<img src="https://image.ibb.co/eQOeXv/ICON.png">
+</details>
