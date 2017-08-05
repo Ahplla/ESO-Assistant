@@ -19,12 +19,10 @@ Stats
 * PR & ELO.
 * Games & Wins.
 * Online Status.
-* Detailed game statistics with filters.
+* Detailed Game Stats with Filters.
 * Last Login.
 * Clan Info.
 * Civ Stats.
-
-***And many more features!***
 Tools
 -----------------------------------
 * Win % Calculator.
@@ -32,7 +30,7 @@ Tools
 * Economic Calculator.
 * IP and VPN Checker.
 * Status of ESO servers.
-* ESOC user indicator (online and location).
+* ESOC User Indicator (online and location).
 * Friends Online.
 * Backups.
 * Integated Blacklist.
