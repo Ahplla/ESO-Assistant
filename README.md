@@ -10,10 +10,12 @@
   <summary><b>SCREENSHOTS</b></summary>
 <img src="https://habrastorage.org/web/b03/463/b62/b03463b62a1e473393c8d644670607ed.PNG"/>
 <img src="https://habrastorage.org/web/914/dc6/9a0/914dc69a0f7942378f5094e2e08a81ba.PNG"/>
- <img src="https://habrastorage.org/web/f27/edb/32c/f27edb32c7ff4675928b3eb64335af0b.PNG"/>
+<img src="https://habrastorage.org/web/f27/edb/32c/f27edb32c7ff4675928b3eb64335af0b.PNG"/>
 <img src="https://habrastorage.org/web/ebd/cf0/cd7/ebdcf0cd723049cc9c06609821ba601b.PNG"/>
 <img src="https://habrastorage.org/web/952/bf9/0f8/952bf90f80ed4bc1a101c94537703091.PNG"/>
 </details>
+
+[DOWNLOAD](https://www.dropbox.com/s/z3gfvtx7ct16s4u/%5Bsetup%5DESO-Assistant.exe?dl=1)
 
 ABOUT
 =====================
