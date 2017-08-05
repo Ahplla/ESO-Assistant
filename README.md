@@ -1,15 +1,32 @@
 # ESO-Assistant
 <p align="center"><img src="https://image.ibb.co/eQOeXv/ICON.png"></p>
 
-***This application is more convenient than searching for information on different sites.
-All the information is gathered in one place.
-The program will be useful for both beginners and top players!*** 
+>***This application is more convenient than searching for information on different sites.
+>All the information is gathered in one place.
+>The program will be useful for both beginners and top players!*** 
+
+<details> 
+  <summary><b>SCREENSHOTS</b></summary>
+<img src="https://image.ibb.co/eQOeXv/ICON.png">
+</details>
+
+ABOUT
+=====================
+Author: <b>XaKO</b>
+
+Years: <b>2015-2017</b>
+
+License: <b>MIT</b>
+
+Version: <b>5.0</b>
 
 REQUIREMENTS
 =====================
-* Windows XP and below is not supported!
-* .NET Framework 4.5.2
-* WinPcap
+Windows XP and below is not supported!
+
+.NET Framework 4.5.2
+
+WinPcap
 
 FUNCTIONS:
 =====================
@@ -43,7 +60,3 @@ Tools
 * ESOC Feeds.
 * User.cfg and User.con Configurator.
 * Launcher for nilla, TAD, ESOC and Treaty patches.
-
-<details> 
-<img src="https://image.ibb.co/eQOeXv/ICON.png">
-</details>
