@@ -21,6 +21,8 @@ License: <b>MIT</b>
 
 Version: <b>5.0</b>
 
+[Economic Calculator Project](https://github.com/XaKOps/Economic-Calculator)
+
 REQUIREMENTS
 =====================
 Windows XP and below is not supported!
@@ -61,3 +63,4 @@ Tools
 * ESOC Feeds.
 * User.cfg and User.con Configurator.
 * Launcher for nilla, TAD, ESOC and Treaty patches.
+
