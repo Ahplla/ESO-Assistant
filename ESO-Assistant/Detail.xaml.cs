@@ -25,6 +25,9 @@ using MahApps.Metro.Controls;
 using System.ComponentModel;
 using System.Globalization;
 using CefSharp;
+using ESO_Assistant.Classes;
+
+
 
 namespace ESO_Assistant
 {
@@ -34,8 +37,15 @@ namespace ESO_Assistant
     public partial class Detail : MetroWindow
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public CefSharp.Wpf.ChromiumWebBrowser wbDetail
+                         = new CefSharp.Wpf.ChromiumWebBrowser()
+                         {
 
-        public void NotifyPropertyChanged(string propName)
+                             RequestHandler = new Request(),
+                             Address = "google.com"
+                         }
+                         ;
+    public void NotifyPropertyChanged(string propName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
@@ -44,9 +54,17 @@ namespace ESO_Assistant
         {
             DataContext = this;
             if (!Cef.IsInitialized)
-            Cef.Initialize(new CefSettings { Locale = CultureInfo.CurrentCulture.Name });
+                Cef.Initialize(new CefSettings { Locale = CultureInfo.CurrentCulture.Name });
+
+            wbDetail.Load("google.com");
+
+
             InitializeComponent();          
         }
+
+
+
+
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -57,5 +75,12 @@ namespace ESO_Assistant
         private void MetroWindow_Closed(object sender, System.EventArgs e)
         {
                  }
+
+
+
+        private void wbDetail_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+        {
+         
+        }
     }
 }

@@ -1359,7 +1359,7 @@
                         <ListView
                             x:Name="listView1"
                             Width="210"
-                            Height="265"
+                            Height="270"
                             Padding="0"
                             VerticalAlignment="Top"
                             BorderBrush="#FFCCCCCC"
@@ -2769,7 +2769,7 @@
                         <TreeView
                             x:Name="treeView1"
                             Width="210"
-                            Height="265"
+                            Height="270"
                             VerticalAlignment="Top"
                             BorderBrush="#FFCCCCCC"
                             BorderThickness="1"

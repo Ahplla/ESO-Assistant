@@ -113,6 +113,8 @@ namespace ESO_Assistant
         private int FRatioNBWins;
         private int FLastBattles;
 
+        private bool FERROR;
+
         private TGames FStoredGames;
         private TWinPercent FStoredWinPercent;
         private TELO FStoredELO;
@@ -124,6 +126,12 @@ namespace ESO_Assistant
         {
             get { return FStoredGames; }
         }
+
+        public bool ERROR
+        {
+            get { return FERROR; }
+        }
+
         public TWinPercent StoredWinPercent
         {
             get { return FStoredWinPercent; }
@@ -163,7 +171,7 @@ namespace ESO_Assistant
         {
             get { return FMaxStreak; }
         }
-    
+
         public TELO ELO
         {
             get { return FELO; }
@@ -176,12 +184,12 @@ namespace ESO_Assistant
         {
             get { return FMaxELO; }
         }
-    
+
         public double PR
         {
             get { return FPR; }
         }
-   
+
         public double MaxPR
         {
             get { return FMaxPR; }
@@ -242,7 +250,7 @@ namespace ESO_Assistant
             get { return FLastBattles; }
         }
 
-        private string Pars(string T_, string _T, string Text)
+        private static string Pars(string T_, string _T, string Text)
         {
             int a, b;
             string Result = "";
@@ -421,6 +429,7 @@ namespace ESO_Assistant
         {
             try
             {
+                FERROR = true;
                 string GameType = "";
                 switch (GameTypeIndex)
                 {
@@ -430,433 +439,439 @@ namespace ESO_Assistant
                     case 3: GameType = "Supremacy_nilla"; break;
                     case 4: GameType = "Deathmatch_nilla"; break;
                 }
-                FName = Pars("Player : ", "</span>", Data);
-                FLastUpdate = DateTime.Parse(Pars("Last updated time :", "</div>", Data)).ToLocalTime().ToString();
-                string BufFavCiv = Pars("-Overall</td>", "</tr>", Data);
-                if (BufFavCiv != "")
+                if (Data != "" || !Data.Contains(" not found</span></div>"))
                 {
-                    BufFavCiv = Pars("<td class=\"favciv\">", "</td>", BufFavCiv);
-                    FFavCivs.fcOverall.fc1 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    FFavCivs.fcOverall.p1 = Pars("\"/>", "<div class=\"", BufFavCiv);
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
-                    if (FFavCivs.fcOverall.p1 == "")
-                        FFavCivs.fcOverall.p1 = BufFavCiv;
-                    FFavCivs.fcOverall.fc2 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    FFavCivs.fcOverall.p2 = Pars("\"/>", "<div class=\"", BufFavCiv);
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                    FName = Pars("Player : ", "</span>", Data);
+                    FLastUpdate = DateTime.Parse(Pars("Last updated time :", "</div>", Data)).ToLocalTime().ToString();
+                    string BufFavCiv = Pars("-Overall</td>", "</tr>", Data);
+                    if (BufFavCiv != "")
+                    {
+                        BufFavCiv = Pars("<td class=\"favciv\">", "</td>", BufFavCiv);
+                        FFavCivs.fcOverall.fc1 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        FFavCivs.fcOverall.p1 = Pars("\"/>", "<div class=\"", BufFavCiv);
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        if (FFavCivs.fcOverall.p1 == "")
+                            FFavCivs.fcOverall.p1 = BufFavCiv;
+                        FFavCivs.fcOverall.fc2 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        FFavCivs.fcOverall.p2 = Pars("\"/>", "<div class=\"", BufFavCiv);
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
 
-                    if (FFavCivs.fcOverall.p2 == "")
-                        FFavCivs.fcOverall.p2 = BufFavCiv;
-                    FFavCivs.fcOverall.fc3 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
-                    FFavCivs.fcOverall.p3 = BufFavCiv;
-                }
-                BufFavCiv = Pars("-1v1</td>", "</tr>", Data);
-                if (BufFavCiv != "")
-                {
-                    BufFavCiv = Pars("<td class=\"favciv\">", "</td>", BufFavCiv);
-                    FFavCivs.fc1v1.fc1 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    FFavCivs.fc1v1.p1 = Pars("\"/>", "<div class=\"", BufFavCiv);
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        if (FFavCivs.fcOverall.p2 == "")
+                            FFavCivs.fcOverall.p2 = BufFavCiv;
+                        FFavCivs.fcOverall.fc3 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        FFavCivs.fcOverall.p3 = BufFavCiv;
+                    }
+                    BufFavCiv = Pars("-1v1</td>", "</tr>", Data);
+                    if (BufFavCiv != "")
+                    {
+                        BufFavCiv = Pars("<td class=\"favciv\">", "</td>", BufFavCiv);
+                        FFavCivs.fc1v1.fc1 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        FFavCivs.fc1v1.p1 = Pars("\"/>", "<div class=\"", BufFavCiv);
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
 
-                    if (FFavCivs.fc1v1.p1 == "")
-                        FFavCivs.fc1v1.p1 = BufFavCiv;
-                    FFavCivs.fc1v1.fc2 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    FFavCivs.fc1v1.p2 = Pars("\"/>", "<div class=\"", BufFavCiv);
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        if (FFavCivs.fc1v1.p1 == "")
+                            FFavCivs.fc1v1.p1 = BufFavCiv;
+                        FFavCivs.fc1v1.fc2 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        FFavCivs.fc1v1.p2 = Pars("\"/>", "<div class=\"", BufFavCiv);
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
 
-                    if (FFavCivs.fc1v1.p2 == "")
-                        FFavCivs.fc1v1.p2 = BufFavCiv;
-                    FFavCivs.fc1v1.fc3 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
-                    FFavCivs.fc1v1.p3 = BufFavCiv;
-                }
-                BufFavCiv = Pars("-Team</td>", "</tr>", Data);
-                if (BufFavCiv != "")
-                {
-                    BufFavCiv = Pars("<td class=\"favciv\">", "</td>", BufFavCiv);
-                    FFavCivs.fcTeam.fc1 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    FFavCivs.fcTeam.p1 = Pars("\"/>", "<div class=\"", BufFavCiv);
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
-                    if (FFavCivs.fcTeam.p1 == "")
-                        FFavCivs.fcTeam.p1 = BufFavCiv;
-                    FFavCivs.fcTeam.fc2 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    FFavCivs.fcTeam.p2 = Pars("\"/>", "<div class=\"", BufFavCiv);
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        if (FFavCivs.fc1v1.p2 == "")
+                            FFavCivs.fc1v1.p2 = BufFavCiv;
+                        FFavCivs.fc1v1.fc3 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        FFavCivs.fc1v1.p3 = BufFavCiv;
+                    }
+                    BufFavCiv = Pars("-Team</td>", "</tr>", Data);
+                    if (BufFavCiv != "")
+                    {
+                        BufFavCiv = Pars("<td class=\"favciv\">", "</td>", BufFavCiv);
+                        FFavCivs.fcTeam.fc1 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        FFavCivs.fcTeam.p1 = Pars("\"/>", "<div class=\"", BufFavCiv);
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        if (FFavCivs.fcTeam.p1 == "")
+                            FFavCivs.fcTeam.p1 = BufFavCiv;
+                        FFavCivs.fcTeam.fc2 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        FFavCivs.fcTeam.p2 = Pars("\"/>", "<div class=\"", BufFavCiv);
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
 
-                    if (FFavCivs.fcTeam.p2 == "")
-                        FFavCivs.fcTeam.p2 = BufFavCiv;
-                    FFavCivs.fcTeam.fc3 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
-                    BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
-                    FFavCivs.fcTeam.p3 = BufFavCiv;
-                }
+                        if (FFavCivs.fcTeam.p2 == "")
+                            FFavCivs.fcTeam.p2 = BufFavCiv;
+                        FFavCivs.fcTeam.fc3 = SetCiv(NumPars("<div class=\"", "\"/>", BufFavCiv));
+                        BufFavCiv = BufFavCiv.Remove(0, BufFavCiv.IndexOf("\"/>") + 3);
+                        FFavCivs.fcTeam.p3 = BufFavCiv;
+                    }
 
-                string BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-Overall</td>", "<td class=\"favciv\">", Data);
-                if (BufELO != "")
-                {
-                    FELO.eOverall = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FStreak.sOverall = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FMaxStreak.sOverall = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FMaxELO.eOverall = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                }
+                    string BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-Overall</td>", "<td class=\"favciv\">", Data);
+                    if (BufELO != "")
+                    {
+                        FELO.eOverall = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FStreak.sOverall = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FMaxStreak.sOverall = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FMaxELO.eOverall = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                    }
 
-                BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-1v1</td>", "<td class=\"favciv\">", Data);
-                if (BufELO != "")
-                {
-                    FELO.e1v1 = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FStreak.s1v1 = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FWins.w1v1 = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FGames.g1v1 = int.Parse(NumPars("<td>", "</td>", BufELO)) + FWins.w1v1;
-                    if (FGames.g1v1 != 0)
-                        FWinPercent.wp1v1 = Math.Round((double)FWins.w1v1 / (double)FGames.g1v1 * 100, 2);
-                    else
-                        FWinPercent.wp1v1 = 0;
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FMaxStreak.s1v1 = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FMaxELO.e1v1 = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                }
-                BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-Team</td>", "<td class=\"favciv\">", Data);
-                if (BufELO != "")
-                {
-                    FELO.eTeam = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FStreak.sTeam = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FWins.wTeam = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FGames.gTeam = int.Parse(NumPars("<td>", "</td>", BufELO)) + FWins.wTeam;
-                    if (FGames.gTeam != 0)
-                        FWinPercent.wpTeam = Math.Round((double)FWins.wTeam / (double)FGames.gTeam * 100, 2);
-                    else
-                        FWinPercent.wpTeam = 0;
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FMaxStreak.sTeam = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FMaxELO.eTeam = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                }
-                BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-PR</td>", "<td class=\"favciv\">", Data);
-                if (BufELO != "")
-                {
-                    FPR = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                    FRank = FormatPR(Math.Ceiling(FPR).ToString());
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FWins.wOverall = int.Parse(NumPars("<td>", "</td>", BufELO));
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FGames.gOverall = int.Parse(NumPars("<td>", "</td>", BufELO)) + FWins.wOverall;
-                    if (FGames.gOverall != 0)
-                        FWinPercent.wpOverall = Math.Round((double)FWins.wOverall / (double)FGames.gOverall * 100, 2);
-                    else
-                        FWinPercent.wpOverall = 0;
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
-                    FMaxPR = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
-                }
-
-
-
-
-
-
-
+                    BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-1v1</td>", "<td class=\"favciv\">", Data);
+                    if (BufELO != "")
+                    {
+                        FELO.e1v1 = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FStreak.s1v1 = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FWins.w1v1 = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FGames.g1v1 = int.Parse(NumPars("<td>", "</td>", BufELO)) + FWins.w1v1;
+                        if (FGames.g1v1 != 0)
+                            FWinPercent.wp1v1 = Math.Round((double)FWins.w1v1 / (double)FGames.g1v1 * 100, 2);
+                        else
+                            FWinPercent.wp1v1 = 0;
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FMaxStreak.s1v1 = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FMaxELO.e1v1 = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                    }
+                    BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-Team</td>", "<td class=\"favciv\">", Data);
+                    if (BufELO != "")
+                    {
+                        FELO.eTeam = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FStreak.sTeam = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FWins.wTeam = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FGames.gTeam = int.Parse(NumPars("<td>", "</td>", BufELO)) + FWins.wTeam;
+                        if (FGames.gTeam != 0)
+                            FWinPercent.wpTeam = Math.Round((double)FWins.wTeam / (double)FGames.gTeam * 100, 2);
+                        else
+                            FWinPercent.wpTeam = 0;
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FMaxStreak.sTeam = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FMaxELO.eTeam = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                    }
+                    BufELO = Pars("<td>" + GameType.Replace("_nilla", "") + "-PR</td>", "<td class=\"favciv\">", Data);
+                    if (BufELO != "")
+                    {
+                        FPR = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                        FRank = FormatPR(Math.Ceiling(FPR).ToString());
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FWins.wOverall = int.Parse(NumPars("<td>", "</td>", BufELO));
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FGames.gOverall = int.Parse(NumPars("<td>", "</td>", BufELO)) + FWins.wOverall;
+                        if (FGames.gOverall != 0)
+                            FWinPercent.wpOverall = Math.Round((double)FWins.wOverall / (double)FGames.gOverall * 100, 2);
+                        else
+                            FWinPercent.wpOverall = 0;
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        BufELO = BufELO.Remove(0, BufELO.IndexOf("</td>") + 5);
+                        FMaxPR = Double.Parse(NumPars("<td>", "</td>", BufELO), new CultureInfo("en-us"));
+                    }
 
 
-                string BufTable = Pars("<table style=\"margin-top:5px;clear:both\" class=\"alter-table\">", "</table>", Data);
 
-                BufTable = BufTable.Replace("<a href=\"/rating2/player?n", "<a href=\"http://aoe3.jpcommunity.com/rating2/player?n");
-                BufTable = BufTable.Replace(" class=\"pr\"", "");
-                BufTable = BufTable.Replace(" class=\"detail\"", "");
-                BufTable = BufTable.Replace(" class=\"elo\"", "");
-                BufTable = BufTable.Replace(" style=\"color:#666666\"", "");
-                FLastGame = Pars("<td class=\"ts\">", "</td>", BufTable);
-                DateTime Cur = DateTime.Now;
-                FRankInfo = "";
-                if (FPR < 25)
+
+
+
+
+
+
+                    string BufTable = Pars("<table style=\"margin-top:5px;clear:both\" class=\"alter-table\">", "</table>", Data);
+
+                    BufTable = BufTable.Replace("<a href=\"/rating2/player?n", "<a href=\"http://aoe3.jpcommunity.com/rating2/player?n");
+                    BufTable = BufTable.Replace(" class=\"pr\"", "");
+                    BufTable = BufTable.Replace(" class=\"detail\"", "");
+                    BufTable = BufTable.Replace(" class=\"elo\"", "");
+                    BufTable = BufTable.Replace(" style=\"color:#666666\"", "");
+                    FLastGame = Pars("<td class=\"ts\">", "</td>", BufTable);
+                    DateTime Cur = DateTime.Now;
                     FRankInfo = "";
-                else
-              if (FLastGame != "")
-                    if (FPR >= 25 && FPR < 36)
-                    {
-                        double Sec = (Cur - DateTime.Parse(FLastGame).ToLocalTime()).TotalSeconds;
-
-                        DateTime Change = DateTime.Parse(FLastGame).ToLocalTime().AddSeconds(2 * 604800);
-                        if (Sec > 2 * 604800)
-                            FRankInfo = "PR has been decreasing for: " + FormatDatesBetween(Cur, Change);
-                        else
-                            FRankInfo = "Time left until PR starts to decrease: " + FormatDatesBetween(Change, Cur);
-                    }
+                    if (FPR < 25)
+                        FRankInfo = "";
                     else
-                    {
-                        double Sec = (Cur - DateTime.Parse(FLastGame)).TotalSeconds;
-                        DateTime Change = DateTime.Parse(FLastGame).AddSeconds(604800);
-                        if (Sec > 604800)
-                            FRankInfo = "PR has been decreasing for: " + FormatDatesBetween(Cur, Change);
-                        else
-                            FRankInfo = "Time left until PR starts to decrease: " + FormatDatesBetween(Change, Cur);
-                    }
-
-                if (FLastGame == "")
-                    FLastGame = "not played!";
-                else
-                    FLastGame = FormatDatesBetween(Cur, DateTime.Parse(FLastGame).ToLocalTime());
-
-
-
-
-                /***Добавление новых записей***/
-
-
-                if (File.Exists(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".html")))
-                {
-
-                    /***Загружаем сохраненные данные***/
-                    string BufKept;
-                    using (StreamReader sr = new StreamReader(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".html"), Encoding.UTF8))
-                    {    // Read the stream to a string, and write the string to the console.
-                        BufKept = Pars("<table>", "</table>", sr.ReadToEnd());
-                    }
-                    string BufCurrent = BufTable;
-
-
-                    /***Копируем шапку текущей таблицы и удаляем шапки в сохраненной и текущей таблицы * **/
-
-                    string BufHead = "<tr>" + Pars("<tr>", "</tr>", BufCurrent) + "</tr>";
-                    BufKept = BufKept.Remove(BufKept.IndexOf("<tr>"), BufKept.IndexOf("</tr>") - BufKept.IndexOf("<tr>") + 4);
-                    BufCurrent = BufCurrent.Remove(BufCurrent.IndexOf("<tr>"), BufCurrent.IndexOf("</tr>") - BufCurrent.IndexOf("<tr>") + 4);
-
-                    if (BufKept != "")
-                    {
-                        List<string> Kept = new List<string>();
-                        List<string> Current = new List<string>();
-                        while (BufKept.Contains("<tr>") || BufCurrent.Contains("<tr>"))
+                  if (FLastGame != "")
+                        if (FPR >= 25 && FPR < 36)
                         {
-                            if (BufKept.Contains("<tr>"))
-                            {
-                                Kept.Add("<tr>" + Pars("<tr>", "</tr>", BufKept) + "</tr>");
-                                BufKept = BufKept.Remove(BufKept.IndexOf("<tr>"), BufKept.IndexOf("</tr>") - BufKept.IndexOf("<tr>") + 4);
+                            double Sec = (Cur - DateTime.Parse(FLastGame).ToLocalTime()).TotalSeconds;
 
-                            }
-                            if (BufCurrent.Contains("<tr>"))
-                            {
-                                Current.Add("<tr>" + Pars("<tr>", "</tr>", BufCurrent) + "</tr>");
-                                BufCurrent = BufCurrent.Remove(BufCurrent.IndexOf("<tr>"), BufCurrent.IndexOf("</tr>") - BufCurrent.IndexOf("<tr>") + 4);
-
-                            }
+                            DateTime Change = DateTime.Parse(FLastGame).ToLocalTime().AddSeconds(2 * 604800);
+                            if (Sec > 2 * 604800)
+                                FRankInfo = "PR has been decreasing for: " + FormatDatesBetween(Cur, Change);
+                            else
+                                FRankInfo = "Time left until PR starts to decrease: " + FormatDatesBetween(Change, Cur);
+                        }
+                        else
+                        {
+                            double Sec = (Cur - DateTime.Parse(FLastGame)).TotalSeconds;
+                            DateTime Change = DateTime.Parse(FLastGame).AddSeconds(604800);
+                            if (Sec > 604800)
+                                FRankInfo = "PR has been decreasing for: " + FormatDatesBetween(Cur, Change);
+                            else
+                                FRankInfo = "Time left until PR starts to decrease: " + FormatDatesBetween(Change, Cur);
                         }
 
+                    if (FLastGame == "")
+                        FLastGame = "not played!";
+                    else
+                        FLastGame = FormatDatesBetween(Cur, DateTime.Parse(FLastGame).ToLocalTime());
 
-                        int P = 0;
-                        List<string> New = new List<string>();
 
-                        for (int i = 0; i < Kept.Count; i++)
+
+
+                    /***Добавление новых записей***/
+
+
+                    if (File.Exists(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".html")))
+                    {
+
+                        /***Загружаем сохраненные данные***/
+                        string BufKept;
+                        using (StreamReader sr = new StreamReader(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".html"), Encoding.UTF8))
+                        {    // Read the stream to a string, and write the string to the console.
+                            BufKept = Pars("<table>", "</table>", sr.ReadToEnd());
+                        }
+                        string BufCurrent = BufTable;
+
+
+                        /***Копируем шапку текущей таблицы и удаляем шапки в сохраненной и текущей таблицы * **/
+
+                        string BufHead = "<tr>" + Pars("<tr>", "</tr>", BufCurrent) + "</tr>";
+                        BufKept = BufKept.Remove(BufKept.IndexOf("<tr>"), BufKept.IndexOf("</tr>") - BufKept.IndexOf("<tr>") + 4);
+                        BufCurrent = BufCurrent.Remove(BufCurrent.IndexOf("<tr>"), BufCurrent.IndexOf("</tr>") - BufCurrent.IndexOf("<tr>") + 4);
+
+                        if (BufKept != "")
                         {
-                            // Сравниваем каждую строку Kept с другими из Current, пока не пройдем весь Current
-                            if (P <= Current.Count - 1)
+                            List<string> Kept = new List<string>();
+                            List<string> Current = new List<string>();
+                            while (BufKept.Contains("<tr>") || BufCurrent.Contains("<tr>"))
                             {
-                                bool exitLoop = false;
-                                for (int j = P; j < Current.Count; j++)
+                                if (BufKept.Contains("<tr>"))
                                 {
-                                    switch (CheckItemForUpdate(Current[j], Kept[i]))
-                                    {
-                                        // Добавляем Current, выходим
-                                        case 0:
+                                    Kept.Add("<tr>" + Pars("<tr>", "</tr>", BufKept) + "</tr>");
+                                    BufKept = BufKept.Remove(BufKept.IndexOf("<tr>"), BufKept.IndexOf("</tr>") - BufKept.IndexOf("<tr>") + 4);
 
+                                }
+                                if (BufCurrent.Contains("<tr>"))
+                                {
+                                    Current.Add("<tr>" + Pars("<tr>", "</tr>", BufCurrent) + "</tr>");
+                                    BufCurrent = BufCurrent.Remove(BufCurrent.IndexOf("<tr>"), BufCurrent.IndexOf("</tr>") - BufCurrent.IndexOf("<tr>") + 4);
 
-                                            New.Add(Current[j]);
-                                            P = j + 1;
-                                            exitLoop = true;
-                                            break;
-
-                                        // Добавляем Current, продолжаем
-                                        case 1:
-
-                                            New.Add(Current[j]);
-                                            P = j + 1;
-                                            break;
-
-                                        // Добавляем Kept, выходим
-                                        case 2:
-
-                                            New.Add(Kept[i]);
-                                            P = j + 1;
-                                            break;
-
-                                    }
-                                    if (exitLoop)
-                                        break;
                                 }
                             }
-                            // Если текущий список кончился, то добавляем все, что осталось в Kept
-                            else
-                                New.Add(Kept[i]);
-                        }
 
-                        BufTable = BufHead + string.Join(Environment.NewLine, New.ToArray()); ;
+
+                            int P = 0;
+                            List<string> New = new List<string>();
+
+                            for (int i = 0; i < Kept.Count; i++)
+                            {
+                                // Сравниваем каждую строку Kept с другими из Current, пока не пройдем весь Current
+                                if (P <= Current.Count - 1)
+                                {
+                                    bool exitLoop = false;
+                                    for (int j = P; j < Current.Count; j++)
+                                    {
+                                        switch (CheckItemForUpdate(Current[j], Kept[i]))
+                                        {
+                                            // Добавляем Current, выходим
+                                            case 0:
+
+
+                                                New.Add(Current[j]);
+                                                P = j + 1;
+                                                exitLoop = true;
+                                                break;
+
+                                            // Добавляем Current, продолжаем
+                                            case 1:
+
+                                                New.Add(Current[j]);
+                                                P = j + 1;
+                                                break;
+
+                                            // Добавляем Kept, выходим
+                                            case 2:
+
+                                                New.Add(Kept[i]);
+                                                P = j + 1;
+                                                break;
+
+                                        }
+                                        if (exitLoop)
+                                            break;
+                                    }
+                                }
+                                // Если текущий список кончился, то добавляем все, что осталось в Kept
+                                else
+                                    New.Add(Kept[i]);
+                            }
+
+                            BufTable = BufHead + string.Join(Environment.NewLine, New.ToArray()); ;
+                        }
+                        else
+                            BufTable = BufHead + BufCurrent;
+                    }
+
+                    string BufCheat = BufTable;
+                    FCountPTGames = 0;
+                    FCountNBGames = 0;
+                    FCountWins = 0;
+                    FLastBattles = -1;
+
+                    while (BufCheat.Contains("<tr>"))
+                    {
+
+                        string BufPT = Pars("<tr>", "</tr>", BufCheat);
+                        FLastBattles++;
+                        if (Pars("<td class=\"name\">", "</td>", BufPT).Contains(FName))
+                        {
+                            FCountWins++;
+
+                            BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
+                            BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
+                            string BufNBW = Pars("<td>", "</td>", BufPT);
+                            string BufCurrentELO = Pars("<span class=\"myname\">", "</span>", BufNBW);
+                            BufNBW = BufNBW.Replace("<span class=\"myname\">", "");
+                            BufNBW = BufNBW.Replace("</span>", "");
+                            int NBW = 0;
+                            int N = 0;
+
+                            while (BufNBW.Contains("<p>"))
+                            {
+
+
+                                N++;
+                                NBW += int.Parse(Pars("<p>", "</p>", BufNBW));
+
+
+                                BufNBW = BufNBW.Remove(BufNBW.IndexOf("<p>"), BufNBW.IndexOf("</p>") - BufNBW.IndexOf("<p>") + 3);
+
+
+                            }
+
+                            BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
+                            BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
+                            bool FR;
+                            if (GameTypeIndex == 0)
+                                FR = CheckFastResign(Pars(">", "</td>", BufPT));
+                            else
+                                FR = false;
+
+                            BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
+                            string BufNBL = Pars("<td>", "</td>", BufPT);
+                            BufNBL = BufNBL.Replace("<span class=\"myname\">", "");
+                            BufNBL = BufNBL.Replace("</span>", "");
+                            int NBL = 0;
+
+                            while (BufNBL.Contains("<p>"))
+                            {
+
+
+                                N++;
+                                NBL += int.Parse(Pars("<p>", "</p>", BufNBL));
+                                BufNBL = BufNBL.Remove(BufNBL.IndexOf("<p>"), BufNBL.IndexOf("</p>") - BufNBL.IndexOf("<p>") + 3);
+
+                            }
+
+                            double deltaR = (16 + (NBL - NBW) * 2 / N * 16 / 400) / 0.92;
+
+                            double ELO = double.Parse(BufCurrentELO) - Math.Max(Math.Min(deltaR, 31), 1);
+                            double delta;
+                            if (ELO < 1200)
+                                delta = 15;
+                            else
+                                delta = CalcDelta(ELO);
+
+                            BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
+                            BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
+
+                            string BufTime = Pars("<td>", "</td>", BufPT);
+
+                            if (deltaR < delta)
+                                FCountNBGames++;
+
+
+                            if (GameTypeIndex != 1)
+                            {
+                                if (GetSecond(BufTime) < 180 && !FR)
+                                    FCountPTGames++;
+                            }
+                            else
+                            {
+                                if (GetSecond(BufTime) < 600)
+                                    FCountPTGames++;
+                            }
+                        }
+                        BufCheat = BufCheat.Remove(BufCheat.IndexOf("<tr>"), BufCheat.IndexOf("</tr>") - BufCheat.IndexOf("<tr>") + 4);
+
+                    }
+
+                    if (FCountWins == 0)
+                    {
+                        FRatioPT = 0;
+                        FRatioNB = 0;
+                        FRatioPTWins = 0;
+                        FRatioNBWins = 0;
                     }
                     else
-                        BufTable = BufHead + BufCurrent;
-                }
-
-                string BufCheat = BufTable;
-                FCountPTGames = 0;
-                FCountNBGames = 0;
-                FCountWins = 0;
-                FLastBattles = -1;
-
-                while (BufCheat.Contains("<tr>"))
-                {
-
-                    string BufPT = Pars("<tr>", "</tr>", BufCheat);
-                    FLastBattles++;
-                    if (Pars("<td class=\"name\">", "</td>", BufPT).Contains(FName))
                     {
-                        FCountWins++;
-
-                        BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
-                        BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
-                        string BufNBW = Pars("<td>", "</td>", BufPT);
-                        string BufCurrentELO = Pars("<span class=\"myname\">", "</span>", BufNBW);
-                        BufNBW = BufNBW.Replace("<span class=\"myname\">", "");
-                        BufNBW = BufNBW.Replace("</span>", "");
-                        int NBW = 0;
-                        int N = 0;
-
-                        while (BufNBW.Contains("<p>"))
-                        {
-
-
-                            N++;
-                            NBW += int.Parse(Pars("<p>", "</p>", BufNBW));
-
-
-                            BufNBW = BufNBW.Remove(BufNBW.IndexOf("<p>"), BufNBW.IndexOf("</p>") - BufNBW.IndexOf("<p>") + 3);
-
-
-                        }
-
-                        BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
-                        BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
-                        bool FR;
-                        if (GameTypeIndex == 0)
-                            FR = CheckFastResign(Pars(">", "</td>", BufPT));
-                        else
-                            FR = false;
-
-                        BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
-                        string BufNBL = Pars("<td>", "</td>", BufPT);
-                        BufNBL = BufNBL.Replace("<span class=\"myname\">", "");
-                        BufNBL = BufNBL.Replace("</span>", "");
-                        int NBL = 0;
-
-                        while (BufNBL.Contains("<p>"))
-                        {
-
-
-                            N++;
-                            NBL += int.Parse(Pars("<p>", "</p>", BufNBL));
-                            BufNBL = BufNBL.Remove(BufNBL.IndexOf("<p>"), BufNBL.IndexOf("</p>") - BufNBL.IndexOf("<p>") + 3);
-
-                        }
-
-                        double deltaR = (16 + (NBL - NBW) * 2 / N * 16 / 400) / 0.92;
-
-                        double ELO = double.Parse(BufCurrentELO) - Math.Max(Math.Min(deltaR, 31), 1);
-                        double delta;
-                        if (ELO < 1200)
-                            delta = 15;
-                        else
-                            delta = CalcDelta(ELO);
-
-                        BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
-                        BufPT = BufPT.Remove(0, BufPT.IndexOf("</td>") + 5);
-
-                        string BufTime = Pars("<td>", "</td>", BufPT);
-
-                        if (deltaR < delta)
-                            FCountNBGames++;
-
-
-                        if (GameTypeIndex != 1)
-                        {
-                            if (GetSecond(BufTime) < 180 && !FR)
-                                FCountPTGames++;
-                        }
-                        else
-                        {
-                            if (GetSecond(BufTime) < 600)
-                                FCountPTGames++;
-                        }
+                        FRatioPT = (int)Math.Round(Math.Min((FCountPTGames / (double)FCountWins * 100.0), 20) * 5, MidpointRounding.AwayFromZero);
+                        FRatioNB = (int)Math.Round(Math.Min((FCountNBGames / (double)FCountWins * 100.0), 35) * 100 / 35, MidpointRounding.AwayFromZero);
+                        FRatioPTWins = (int)Math.Round(FCountPTGames / (double)FCountWins * 100.0, MidpointRounding.AwayFromZero);
+                        FRatioNBWins = (int)Math.Round(FCountNBGames / (double)FCountWins * 100.0, MidpointRounding.AwayFromZero);
                     }
-                    BufCheat = BufCheat.Remove(BufCheat.IndexOf("<tr>"), BufCheat.IndexOf("</tr>") - BufCheat.IndexOf("<tr>") + 4);
+                    BufTable = "<html>" + "<head>" +
+            "<link rel=\"stylesheet\" href=\"MyCSS.css\" type=\"text/css\">" +
+           "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>"
+            + "</head>" + "<table>" + BufTable + "</table>" + "</html>";
+                    if (File.Exists(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".json")))
+                    {
+                        Stat StoredStat = new Stat();
+                        string json = File.ReadAllText(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".json"));
+                        StoredStat = JsonConvert.DeserializeObject<Stat>(json);
 
-                }
+                        FStoredELO.eOverall = Math.Round(-StoredStat.FELO.eOverall + FELO.eOverall, 2);
+                        FStoredELO.eTeam = Math.Round(-StoredStat.FELO.eTeam + FELO.eTeam, 2);
+                        FStoredELO.e1v1 = Math.Round(-StoredStat.FELO.e1v1 + FELO.e1v1, 2);
 
-                if (FCountWins == 0)
-                {
-                    FRatioPT = 0;
-                    FRatioNB = 0;
-                    FRatioPTWins = 0;
-                    FRatioNBWins = 0;
-                }
-                else
-                {
-                    FRatioPT = (int)Math.Round(Math.Min((FCountPTGames / (double)FCountWins * 100.0), 20) * 5, MidpointRounding.AwayFromZero);
-                    FRatioNB = (int)Math.Round(Math.Min((FCountNBGames / (double)FCountWins * 100.0), 35) * 100 / 35, MidpointRounding.AwayFromZero);
-                    FRatioPTWins = (int)Math.Round(FCountPTGames / (double)FCountWins * 100.0, MidpointRounding.AwayFromZero);
-                    FRatioNBWins = (int)Math.Round(FCountNBGames / (double)FCountWins * 100.0, MidpointRounding.AwayFromZero);
-                }
-                BufTable = "<html>" + "<head>" +
-        "<link rel=\"stylesheet\" href=\"MyCSS.css\" type=\"text/css\">" +
-       "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/>"
-        + "</head>" + "<table>" + BufTable + "</table>" + "</html>";
-                if (File.Exists(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".json")))
-                {
-                    Stat StoredStat = new Stat();
-                    string json = File.ReadAllText(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".json"));
-                    StoredStat = JsonConvert.DeserializeObject<Stat>(json);
-                    
-                    FStoredELO.eOverall = Math.Round(-StoredStat.FELO.eOverall + FELO.eOverall, 2);
-                    FStoredELO.eTeam = Math.Round(-StoredStat.FELO.eTeam + FELO.eTeam, 2);
-                    FStoredELO.e1v1 = Math.Round(-StoredStat.FELO.e1v1 + FELO.e1v1, 2);
+                        FStoredGames.gOverall = -StoredStat.FGames.gOverall + FGames.gOverall;
+                        FStoredGames.gTeam = -StoredStat.FGames.gTeam + FGames.gTeam;
+                        FStoredGames.g1v1 = -StoredStat.FGames.g1v1 + FGames.g1v1;
 
-                    FStoredGames.gOverall = -StoredStat.FGames.gOverall + FGames.gOverall;
-                    FStoredGames.gTeam = -StoredStat.FGames.gTeam + FGames.gTeam;
-                    FStoredGames.g1v1 = -StoredStat.FGames.g1v1 + FGames.g1v1;
+                        FStoredMaxELO.eOverall = Math.Round(-StoredStat.FMaxELO.eOverall + FMaxELO.eOverall, 2);
+                        FStoredMaxELO.eTeam = Math.Round(-StoredStat.FMaxELO.eTeam + FMaxELO.eTeam, 2);
+                        FStoredMaxELO.e1v1 = Math.Round(-StoredStat.FMaxELO.e1v1 + FMaxELO.e1v1, 2);
 
-                    FStoredMaxELO.eOverall = Math.Round(-StoredStat.FMaxELO.eOverall + FMaxELO.eOverall, 2);
-                    FStoredMaxELO.eTeam = Math.Round(-StoredStat.FMaxELO.eTeam + FMaxELO.eTeam, 2);
-                    FStoredMaxELO.e1v1 = Math.Round(-StoredStat.FMaxELO.e1v1 + FMaxELO.e1v1, 2);
+                        FStoredPR = Math.Round(-StoredStat.FPR + FPR, 2);
+                        FStoredMaxPR = Math.Round(-StoredStat.FMaxPR + FMaxPR, 2);
 
-                    FStoredPR = Math.Round(-StoredStat.FPR + FPR, 2);
-                    FStoredMaxPR = Math.Round(-StoredStat.FMaxPR + FMaxPR, 2);
+                        FStoredWinPercent.wpOverall = Math.Round(-StoredStat.FWinPercent.wpOverall + FWinPercent.wpOverall, 2);
+                        FStoredWinPercent.wpTeam = Math.Round(-StoredStat.FWinPercent.wpTeam + FWinPercent.wpTeam, 2);
+                        FStoredWinPercent.wp1v1 = Math.Round(-StoredStat.FWinPercent.wp1v1 + FWinPercent.wp1v1, 2);
 
-                    FStoredWinPercent.wpOverall = Math.Round(-StoredStat.FWinPercent.wpOverall + FWinPercent.wpOverall, 2);
-                    FStoredWinPercent.wpTeam = Math.Round(-StoredStat.FWinPercent.wpTeam + FWinPercent.wpTeam, 2);
-                    FStoredWinPercent.wp1v1 = Math.Round(-StoredStat.FWinPercent.wp1v1 + FWinPercent.wp1v1, 2);
+
+                    }
+
+                    using (StreamWriter writetext = new StreamWriter(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".html")))
+                    {
+                        writetext.WriteLine(BufTable);
+                    }
+                    File.WriteAllText(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".json"), JsonConvert.SerializeObject(this));
+
+
+                    FERROR = false;
 
 
                 }
-
-                using (StreamWriter writetext = new StreamWriter(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".html")))
-                {
-                    writetext.WriteLine(BufTable);
-                }
-                File.WriteAllText(Path.Combine(Paths.GetPlayerDirectoryPath(FName), GameType + ".json"), JsonConvert.SerializeObject(this));
-
-
             }
             catch { }
 
@@ -864,239 +879,171 @@ namespace ESO_Assistant
 
 
 
-  /*      public static void GetDetail(string URL)
-var
-  Buf, Chart1, Chart2: string;
-  Save: TStringStream;
-  Lang: TLang;
-  hcChart1, hcChart2: THTTPClient;
-  Response1, Response2: IHTTPResponse;
-  mCh1, mCh2: TMemoryStream;
-begin
-  Lang := TLang.Create;
-  Lang.SetLanguage;
-  Buf := GetHTMLOnline(URL, FCS);
-  if FCS.isError = False then
-  begin
-    IsCorrectlyHTML(Buf);
-    if FCS.isError = False then
-    begin
-      try
-        Chart1 := Pars('<img id="Chart1" src="', '"', Buf);
-        Chart2 := Pars('<img id="Chart2" src="', '"', Buf);
-        if not FileExists(GetDetailDirectoryPath + Copy(Chart1,
-          Pos('?', Chart1) + 1, Length(Chart1)) + '_ch1.png') then
-        begin
-          FreeAndNil(hcChart1);
-        hcChart1 := THTTPClient.Create;
-          mCh1 := TMemoryStream.Create;
-          Response1 := hcChart1.Get('http://agecommunity.com/stats/' +
-            Chart1, mCh1);
-          if Response1.StatusCode = 200 then
-            mCh1.SaveToFile(GetDetailDirectoryPath + Copy(Chart1,
-              Pos('?', Chart1) + 1, Length(Chart1)) + '_ch1.png');
-          FreeAndNil(mCh1);
-        end;
-        if not FileExists(GetDetailDirectoryPath + Copy(Chart2,
-          Pos('?', Chart2) + 1, Length(Chart2)) + '_ch2.png') then
-        begin
-          FreeAndNil(hcChart2);
-        hcChart2 := THTTPClient.Create;
-          mCh2 := TMemoryStream.Create;
-          Response2 := hcChart2.Get('http://agecommunity.com/stats/' +
-            Chart2, mCh2);
-          if Response2.StatusCode = 200 then
-            mCh2.SaveToFile(GetDetailDirectoryPath + Copy(Chart2,
-              Pos('?', Chart2) + 1, Length(Chart2)) + '_ch2.png');
-          FreeAndNil(mCh2);
-        end;
-        Buf := Pars('<div id="TeamResults">', '<ul id="footerLinks"><li>', Buf);
-        Buf := ReplaceText(Buf, ' id="TeamResultsTable"', '');
-        Buf := ReplaceText(Buf, ' class="Team1"', '');
-        Buf := ReplaceText(Buf, ' class="Team2"', '');
-        Buf := ReplaceText(Buf, ' class="TeamPrompt"', '');
-        Buf := ReplaceText(Buf, ' class="ResultPrompt"', '');
-        Buf := ReplaceText(Buf,
-          '<table width="100%" border="0" cellpadding="0" cellspacing="0"><tr height="26"><td width="6"><img src="/images/stats_top_left.gif"></td><td width="100%" background="/images/stats_top.gif">',
-          '');
-        Delete(Buf, Pos('<p>', Buf), PosEx('</p>', Buf, Pos('<p>', Buf)) -
-          Pos('<p>', Buf) + 4);
-        Delete(Buf,
-          Pos('<table width="100%" border="0" cellpadding="0" cellspacing="0" class="CivilianPopulationChart">',
-          Buf), PosEx('</table>', Buf,
-          Pos('<table width="100%" border="0" cellpadding="0" cellspacing="0" class="CivilianPopulationChart">',
-          Buf)) - Pos
-          ('<table width="100%" border="0" cellpadding="0" cellspacing="0" class="CivilianPopulationChart">',
-          Buf) + 8);
-        Delete(Buf,
-          Pos('<table width="100%" border="0" cellpadding="0" cellspacing="0">',
-          Buf), PosEx('</table>', Buf,
-          Pos('<table width="100%" border="0" cellpadding="0" cellspacing="0">',
-          Buf)) - Pos
-          ('<table width="100%" border="0" cellpadding="0" cellspacing="0">',
-          Buf) + 8);
-        Buf := ReplaceText(Buf, '<br />', '');
-        Buf := ReplaceText(Buf, '<hr>', '');
-        Buf := ReplaceText(Buf,
-          '</td><td width="6" valign="bottom"><img src="/images/stats_top_right.gif"></td></tr><tr><td background="/images/stats_left.gif"></td><td>',
-          '');
-        Buf := ReplaceText(Buf,
-          '</td><td background="/images/stats_right.gif"></td></tr><tr height="6"><td><img src="/images/stats_bottom_left.gif"></td><td background="/images/stats_bottom.gif"></td><td><img src="/images/stats_bottom_right.gif"></td></tr></table>',
-          '');
-        Buf := ReplaceText(Buf, '<div id="stats">', '');
-        Buf := ReplaceText(Buf,
-          '<div id="GameData"><a name="PopulationByAge"></a>', '');
-        Buf := ReplaceText(Buf, 'Ages</div>', 'Ages</span>');
-        Buf := ReplaceText(Buf, 'Military Units</div>',
-          'Military Units</span>');
-        Buf := ReplaceText(Buf, 'Civilian Units</div>',
-          'Civilian Units</span>');
-        Buf := ReplaceText(Buf, '<div class="statstab">',
-          '<span class="nick">');
-        Buf := ReplaceText(Buf, '<p><a href="#">Back to Top</a></p>', '');
-        Delete(Buf, Pos('<p> <a href="#">', Buf),
-          PosEx('</a> </p>', Buf, Pos('<p> <a href="#">', Buf)) -
-          Pos('<p> <a href="#">', Buf) + Length('</a> </p>'));
-        Buf := ReplaceText(Buf, ' id="MilitaryPopulationChart"', '');
-        Buf := ReplaceText(Buf, ' id="Scores"', '');
-        Buf := ReplaceText(Buf, ' id="CivilianPopulationChart"', '');
-        Buf := ReplaceText(Buf, ' id="arrayOutput"', '');
-        Buf := ReplaceText(Buf, '<a name="PopulationOverTime"></a>', '');
-        Buf := ReplaceText(Buf, '<a name="Scores"></a>', '');
-        Buf := ReplaceText(Buf, ' class="left-value"', '');
-        Buf := ReplaceText(Buf, ' width="25%"', '');
-        Buf := ReplaceText(Buf, ' width="100%"', '');
-        Buf := ReplaceText(Buf, ' width="30%" ', '');
-        Buf := ReplaceText(Buf, ' width="60%" ', '');
-        Buf := ReplaceText(Buf, ' width="19" height="19"', '');
-        Buf := ReplaceText(Buf, ' height="38" width="38" ', '');
-        Buf := ReplaceText(Buf, '<a name="PlayerMilUnits"></a>', '');
-        Buf := ReplaceText(Buf, '<a name="PlayerCivUnits"></a>', '');
-        Buf := ReplaceText(Buf, '/stats/EntityStats.aspx',
-          'http://www.agecommunity.com/stats/EnityStats.aspx');
+        public static void GetDetail(string Data, string URL)
+        {
+            try
+            {
+                string Buf = Pars("<div id=\"TeamResults\">", "<ul id=\"footerLinks\"><li>", Data);
+                Buf = Buf.Replace(" id=\"TeamResultsTable\"", "");
+                Buf = Buf.Replace(" class=\"Team1\"", "");
+                Buf = Buf.Replace(" class=\"Team2\"", "");
+                Buf = Buf.Replace(" class=\"TeamPrompt\"", "");
+                Buf = Buf.Replace(" class=\"ResultPrompt\"", "");
+                Buf = Buf.Replace(
+                  "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tr height=\"26\"><td width=\"6\"><img src=\"/images/stats_top_left.gif\"></td><td width=\"100%\" background=\"/images/stats_top.gif\">",
+                  "");
+                Buf = Buf.Remove(Buf.IndexOf("<p>"), Buf.IndexOf("</p>", Buf.IndexOf("<p>")) -
+                  Buf.IndexOf("<p>") + 3);
+                Buf = Buf.Remove(
+              Buf.IndexOf("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"CivilianPopulationChart\">"),
+              Buf.IndexOf("</table>",
+             Buf.IndexOf("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"CivilianPopulationChart\">")) - Buf.IndexOf("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"CivilianPopulationChart\">") + 7);
+                Buf = Buf.Remove(
+               Buf.IndexOf("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">"),
+               Buf.IndexOf("</table>",
+              Buf.IndexOf("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">")) - Buf.IndexOf("<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">") + 7);
+                Buf = Buf.Replace("<br />", "");
+                Buf = Buf.Replace("<hr>", "");
+                Buf = Buf.Replace(
+                  "</td><td width=\"6\" valign=\"bottom\"><img src=\"/images/stats_top_right.gif\"></td></tr><tr><td background=\"/images/stats_left.gif\"></td><td>",
+                  "");
+                Buf = Buf.Replace(
+                  "</td><td background=\"/images/stats_right.gif\"></td></tr><tr height=\"6\"><td><img src=\"/images/stats_bottom_left.gif\"></td><td background=\"/images/stats_bottom.gif\"></td><td><img src=\"/images/stats_bottom_right.gif\"></td></tr></table>",
+                  "");
+                Buf = Buf.Replace("<div id=\"stats\">", "");
+                Buf = Buf.Replace(
+                  "<div id=\"GameData\"><a name=\"PopulationByAge\"></a>", "");
+                Buf = Buf.Replace("Ages</div>", "Ages</span>");
+                Buf = Buf.Replace("Military Units</div>",
+                  "Military Units</span>");
+                Buf = Buf.Replace("Civilian Units</div>",
+                  "Civilian Units</span>");
+                Buf = Buf.Replace("<div class=\"statstab\">",
+                  "<span class=\"nick\">");
+                Buf = Buf.Replace("<p><a href=\"#\">Back to Top</a></p>", "");
+                Buf = Buf.Remove(Buf.IndexOf("<p> <a href=\"#\">"),
+              Buf.IndexOf("</a> </p>", Buf.IndexOf("<p> <a href=\"#\">")) -
+              Buf.IndexOf("<p> <a href=\"#\">") + "</a> </p>".Length - 1);
+                Buf = Buf.Replace(" id=\"MilitaryPopulationChart\"", "");
+                Buf = Buf.Replace(" id=\"Scores\"", "");
+                Buf = Buf.Replace(" id=\"CivilianPopulationChart\"", "");
+                Buf = Buf.Replace(" id=\"arrayOutput\"", "");
+                Buf = Buf.Replace("<a name=\"PopulationOverTime\"></a>", "");
+                Buf = Buf.Replace("<a name=\"Scores\"></a>", "");
+                Buf = Buf.Replace(" class=\"left-value\"", "");
+                Buf = Buf.Replace(" width=\"25%\"", "");
+                Buf = Buf.Replace(" width=\"100%\"", "");
+                Buf = Buf.Replace(" width=\"30%\" ", "");
+                Buf = Buf.Replace(" width=\"60%\" ", "");
+                Buf = Buf.Replace(" width=\"19\" height=\"19\"", "");
+                Buf = Buf.Replace(" height=\"38\" width=\"38\" ", "");
+                Buf = Buf.Replace("<a name=\"PlayerMilUnits\"></a>", "");
+                Buf = Buf.Replace("<a name=\"PlayerCivUnits\"></a>", "");
+                Buf = Buf.Replace("/stats/EntityStats.aspx",
+                  "http://www.agecommunity.com/stats/EnityStats.aspx");
 
-        Buf := ReplaceText(Buf, ' class="row-a"', '');
-        Buf := ReplaceText(Buf, ' class="normal-value"', '');
-        Buf := ReplaceText(Buf, ' class="row-b"', '');
-        Buf := ReplaceText(Buf,
-          ' border="0" cellpadding="2" cellspacing="0"', '');
-        Buf := ReplaceText(Buf, '<div>', '');
-        Buf := ReplaceText(Buf, '</div>', '');
-        Buf := ReplaceText(Buf, '<img src="/images/Age-I.jpg">',
-          '<div class="age-I"></div>');
-        Buf := ReplaceText(Buf, '<img src="/images/Age-II.jpg">',
-          '<div class="age-II"></div>');
-        Buf := ReplaceText(Buf, '<img src="/images/Age-III.jpg">',
-          '<div class="age-III"></div>');
-        Buf := ReplaceText(Buf, '<img src="/images/Age-IV.jpg">',
-          '<div class="age-IV"></div>');
-        Buf := ReplaceText(Buf, '<img src="/images/Age-V.jpg">',
-          '<div class="age-V"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Aztec.gif"alt="Aztec Flag" />',
-          '<div class="civ-AZ"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Russian.gif"alt="Russian Flag" />',
-          '<div class="civ-RU"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/British.gif"alt="British Flag" />',
-          '<div class="civ-BR"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Chinese.gif"alt="Chinese Flag" />',
-          '<div class="civ-CH"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Portuguese.gif"alt="Portuguese Flag" />',
-          '<div class="civ-PT"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/French.gif"alt="French Flag" />',
-          '<div class="civ-FR"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Dutch.gif"alt="Dutch Flag" />',
-          '<div class="civ-DU"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Japanese.gif"alt="Japanese Flag" />',
-          '<div class="civ-JP"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Ottoman.gif"alt="Ottoman Flag" />',
-          '<div class="civ-OT"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Indian.gif"alt="Indian Flag" />',
-          '<div class="civ-IN"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/German.gif"alt="German Flag" />',
-          '<div class="civ-DE"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Sioux.gif"alt="Sioux Flag" />',
-          '<div class="civ-SI"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Iroquois.gif"alt="Iroquois Flag" />',
-          '<div class="civ-IR"></div>');
-        Buf := ReplaceText(Buf,
-          '<img src="/images/flags/Spanish.gif"alt="Spanish Flag" />',
-          '<div class="civ-SP"></div>');
+                Buf = Buf.Replace(" class=\"row-a\"", "");
+                Buf = Buf.Replace(" class=\"normal-value\"", "");
+                Buf = Buf.Replace(" class=\"row-b\"", "");
+                Buf = Buf.Replace(
+                  " border=\"0\" cellpadding=\"2\" cellspacing=\"0\"", "");
+                Buf = Buf.Replace("<div>", "");
+                Buf = Buf.Replace("</div>", "");
+                Buf = Buf.Replace("<img src=\"/images/Age-I.jpg\">",
+                  "<div class=\"age-I\"></div>");
+                Buf = Buf.Replace("<img src=\"/images/Age-II.jpg\">",
+                  "<div class=\"age-II\"></div>");
+                Buf = Buf.Replace("<img src=\"/images/Age-III.jpg\">",
+                  "<div class=\"age-III\"></div>");
+                Buf = Buf.Replace("<img src=\"/images/Age-IV.jpg\">",
+                  "<div class=\"age-IV\"></div>");
+                Buf = Buf.Replace("<img src=\"/images/Age-V.jpg\">",
+                  "<div class=\"age-V\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Aztec.gif\"alt=\"Aztec Flag\" />",
+                  "<div class=\"civ-AZ\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Russian.gif\"alt=\"Russian Flag\" />",
+                  "<div class=\"civ-RU\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/British.gif\"alt=\"British Flag\" />",
+                  "<div class=\"civ-BR\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Chinese.gif\"alt=\"Chinese Flag\" />",
+                  "<div class=\"civ-CH\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Portuguese.gif\"alt=\"Portuguese Flag\" />",
+                  "<div class=\"civ-PT\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/French.gif\"alt=\"French Flag\" />",
+                  "<div class=\"civ-FR\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Dutch.gif\"alt=\"Dutch Flag\" />",
+                  "<div class=\"civ-DU\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Japanese.gif\"alt=\"Japanese Flag\" />",
+                  "<div class=\"civ-JP\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Ottoman.gif\"alt=\"Ottoman Flag\" />",
+                  "<div class=\"civ-OT\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Indian.gif\"alt=\"Indian Flag\" />",
+                  "<div class=\"civ-IN\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/German.gif\"alt=\"German Flag\" />",
+                  "<div class=\"civ-DE\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Sioux.gif\"alt=\"Sioux Flag\" />",
+                  "<div class=\"civ-SI\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Iroquois.gif\"alt=\"Iroquois Flag\" />",
+                  "<div class=\"civ-IR\"></div>");
+                Buf = Buf.Replace(
+                  "<img src=\"/images/flags/Spanish.gif\"alt=\"Spanish Flag\" />",
+                  "<div class=\"civ-SP\"></div>");
 
-        Buf := ReplaceText(Buf, '<span class="nick">', '<div class="nick">');
+                Buf = Buf.Replace("<span class=\"nick\">", "<div class=\"nick\">");
 
-        Buf := ReplaceText(Buf, 'Ages</span>', 'Ages</div>');
-        Buf := ReplaceText(Buf, 'Military Units</span>',
-          'Military Units</div>');
-        Buf := ReplaceText(Buf, 'Civilian Units</span>',
-          'Civilian Units</div>');
+                Buf = Buf.Replace("Ages</span>", "Ages</div>");
+                Buf = Buf.Replace("Military Units</span>",
+                  "Military Units</div>");
+                Buf = Buf.Replace("Civilian Units</span>",
+                  "Civilian Units</div>");
 
-        Buf := ReplaceText(Buf,
-          '<td><span>Team 1:</span> <span>Won</span></td>',
-          '<th>Team 1: Won</th>');
-        Buf := ReplaceText(Buf,
-          '<td><span>Team 2:</span> <span>Lost</span></td>',
-          '<th>Team 2: Lost</th>');
-        Buf := ReplaceText(Buf,
-          '<thcolspan="4">Units</th><thcolspan="2">Buildings</th>',
-          '<th colspan="4">Units</th><th colspan="2">Buildings</th>');
-        Buf := ReplaceText(Buf, '<div class="nick">Scores',
-          '<div class="nick">Scores</div>');
-        Buf := ReplaceText(Buf, '<div class="nick">Military',
-          '<div class="nick">Military</div>');
-        Buf := ReplaceText(Buf, '<div class="nick">Economy',
-          '<div class="nick">Economy</div>');
-        Buf := ReplaceText(Buf, '<div class="nick">Misc',
-          '<div class="nick">Misc</div>');
-        Buf := ReplaceText(Buf, '<th valign="top" rowspan="2">Player</th>',
-          '<th rowspan="2">Player</th>');
+                Buf = Buf.Replace(
+                  "<td><span>Team 1:</span> <span>Won</span></td>",
+                  "<th>Team 1: Won</th>");
+                Buf = Buf.Replace(
+                  "<td><span>Team 2:</span> <span>Lost</span></td>",
+                  "<th>Team 2: Lost</th>");
+                Buf = Buf.Replace(
+                  "<thcolspan=\"4\">Units</th><thcolspan=\"2\">Buildings</th>",
+                  "<th colspan=\"4\">Units</th><th colspan=\"2\">Buildings</th>");
+                Buf = Buf.Replace("<div class=\"nick\">Scores",
+                  "<div class=\"nick\">Scores</div>");
+                Buf = Buf.Replace("<div class=\"nick\">Military",
+                  "<div class=\"nick\">Military</div>");
+                Buf = Buf.Replace("<div class=\"nick\">Economy",
+                  "<div class=\"nick\">Economy</div>");
+                Buf = Buf.Replace("<div class=\"nick\">Misc",
+                  "<div class=\"nick\">Misc</div>");
+                Buf = Buf.Replace("<th valign=\"top\" rowspan=\"2\">Player</th>",
+                  "<th rowspan=\"2\">Player</th>");
 
-        Buf := '<html>' + #13'<head>' +
-          #13'<link rel="stylesheet" href="Detail.css" type="text/css">' +
-          #13'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>'
-          + #13'</head>' + Buf +
+                Buf = "<html><head>'<link rel=\"stylesheet\" href=\"Detail.css\" type=\"text/css\"><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"/></head>"
+                        + Buf +
 
-          #13'<div class="spoil">' +
-          #13'<div class="smallfont"><input type="button" value="Show charts"; class="input-button" onclick="if (this.parentNode.parentNode.getElementsByTagName(''div'')[1].getElementsByTagName(''div'')[0].style.display != '''') '
-          + #13'{ this.parentNode.parentNode.getElementsByTagName(''div'')[1].getElementsByTagName(''div'')[0].style.display = ''''; this.innerText = ''''; this.value = ''Hide charts''; ChangeImage(''chart1'','''
-          + Copy(Chart1, Pos('?', Chart1) + 1, Length(Chart1)) + '_ch1.png' +
-          '''); ChangeImage(''chart2'',''' + Copy(Chart2, Pos('?', Chart2) + 1,
-          Length(Chart2)) + '_ch2.png' + ''');}' +
-          #13' else { this.parentNode.parentNode.getElementsByTagName(''div'')[1].getElementsByTagName(''div'')[0].style.display = ''none''; this.innerText = ''''; this.value = ''Show charts'';}"/>'
-          + #13'</div><div class="alt2"><div style="display: none; text-align:center;">'
-          + #13'<div><img id = "chart1" src="' +
-          Copy(Chart1, Pos('?', Chart1) + 1, Length(Chart1)) + '_ch1.png' +
-          '"></div>' + #13'<div><img id = "chart2" src="' +
-          Copy(Chart2, Pos('?', Chart2) + 1, Length(Chart2)) + '_ch2.png' +
-          '"></div>' + #13'</div>' + #13'</div>' + #13'</div>' + #13'<script>' +
-          #13'function ChangeImage (id, source)' + #13'{' +
-          #13'document.getElementById (id).src = source +''?''+Math.random(1000);'
-          + #13'}' + #13'</script>' + #13'</html>';
-        Save := TStringStream.Create(Buf, TEncoding.UTF8);
-        Save.SaveToFile(GetHTMLDetailFilePath(Pars('GameID=', '&sFlag', URL)));
-        FreeAndNil(Save);
-        except
-          FCS.isError := True;
-        FCS.Msg := Lang.Msg.ERR_STAT;
-        FCS.Hint := '1. ' + Lang.Msg.HNT_STAT_ERR1 + #13 + '2. ' +
-          Lang.Msg.HNT_STAT_ERR2;
-      end;
-    end;
-  end;
-  FreeAndNil(Lang);
-        end;*/
+           "</html>";
+
+                using (StreamWriter writetext = new StreamWriter(Path.Combine(Paths.GetDetailDirectoryPath(), Pars("GameID=", "&sFlag", URL) + ".html")))
+                {
+                    writetext.WriteLine(Buf);
+                }
+            }
+            catch
+            { }
+        }
+
 
 
     }

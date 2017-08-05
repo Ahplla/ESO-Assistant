@@ -43,6 +43,11 @@ namespace ESO_Assistant
         private string FPRYD;
         private string FAvatar;
         private string FIcon;
+        private bool FERROR;
+        public bool ERROR
+        {
+            get { return FERROR; }
+        }
         private string FormatPR(string PR)
         {
             if (int.TryParse(PR, out int Rating))
@@ -690,6 +695,7 @@ namespace ESO_Assistant
         {
             try
             {
+                FERROR = true;
                 if (Data.Contains("<error>Failed to find user</error>"))
                     FStatus = -1;
                 else
@@ -741,8 +747,9 @@ namespace ESO_Assistant
                     FPRYD = "Deathmatch: " + FormatPR(FPRYD);
                     FLastLogin = DateTime.Parse(Pars("<lastLogin>", "</lastLogin>", Data)).ToLocalTime().ToString();
                     FLastUpdate = DateTime.Parse(Pars("<LastUpdated>", "</LastUpdated>", Data)).ToLocalTime().ToString();
+                    FERROR = false;
                 }
-
+                
             }
             catch { FStatus = 0; FIcon = "pack://application:,,,/Icons/0.png"; }
         }

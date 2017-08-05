@@ -139,6 +139,7 @@
     <Compile Include="Classes\Constant.cs" />
     <Compile Include="Classes\Feeds.cs" />
     <Compile Include="Classes\Paths.cs" />
+    <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\ServerStatus.cs" />
     <Compile Include="Classes\SingleInstance.cs" />
     <Compile Include="Classes\Stat.cs" />
@@ -408,7 +409,6 @@
     <EmbeddedResource Include="HTML\ages.jpg" />
     <EmbeddedResource Include="HTML\civs.png" />
     <EmbeddedResource Include="HTML\flags.jpg" />
-    <EmbeddedResource Include="HTML\jquery-latest.js" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Launcher\symbols.png" />

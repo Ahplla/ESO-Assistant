@@ -2356,124 +2356,128 @@ if (S.StoredMaxPR < 0)
             var T6 = GetDMnInfo(tbESO.Text);
 
             await Task.WhenAll(T1, T2, T3, T4, T5, T6);
-
-            Cheater = CheckCheatGroup(SP.Name);
-            if (Cheater == "")
+            if (!SP.ERROR && !TR.ERROR && !DM.ERROR && !SPn.ERROR && !DMn.ERROR && !US.ERROR)
             {
-                tbESO.FontWeight = FontWeights.Normal;
-                tbESO.TextDecorations = null;
-            }
-            else
-            {
-                tbESO.FontWeight = FontWeights.Bold;
-                tbESO.TextDecorations = TextDecorations.Strikethrough;
-            }
-
-
-
-
-            if (!Constant.SP_TRADERS_LIST.Contains(SP.Name))
-                if (SP.RatioPT == 100 && SP.Games.gOverall > 25)
+                Cheater = CheckCheatGroup(SP.Name);
+                if (Cheater == "")
                 {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Supremacy", SP.Name);
-
+                    tbESO.FontWeight = FontWeights.Normal;
+                    tbESO.TextDecorations = null;
                 }
-            if (!Constant.SP_TRADERS_LIST.Contains(SP.Name))
-
-                if (TR.RatioPT == 100 && TR.Games.gOverall > 25)
+                else
                 {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Treaty",
-                      SP.Name);
-
+                    tbESO.FontWeight = FontWeights.Bold;
+                    tbESO.TextDecorations = TextDecorations.Strikethrough;
                 }
-            if (!Constant.DM_TRADERS_LIST.Contains(SP.Name))
-                if (DM.RatioPT == 100 && DM.Games.gOverall > 25)
+
+
+
+
+                if (!Constant.SP_TRADERS_LIST.Contains(SP.Name))
+                    if (SP.RatioPT == 100 && SP.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Supremacy", SP.Name);
+
+                    }
+                if (!Constant.SP_TRADERS_LIST.Contains(SP.Name))
+
+                    if (TR.RatioPT == 100 && TR.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Treaty",
+                          SP.Name);
+
+                    }
+                if (!Constant.DM_TRADERS_LIST.Contains(SP.Name))
+                    if (DM.RatioPT == 100 && DM.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Deathmatch",
+                          SP.Name);
+
+                    }
+                if (!Constant.SPn_TRADERS_LIST.Contains(SP.Name))
+                    if (SPn.RatioPT == 100 && SPn.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Supremacy nilla",
+                          SP.Name);
+
+                    }
+                if (!Constant.DMn_TRADERS_LIST.Contains(SP.Name))
+                    if (DMn.RatioPT == 100 && DMn.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Deathmatch nilla",
+                         SP.Name);
+
+                    }
+                if (!Constant.SP_BASHERS_LIST.Contains(SP.Name))
+                    if (SP.RatioNB == 100 && SP.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Supremacy", SP.Name);
+
+                    }
+                if (!Constant.TR_BASHERS_LIST.Contains(SP.Name))
+                    if (TR.RatioNB == 100 && TR.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Treaty",
+                         SP.Name);
+
+                    }
+                if (!Constant.DM_BASHERS_LIST.Contains(SP.Name))
+                    if (DM.RatioNB == 100 && DM.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Deathmatch", SP.Name);
+
+                    }
+                if (!Constant.SPn_BASHERS_LIST.Contains(SP.Name))
+                    if (SPn.RatioNB == 100 && SPn.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Supremacy nilla",
+                          SP.Name);
+
+                    }
+                if (!Constant.DMn_BASHERS_LIST.Contains(SP.Name))
+                    if (DMn.RatioNB == 100 && DMn.Games.gOverall > 25)
+                    {
+                        AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Deathmatch nilla",
+                          SP.Name);
+
+                    }
+                AnalyticsHelper.Current.LogEvent("TOP names : " + AppVer,
+                   SP.Name);
+
+                using (RegistryKey AS = Registry.CurrentUser.CreateSubKey("SOFTWARE\\ESO-Assistant"))
                 {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Deathmatch",
-                      SP.Name);
+                    object AutoSave = AS.GetValue("BackUp");
 
-                }
-            if (!Constant.SPn_TRADERS_LIST.Contains(SP.Name))
-                if (SPn.RatioPT == 100 && SPn.Games.gOverall > 25)
-                {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Supremacy nilla",
-                      SP.Name);
-
-                }
-            if (!Constant.DMn_TRADERS_LIST.Contains(SP.Name))
-                if (DMn.RatioPT == 100 && DMn.Games.gOverall > 25)
-                {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Point Traders : Deathmatch nilla",
-                     SP.Name);
-
-                }
-            if (!Constant.SP_BASHERS_LIST.Contains(SP.Name))
-                if (SP.RatioNB == 100 && SP.Games.gOverall > 25)
-                {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Supremacy", SP.Name);
-
-                }
-            if (!Constant.TR_BASHERS_LIST.Contains(SP.Name))
-                if (TR.RatioNB == 100 && TR.Games.gOverall > 25)
-                {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Treaty",
-                     SP.Name);
-
-                }
-            if (!Constant.DM_BASHERS_LIST.Contains(SP.Name))
-                if (DM.RatioNB == 100 && DM.Games.gOverall > 25)
-                {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Deathmatch", SP.Name);
-
-                }
-            if (!Constant.SPn_BASHERS_LIST.Contains(SP.Name))
-                if (SPn.RatioNB == 100 && SPn.Games.gOverall > 25)
-                {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Supremacy nilla",
-                      SP.Name);
-
-                }
-            if (!Constant.DMn_BASHERS_LIST.Contains(SP.Name))
-                if (DMn.RatioNB == 100 && DMn.Games.gOverall > 25)
-                {
-                    AnalyticsHelper.Current.LogEvent("Blacklist - Noobbashers : Deathmatch nilla",
-                      SP.Name);
-
-                }
-            AnalyticsHelper.Current.LogEvent("TOP names : " + AppVer,
-               SP.Name);
-
-            using (RegistryKey AS = Registry.CurrentUser.CreateSubKey("SOFTWARE\\ESO-Assistant"))
-            {
-                object AutoSave = AS.GetValue("BackUp");
-
-                if (AutoSave != null)
-                {
-                    if (DateTime.Now.Date > DateTime.Parse(AutoSave.ToString()))
+                    if (AutoSave != null)
+                    {
+                        if (DateTime.Now.Date > DateTime.Parse(AutoSave.ToString()))
+                        {
+                            await Task.Run(() => ZipFile.CreateFromDirectory(Paths.GetAppDirectoryPath(), Path.Combine(Paths.GetBackUpDirectoryPath(), DateTime.Now.ToFileTime() + ".zip"), CompressionLevel.Fastest, true));
+                            AS.SetValue("BackUp", DateTime.Now.Date);
+                        }
+                    }
+                    else
                     {
                         await Task.Run(() => ZipFile.CreateFromDirectory(Paths.GetAppDirectoryPath(), Path.Combine(Paths.GetBackUpDirectoryPath(), DateTime.Now.ToFileTime() + ".zip"), CompressionLevel.Fastest, true));
                         AS.SetValue("BackUp", DateTime.Now.Date);
                     }
                 }
-                else
-                {
-                    await Task.Run(() => ZipFile.CreateFromDirectory(Paths.GetAppDirectoryPath(), Path.Combine(Paths.GetBackUpDirectoryPath(), DateTime.Now.ToFileTime() + ".zip"), CompressionLevel.Fastest, true));
-                    AS.SetValue("BackUp", DateTime.Now.Date);
-                }
+                tbESO.Text = SP.Name;
+
+
+                stopWatch.Stop();
+                Elapsed = stopWatch.Elapsed.ToString();
+                
+                
+                
+                bDetail.IsEnabled = true;
+                cbMode.IsEnabled = true;
+                cbType.IsEnabled = true;
+                AllVisible = Visibility.Visible;
             }
-            tbESO.Text = SP.Name;
-
-
-            stopWatch.Stop();
-            Elapsed = stopWatch.Elapsed.ToString();
             iProgress.Visibility = Visibility.Hidden;
             tbESO.IsEnabled = true;
             bGet.IsEnabled = true;
-            bDetail.IsEnabled = true;
-            cbMode.IsEnabled = true;
-            cbType.IsEnabled = true;
-            AllVisible = Visibility.Visible;
-
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

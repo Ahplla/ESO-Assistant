@@ -225,6 +225,30 @@ namespace ESO_Assistant.Classes
             return Result;
         }
 
+        public static string GetDetailDirectoryPath()
+        {
+            string Result = Path.Combine(GetAppDirectoryPath(), "Detail");
+            Directory.CreateDirectory(Result);
+            try
+            {
+                using (FileStream fileStream = File.Create(Path.Combine(Result, "Detail.css")))
+                {
+                    Assembly.GetExecutingAssembly().GetManifestResourceStream("ESO_Assistant.HTML.MyCSS.css").CopyTo(fileStream);
+                }
+                using (FileStream fileStream = File.Create(Path.Combine(Result, "flags.jpg")))
+                {
+                    Assembly.GetExecutingAssembly().GetManifestResourceStream("ESO_Assistant.HTML.flags.jpg").CopyTo(fileStream);
+                }
+                using (FileStream fileStream = File.Create(Path.Combine(Result, "ages.jpg")))
+                {
+                    Assembly.GetExecutingAssembly().GetManifestResourceStream("ESO_Assistant.HTML.ages.jpg").CopyTo(fileStream);
+                }
+            }
+            catch { }
+            return Result;
+        }
+
+
         public static string GetAppDirectoryPath()
 
         {
