@@ -596,7 +596,8 @@
                         Height="32"
                         Padding="0,3"
                         Background="Transparent"
-                        BorderBrush="Transparent">
+                        BorderBrush="Transparent"
+                        Click="MenuItem_Click_5">
                         <MenuItem.Header>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -2606,7 +2607,7 @@
                             Cursor="Hand"
                             FontFamily="Comic Sans MS"
                             FontSize="14"
-                            MouseLeftButtonDown="lAbout_MouseLeftButtonDown">
+                            MouseLeftButtonUp="lAbout_MouseLeftButtonDown">
                             <Label.Foreground>
                                 <RadialGradientBrush>
                                     <GradientStop Offset="0" Color="Orange" />

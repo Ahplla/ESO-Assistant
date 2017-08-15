@@ -12,12 +12,108 @@
     Height="450"
     BorderBrush="{DynamicResource AccentColorBrush}"
     BorderThickness="2"
-    Closed="MetroWindow_Closed"
     Closing="MetroWindow_Closing"
     IsMaxRestoreButtonEnabled="False"
     ResizeMode="CanMinimize"
     ShowIconOnTitleBar="False"
     WindowStartupLocation="CenterScreen">
+    <Controls:MetroWindow.Resources>
+
+        <Style x:Key="ImageStyle" TargetType="Image">
+
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect
+                        BlurRadius="3"
+                        Direction="0"
+                        RenderingBias="Quality"
+                        ShadowDepth="0" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="UIElement.RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="UIElement.RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FrameworkElement.LayoutTransform">
+                <Setter.Value>
+                    <ScaleTransform x:Name="transform" />
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                To="1.03"
+                                Duration="0:0:.1" />
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                To="1.03"
+                                Duration="0:0:.1" />
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(Effect).BlurRadius"
+                                To="15"
+                                Duration="0:0:0.6">
+                                <DoubleAnimation.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="(Effect).BlurRadius"
+                                To="3"
+                                Duration="0:0:0.7">
+                                <DoubleAnimation.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                To="1"
+                                Duration="0:0:.1" />
+                            <DoubleAnimation
+                                Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                To="1"
+                                Duration="0:0:.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands
+            VerticalContentAlignment="Center"
+            ShowLastSeparator="False"
+            ShowSeparators="False">
+            <Border Padding="0,0,8,0">
+                <Image
+                    Height="22"
+                    IsEnabled="{Binding CanGoBack, ElementName=wbDetail}"
+                    MouseDown="Button_Click"
+                    Source="Icons/back.png"
+                    Style="{StaticResource ImageStyle}"
+                    ToolTip="Back" />
+            </Border>
+            <Image
+                Height="22"
+                IsEnabled="{Binding CanGoForward, ElementName=wbDetail}"
+                MouseDown="Button_Click_1"
+                Source="Icons/forward.png"
+                Style="{StaticResource ImageStyle}"
+                ToolTip="Forward" />
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
     <Grid>
         <cefSharp:ChromiumWebBrowser x:Name="wbDetail" Grid.Row="0" />
     </Grid>

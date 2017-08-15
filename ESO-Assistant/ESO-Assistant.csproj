@@ -411,6 +411,8 @@
     <EmbeddedResource Include="HTML\flags.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icons\back.png" />
+    <Resource Include="Icons\forward.png" />
     <Resource Include="Launcher\symbols.png" />
     <Resource Include="Launcher\eso.png" />
     <Resource Include="Launcher\twitch.png" />

@@ -1238,7 +1238,11 @@ namespace ESO_Assistant
         }
 
 
-
+        private ICommand deleteCommand;
+public ICommand DeleteCommand
+        {
+            get { return deleteCommand ?? (deleteCommand = new RelayCommand(param => this.DeleteItem(), null)); }
+        }
 
         public void DeleteItem()
         {
@@ -1441,7 +1445,7 @@ namespace ESO_Assistant
                 UpdaterTimer.Interval = TimeSpan.FromMilliseconds(2 * 60 * 1000);
                 AutoUpdater.Start("http://eso-assistant.ucoz.net/UpdateInfo.xml");
             };
-            //UpdaterTimer.Start();
+            UpdaterTimer.Start();
             CheckFriendSettings();
             ICollectionView collectionView = CollectionViewSource.GetDefaultView(listView1.Items);
             collectionView.SortDescriptions.Add(new SortDescription("Status", ListSortDirection.Descending));
@@ -3919,6 +3923,11 @@ if (S.StoredMaxPR < 0)
         private void Image_MouseLeftButtonDown_11(object sender, MouseButtonEventArgs e)
         {
             Process.Start("charmap.exe");
+        }
+
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        {
+            Paths.OpenEcoCalc();
         }
     }
 }

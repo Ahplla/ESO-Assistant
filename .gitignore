@@ -17,6 +17,7 @@
 [Rr]eleases/
 x64/
 x86/
+INSTALLER/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -259,3 +260,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/INSTALLER/NDP452-KB2901907-x86-x64-AllOS-ENU.exe

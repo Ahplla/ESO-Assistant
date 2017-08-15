@@ -55,6 +55,26 @@ namespace ESO_Assistant.Classes
                 MessageBox.Show("IP-Checker not found!");
         }
 
+        public static void OpenEcoCalc()
+        {
+
+            if (File.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Economic Calculator.exe")))
+            {
+                Process process = new Process()
+                {
+                    StartInfo = new ProcessStartInfo(Path.Combine(Directory.GetCurrentDirectory(), "Economic Calculator.exe"))
+                    {
+                        WorkingDirectory = Directory.GetCurrentDirectory()
+
+                    }
+                };
+
+                process.Start();
+            }
+            else
+                MessageBox.Show("Economic Calculator not found!");
+        }
+
         public static void OpenGymXP()
         {
 

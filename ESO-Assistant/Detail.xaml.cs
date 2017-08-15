@@ -37,14 +37,6 @@ namespace ESO_Assistant
     public partial class Detail : MetroWindow
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public CefSharp.Wpf.ChromiumWebBrowser wbDetail
-                         = new CefSharp.Wpf.ChromiumWebBrowser()
-                         {
-
-                             RequestHandler = new Request(),
-                             Address = "google.com"
-                         }
-                         ;
     public void NotifyPropertyChanged(string propName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
@@ -55,16 +47,8 @@ namespace ESO_Assistant
             DataContext = this;
             if (!Cef.IsInitialized)
                 Cef.Initialize(new CefSettings { Locale = CultureInfo.CurrentCulture.Name });
-
-            wbDetail.Load("google.com");
-
-
             InitializeComponent();          
         }
-
-
-
-
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -72,15 +56,14 @@ namespace ESO_Assistant
             this.Hide();
         }
 
-        private void MetroWindow_Closed(object sender, System.EventArgs e)
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-                 }
+            wbDetail.Back();
+        }
 
-
-
-        private void wbDetail_LoadingStateChanged(object sender, LoadingStateChangedEventArgs e)
+        private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
         {
-         
+            wbDetail.Forward();
         }
     }
 }
