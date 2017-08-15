@@ -41,6 +41,8 @@ namespace ESO_Assistant
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
 
+
+
         }
         public Detail()
         {
